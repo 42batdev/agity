@@ -1,16 +1,18 @@
 {
-  "name": "turborepo-basic-shared",
-  "version": "0.0.0",
+  "name": "agity",
+  "version": "0.0.1",
   "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "build": "yarn turbo run build",
+    "build:home": "yarn turbo run build --scope=home",
+    "build:app": "yarn turbo run build --scope=app",
+    "dev": "yarn turbo run dev --parallel",
+    "lint": "yarn turbo run lint",
+    "prettier": "prettier --write '**/*.{ts,tsx,.md}'"
   },
   "devDependencies": {
     "prettier": "^2.5.1",
@@ -34,9 +36,5 @@
         "cache": false
       }
     }
-  },
-  "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=14.0.0"
   }
 }
