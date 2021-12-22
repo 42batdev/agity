@@ -4,19 +4,12 @@ const { APP_URL } = process.env;
 
 module.exports = withTM({
   reactStrictMode: true,
-  async rewrites() {
+  async redirects() {
     return [
       {
-        source: "/:path*",
-        destination: `/:path*`,
-      },
-      {
-        source: "/app",
-        destination: `${APP_URL}/app`,
-      },
-      {
-        source: "/app/:path*",
-        destination: `${APP_URL}/app/:path*`,
+        source: "/login",
+        destination: `${APP_URL}/login`,
+        permanent: true,
       },
     ];
   },

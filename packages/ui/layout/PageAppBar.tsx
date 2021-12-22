@@ -31,6 +31,9 @@ import {
 import supabase, { useSession } from "supabase";
 import { AppBarLogo } from "./AppBarLogo";
 
+const { APP_URL } = process.env;
+console.log(APP_URL);
+
 interface PageAppBarProps {
   links?: Array<PageAppBarLink>;
 }
@@ -40,7 +43,7 @@ interface PageAppBarLink {
   children: ReactNode;
 }
 
-export const PageAppBar = ({links}: PageAppBarProps) => {
+export const PageAppBar = ({ links }: PageAppBarProps) => {
   return (
     <Box
       as="header"
@@ -53,16 +56,16 @@ export const PageAppBar = ({links}: PageAppBarProps) => {
       bg={useColorModeValue("rgba(255, 255, 255, 0.5)", "rgba(0, 0, 0, 0.5)")}
       backdropFilter="saturate(180%) blur(5px)"
     >
-      <Flex alignItems="center" justifyContent={{base: "space-between"}}>
+      <Flex alignItems="center" justifyContent={{ base: "space-between" }}>
         <HStack>
-          <AppBarLogo height="32px"/>
+          <AppBarLogo height="32px" />
           <Stack>
             <HStack>
               <Menu id="navbar" isLazy>
                 <MenuButton
                   as={IconButton}
-                  icon={<FiMenu/>}
-                  display={{base: "flex", md: "none"}}
+                  icon={<FiMenu />}
+                  display={{ base: "flex", md: "none" }}
                 />
                 <MenuList
                   bg={useColorModeValue("white", "gray.900")}
@@ -78,7 +81,7 @@ export const PageAppBar = ({links}: PageAppBarProps) => {
               <HStack
                 as={"nav"}
                 spacing={4}
-                display={{base: "none", md: "flex"}}
+                display={{ base: "none", md: "flex" }}
               >
                 {links?.map((link) => (
                   <Box key={link.id}>{link.children}</Box>
@@ -88,7 +91,7 @@ export const PageAppBar = ({links}: PageAppBarProps) => {
           </Stack>
         </HStack>
         <Flex alignItems={"center"}>
-          <AppBarUser/>
+          <AppBarUser />
         </Flex>
       </Flex>
     </Box>
@@ -98,7 +101,7 @@ export const PageAppBar = ({links}: PageAppBarProps) => {
 function AppBarUser() {
   const session = useSession();
   const router = useRouter();
-  const {colorMode, toggleColorMode} = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
@@ -108,10 +111,10 @@ function AppBarUser() {
             size="lg"
             variant="ghost"
             aria-label="open menu"
-            icon={colorMode === "light" ? <FiMoon/> : <FiSun/>}
+            icon={colorMode === "light" ? <FiMoon /> : <FiSun />}
             onClick={toggleColorMode}
           />
-          <NextLink href={"/login"} passHref>
+          <NextLink href="/login" passHref>
             <Button>
               <Text fontSize="sm">Sign In / Up</Text>
             </Button>
@@ -121,9 +124,9 @@ function AppBarUser() {
         <Menu id="user_menu" matchWidth isLazy>
           <MenuButton p={2}>
             <HStack>
-              <Avatar size={"sm"}/>
+              <Avatar size={"sm"} />
               <VStack
-                display={{base: "none", md: "flex"}}
+                display={{ base: "none", md: "flex" }}
                 alignItems="flex-start"
                 spacing="1px"
                 ml="2"
@@ -133,37 +136,37 @@ function AppBarUser() {
                   {session && session.user?.id}
                 </Text>
               </VStack>
-              <Box display={{base: "none", md: "flex"}}>
-                <FiChevronDown/>
+              <Box display={{ base: "none", md: "flex" }}>
+                <FiChevronDown />
               </Box>
             </HStack>
           </MenuButton>
           <MenuList>
-            <NextLink href="/app" passHref>
-              <MenuItem minH="42px" icon={<FiEdit/>}>
+            <NextLink href="/" passHref>
+              <MenuItem minH="42px" icon={<FiEdit />}>
                 Dashboard
               </MenuItem>
             </NextLink>
-            <MenuItem minH="42px" icon={<FiEdit/>}>
+            <MenuItem minH="42px" icon={<FiEdit />}>
               Profile
             </MenuItem>
-            <MenuItem minH="42px" icon={<FiStopCircle/>}>
+            <MenuItem minH="42px" icon={<FiStopCircle />}>
               Billing
             </MenuItem>
 
-            <MenuDivider/>
+            <MenuDivider />
 
             <HStack px="2" justifyContent={"space-between"}>
               <IconButton
                 aria-label="Switch Theme"
-                icon={colorMode === "light" ? <FiMoon/> : <FiSun/>}
+                icon={colorMode === "light" ? <FiMoon /> : <FiSun />}
                 onClick={toggleColorMode}
               />
               <IconButton
                 variant={"ghost"}
                 href="#"
                 aria-label="Logout"
-                icon={<FiLogOut/>}
+                icon={<FiLogOut />}
                 onClick={() => {
                   supabase.auth.signOut().then(() => {
                     fetch("/api/auth/remove", {
