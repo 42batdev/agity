@@ -16,7 +16,11 @@ import { FiPlus, FiServer } from "react-icons/fi";
 export const TeamManager = () => {
   return (
     <>
-      <Box py="12" mb="8" borderBottom="1px solid white">
+      <Box
+        py="12"
+        mb="8"
+        borderBottom={useColorModeValue("1px solid #EEE", "1px solid #333")}
+      >
         <Container maxW={"7xl"} columns={{ base: 1, md: 2 }}>
           <Flex alignItems="center" justifyContent={{ base: "space-between" }}>
             <Heading>Your Teams</Heading>
