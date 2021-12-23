@@ -2,7 +2,7 @@ import Head from "next/head";
 import React from "react";
 import { LoginComponent } from "../../components/login/LoginComponent";
 
-const Index = () => {
+const Login = () => {
   return (
     <>
       <Head>
@@ -13,4 +13,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Login;

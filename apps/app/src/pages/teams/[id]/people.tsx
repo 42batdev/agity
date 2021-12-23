@@ -2,7 +2,7 @@ import { Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import React from "react";
-import { AppLayout } from "../../components/AppLayout";
+import { AppLayout } from "../../../components/AppLayout";
 import { TeamPageProps } from "./index";
 
 const People = ({ id }: TeamPageProps) => {

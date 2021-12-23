@@ -1,17 +1,16 @@
-import { Text } from "@chakra-ui/react";
-import Head from "next/head";
+import { NextPageContext } from "next";
 import React from "react";
-import { AppLayout } from "../components/AppLayout";
 
 const Index = () => {
-  return (
-    <AppLayout>
-      <Head>
-        <title>A G I T Y</title>
-      </Head>
-      <Text>Onboarding</Text>
-    </AppLayout>
-  );
+  return <></>;
+};
+
+Index.getInitialProps = async (ctx: NextPageContext) => {
+  if (ctx.res) {
+    ctx.res.writeHead(302, { Location: "/login/redirect" });
+    ctx.res.end();
+  }
+  return {};
 };
 
 export default Index;

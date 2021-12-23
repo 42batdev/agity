@@ -31,9 +31,6 @@ import {
 import supabase, { useSession } from "supabase";
 import { AppBarLogo } from "./AppBarLogo";
 
-const { APP_URL } = process.env;
-console.log(APP_URL);
-
 interface PageAppBarProps {
   links?: Array<PageAppBarLink>;
 }

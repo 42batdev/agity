@@ -1,7 +1,7 @@
 import { AuthChangeEvent } from "@supabase/gotrue-js";
 import { Session } from "@supabase/gotrue-js/src/lib/types";
 import * as React from "react";
-import { ReactElement, useState } from "react";
+import { ReactNode, useState } from "react";
 import supabase from "supabase";
 
 interface IContextProps {
@@ -10,21 +10,11 @@ interface IContextProps {
 
 const SessionContext = React.createContext({} as IContextProps);
 
-function SessionContextProvider({ children }: { children: ReactElement }) {
+function SessionContextProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
 
   React.useEffect(() => {
     setSession(supabase.auth.session());
-
-    supabase.auth.onAuthStateChange((event, session) => {
-      setSession(session);
-      fetch("/api/auth/set", {
-        method: "POST",
-        headers: new Headers({ "Content-Type": "application/json" }),
-        credentials: "same-origin",
-        body: JSON.stringify({ event, session }),
-      }).then((res) => res.json());
-    });
   }, []);
 
   return (
