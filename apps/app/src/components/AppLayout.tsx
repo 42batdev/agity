@@ -33,27 +33,21 @@ export const AppLayout = ({ id, children }: AppLayoutProps) => {
       children: (
         <Menu id="team_selection" isLazy>
           <MenuButton as={Button} rightIcon={<FiChevronDown />}>
-            Team First
+            No team selected
           </MenuButton>
           <MenuList>
             <MenuGroup title="Your Teams">
-              <MenuItem>
-                <NextLink href="/app/first" as="/first">
-                  Team First
-                </NextLink>
-              </MenuItem>
-              <MenuItem>
-                <NextLink href="/app/second" as="/second">
-                  Team Second
-                </NextLink>
-              </MenuItem>
+              <NextLink href="/teams/team-a" passHref>
+                <MenuItem>Team A</MenuItem>
+              </NextLink>
+              <NextLink href="/teams/team-b" passHref>
+                <MenuItem>Team B</MenuItem>
+              </NextLink>
             </MenuGroup>
             <MenuDivider />
-            <MenuItem>
-              <NextLink href="/app/newid/" as="/newid">
-                Add a new team
-              </NextLink>
-            </MenuItem>
+            <NextLink href="/teams" passHref>
+              <MenuItem>Manage your teams</MenuItem>
+            </NextLink>
           </MenuList>
         </Menu>
       ),
@@ -78,10 +72,7 @@ export const AppLayout = ({ id, children }: AppLayoutProps) => {
   return (
     <PageLayout>
       <PageAppBar links={links} />
-      <PageContent>
-        <p>Team ID: {id}</p>
-        {children}
-      </PageContent>
+      <PageContent>{children}</PageContent>
     </PageLayout>
   );
 };

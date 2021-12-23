@@ -8,7 +8,7 @@ export interface TeamPageProps {
   id: string;
 }
 
-const Index = ({ id }: TeamPageProps) => {
+const Dashboard = ({ id }: TeamPageProps) => {
   return (
     <AppLayout id={id}>
       <Head>
@@ -21,13 +21,7 @@ const Index = ({ id }: TeamPageProps) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
-  return {
-    redirect: {
-      destination: `${id}/dashboard`,
-      permanent: false,
-    },
-    props: {},
-  };
+  return { props: { id } };
 };
 
-export default Index;
+export default Dashboard;
