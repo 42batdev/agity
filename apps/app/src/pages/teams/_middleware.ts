@@ -1,5 +1,6 @@
-import type { NextFetchEvent, NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+/* eslint-disable @next/next/no-server-import-in-page */
+import type {NextFetchEvent, NextRequest} from "next/server";
+import {NextResponse} from "next/server";
 
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
   throw new Error(
