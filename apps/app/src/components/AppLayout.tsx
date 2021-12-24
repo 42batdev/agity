@@ -52,22 +52,6 @@ export const AppLayout = ({ id, children }: AppLayoutProps) => {
         </Menu>
       ),
     },
-    {
-      id: "2",
-      children: <NextLink href={`/`}>Dashboard</NextLink>,
-    },
-    {
-      id: "3",
-      children: <NextLink href={`people`}>People</NextLink>,
-    },
-    {
-      id: "4",
-      children: <NextLink href={`meetings`}>Meetings</NextLink>,
-    },
-    {
-      id: "5",
-      children: <NextLink href={`settings`}>Settings</NextLink>,
-    },
   ];
   return (
     <PageLayout>

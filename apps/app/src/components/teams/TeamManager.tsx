@@ -1,17 +1,16 @@
 import {
   Box,
-  Button,
   Container,
   Flex,
   Heading,
-  HStack,
   SimpleGrid,
   Stat,
   StatLabel,
   StatNumber,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FiPlus, FiServer } from "react-icons/fi";
+import { FiServer } from "react-icons/fi";
+import { CreateTeamModal } from "./CreateTeamModal";
 
 export const TeamManager = () => {
   return (
@@ -24,10 +23,7 @@ export const TeamManager = () => {
         <Container maxW={"7xl"} columns={{ base: 1, md: 2 }}>
           <Flex alignItems="center" justifyContent={{ base: "space-between" }}>
             <Heading>Your Teams</Heading>
-            <HStack>
-              <Button variant="outline">Join</Button>
-              <Button leftIcon={<FiPlus />}>Create</Button>
-            </HStack>
+            <CreateTeamModal />
           </Flex>
         </Container>
       </Box>
