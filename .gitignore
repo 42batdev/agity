@@ -45,3 +45,7 @@ out/
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+
+# generated
+
+**/generated/
