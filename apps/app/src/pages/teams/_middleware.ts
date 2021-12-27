@@ -40,44 +40,31 @@ async function getUser(req: NextRequest) {
     };
   }
 
-  let result = await (
-    await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
+  const result = await fetch(
+    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`,
+    {
       headers: {
         Authorization: `Bearer ${token}`,
         APIKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
       },
-    })
-  ).json();
+    }
+  );
 
-  if (
-    (
-      await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          APIKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
-        },
-      })
-    ).status != 200
-  ) {
+  console.log(result.status);
+  if (result.status == 200) {
+    const json = await result.json();
+    if (json.role === "authenticated") {
+      return {
+        user: result,
+        data: result,
+        error: null,
+      };
+    }
+  } else {
     return {
       user: null,
       data: null,
-      error: `Supabase auth returned ${
-        (
-          await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              APIKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
-            },
-          })
-        ).status
-      }. See logs for details`,
-    };
-  } else if (result.aud === "authenticated") {
-    return {
-      user: result,
-      data: result,
-      error: null,
+      error: `Supabase auth returned ${result.status}. See logs for details`,
     };
   }
 }
