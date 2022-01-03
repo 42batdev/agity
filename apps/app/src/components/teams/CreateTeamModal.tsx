@@ -13,12 +13,19 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
+import { useCreateTeam } from "supabase";
+import { useState } from "react";
 
 export const CreateTeamModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
+
+  const { mutate } = useCreateTeam();
+
   const onSave = () => {
-    console.log("SAVE");
+    mutate({ id, name });
     onClose();
   };
 
@@ -36,12 +43,20 @@ export const CreateTeamModal = () => {
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>The name of your team</FormLabel>
-                <Input placeholder="Team Name" />
+                <Input
+                  placeholder="Team Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </FormControl>
 
               <FormControl mt={4}>
                 <FormLabel>The unique team id</FormLabel>
-                <Input placeholder="Team ID" />
+                <Input
+                  placeholder="Team ID"
+                  value={id}
+                  onChange={(e) => setId(e.target.value)}
+                />
               </FormControl>
             </ModalBody>
 

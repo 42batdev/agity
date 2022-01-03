@@ -10,9 +10,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FiServer } from "react-icons/fi";
+import { useTeams } from "supabase";
 import { CreateTeamModal } from "./CreateTeamModal";
 
 export const TeamManager = () => {
+  const { data, isLoading } = useTeams();
   return (
     <>
       <Box
@@ -29,9 +31,10 @@ export const TeamManager = () => {
       </Box>
       <Container maxW={"7xl"} columns={{ base: 1, md: 2 }}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-          <StatsCard title={"Member"} stat={"Team A"} />
-          <StatsCard title={"Admin"} stat={"Team B"} />
-          <StatsCard title={"Admin"} stat={"Team C"} />
+          {!isLoading &&
+            data?.map((team) => (
+              <StatsCard key={team.id} title={"Admin"} stat={team.name} />
+            ))}
         </SimpleGrid>
       </Container>
     </>

@@ -8,9 +8,8 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 import { FiChevronDown } from "react-icons/fi";
-import supabase from "supabase";
 import { PageAppBar, PageContent, PageLayout } from "ui";
 
 export interface AppLayoutProps {
@@ -19,14 +18,6 @@ export interface AppLayoutProps {
 }
 
 export const AppLayout = ({ id, children }: AppLayoutProps) => {
-  useEffect(() => {
-    fetchTeams();
-  }, []);
-
-  const fetchTeams = async () => {
-    supabase.from("teams").select("*").then(console.log);
-  };
-
   let links = [
     {
       id: "1",
