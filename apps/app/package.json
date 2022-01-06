@@ -3,13 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "npm run generate:supabase",
-    "predev": "npm run generate:supabase",
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "generate:supabase": "env-cmd -f .env.local sh scripts/supabase.sh"
+    "lint": "next lint"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.3",
@@ -26,7 +23,6 @@
   "devDependencies": {
     "@types/react": "17.0.37",
     "config": "*",
-    "env-cmd": "^10.1.0",
     "eslint": "7.32.0",
     "next-transpile-modules": "9.0.0",
     "tsconfig": "*",
