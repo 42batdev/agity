@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:54322/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="postgres@db.yhjibjdzeeinninbcsrk.supabase.co" uuid="83279831-7ce3-4989-8240-0308023d1c3f">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://db.yhjibjdzeeinninbcsrk.supabase.co:5432/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

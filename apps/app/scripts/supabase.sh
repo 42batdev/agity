@@ -1,0 +1,1 @@
+npx openapi-typescript ${NEXT_PRIVATE_SCHEMA_URL} --output src/generated/supabase.ts
