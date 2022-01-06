@@ -22,7 +22,7 @@ export const AppLayout = ({ id, children }: AppLayoutProps) => {
   } else if (!isLoading) {
     links.push({
       id: "manage-teams",
-      children: <ManageTeamLink name={`Team: ${data?.name}`} />,
+      children: <ManageTeamLink name={data?.name} />,
     });
   }
 

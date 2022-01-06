@@ -14,7 +14,6 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-  VStack,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
@@ -119,21 +118,11 @@ function AppBarUser() {
           </NextLink>
         </HStack>
       ) : (
-        <Menu id="user_menu" matchWidth isLazy>
+        <Menu id="user-menu" matchWidth isLazy>
           <MenuButton p={2}>
             <HStack>
+              <Text fontSize="sm">{session && session.user?.email}</Text>
               <Avatar size={"sm"} />
-              <VStack
-                display={{ base: "none", md: "flex" }}
-                alignItems="flex-start"
-                spacing="1px"
-                ml="2"
-              >
-                <Text fontSize="sm">{session && session.user?.email}</Text>
-                <Text fontSize="xs" color="gray.600">
-                  {session && session.user?.id}
-                </Text>
-              </VStack>
               <Box display={{ base: "none", md: "flex" }}>
                 <FiChevronDown />
               </Box>
