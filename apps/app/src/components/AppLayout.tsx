@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { useTeam } from "supabase";
 import { PageAppBar, PageContent, PageLayout } from "ui";
-import { Button, HStack, Text, Tooltip } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
 import { CgArrowsExchange } from "react-icons/cg";
 import { useRouter } from "next/router";
 
@@ -24,6 +24,14 @@ export const AppLayout = ({ id, children }: AppLayoutProps) => {
       id: "manage-teams",
       children: <ManageTeamLink name={data?.name} />,
     });
+    links.push({
+      id: "manage-teams",
+      children: <TeamLink name="Dashboard" sub={`/teams/${id}/`} />,
+    });
+    links.push({
+      id: "manage-teams",
+      children: <TeamLink name="Settings" sub={`/teams/${id}/settings`} />,
+    });
   }
 
   return (
@@ -34,20 +42,26 @@ export const AppLayout = ({ id, children }: AppLayoutProps) => {
   );
 };
 
-interface ManageTeamLinkProps {
-  name: string;
-}
-
-const ManageTeamLink = (props: ManageTeamLinkProps) => {
+const ManageTeamLink = (props: { name: string }) => {
   const router = useRouter();
   return (
-    <HStack>
-      <Tooltip label="Manage Teams" hasArrow>
-        <Button onClick={() => router.push("/teams")}>
-          <CgArrowsExchange />
-        </Button>
-      </Tooltip>
-      <Text>{props.name}</Text>
-    </HStack>
+    <Tooltip label="Manage Teams" hasArrow>
+      <Button
+        variant="ghost"
+        leftIcon={<CgArrowsExchange />}
+        onClick={() => router.push("/teams")}
+      >
+        {props.name}
+      </Button>
+    </Tooltip>
+  );
+};
+
+const TeamLink = (props: { name: string; sub: string }) => {
+  const router = useRouter();
+  return (
+    <Button variant="ghost" onClick={() => router.push(props.sub)}>
+      {props.name}
+    </Button>
   );
 };
