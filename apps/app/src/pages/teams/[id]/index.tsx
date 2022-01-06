@@ -1,8 +1,9 @@
-import { Text } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import React from "react";
 import { AppLayout } from "../../../components/AppLayout";
+import { AppHeader } from "../../../components/teams/layout/AppHeader";
 
 export interface TeamPageProps {
   id: string;
@@ -12,9 +13,12 @@ const Dashboard = ({ id }: TeamPageProps) => {
   return (
     <AppLayout id={id}>
       <Head>
-        <title>A G I T Y</title>
+        <title>Agity | Team Dashboard</title>
       </Head>
-      <Text>Dashboard</Text>
+      <AppHeader title="Settings" />
+      <Container maxW={"7xl"} columns={{ base: 1, md: 2 }}>
+        Nothing to see here
+      </Container>
     </AppLayout>
   );
 };
