@@ -50,7 +50,6 @@ async function getUser(req: NextRequest) {
     }
   );
 
-  console.log(result.status);
   if (result.status == 200) {
     const json = await result.json();
     if (json.role === "authenticated") {
