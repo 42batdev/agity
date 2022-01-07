@@ -32,18 +32,13 @@ export const LoginForm = () => {
   const handleLogin = async () => {
     setSignInState(SignInState.LOADING);
 
-    supabase.auth
-      .signIn(
-        { email },
-        { redirectTo: `${window.location.origin}/login/redirect` }
-      )
-      .then(({ error }) => {
-        if (error) {
-          setSignInState(SignInState.ERROR);
-        } else {
-          setSignInState(SignInState.CHECKMAIL);
-        }
-      });
+    supabase.auth.signIn({ email }).then(({ error }) => {
+      if (error) {
+        setSignInState(SignInState.ERROR);
+      } else {
+        setSignInState(SignInState.CHECKMAIL);
+      }
+    });
   };
 
   return (

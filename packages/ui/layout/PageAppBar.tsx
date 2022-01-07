@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Flex,
   HStack,
   IconButton,
@@ -101,74 +100,46 @@ function AppBarUser() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <>
-      {!session ? (
+    <Menu id="user-menu" matchWidth isLazy>
+      <MenuButton p={2}>
         <HStack>
+          <Text fontSize="sm">{session && session.user?.email}</Text>
+          <Avatar size={"sm"} />
+          <Box display={{ base: "none", md: "flex" }}>
+            <FiChevronDown />
+          </Box>
+        </HStack>
+      </MenuButton>
+      <MenuList>
+        <NextLink href="/" passHref>
+          <MenuItem minH="42px" icon={<FiEdit />}>
+            Dashboard
+          </MenuItem>
+        </NextLink>
+        <MenuItem minH="42px" icon={<FiEdit />}>
+          Profile
+        </MenuItem>
+        <MenuItem minH="42px" icon={<FiStopCircle />}>
+          Billing
+        </MenuItem>
+
+        <MenuDivider />
+
+        <HStack px="2" justifyContent={"space-between"}>
           <IconButton
-            size="lg"
-            variant="ghost"
-            aria-label="open menu"
+            aria-label="Switch Theme"
             icon={colorMode === "light" ? <FiMoon /> : <FiSun />}
             onClick={toggleColorMode}
           />
-          <NextLink href="/login" passHref>
-            <Button>
-              <Text fontSize="sm">Sign In / Up</Text>
-            </Button>
-          </NextLink>
+          <IconButton
+            variant={"ghost"}
+            href="#"
+            aria-label="Logout"
+            icon={<FiLogOut />}
+            onClick={() => supabase.auth.signOut()}
+          />
         </HStack>
-      ) : (
-        <Menu id="user-menu" matchWidth isLazy>
-          <MenuButton p={2}>
-            <HStack>
-              <Text fontSize="sm">{session && session.user?.email}</Text>
-              <Avatar size={"sm"} />
-              <Box display={{ base: "none", md: "flex" }}>
-                <FiChevronDown />
-              </Box>
-            </HStack>
-          </MenuButton>
-          <MenuList>
-            <NextLink href="/" passHref>
-              <MenuItem minH="42px" icon={<FiEdit />}>
-                Dashboard
-              </MenuItem>
-            </NextLink>
-            <MenuItem minH="42px" icon={<FiEdit />}>
-              Profile
-            </MenuItem>
-            <MenuItem minH="42px" icon={<FiStopCircle />}>
-              Billing
-            </MenuItem>
-
-            <MenuDivider />
-
-            <HStack px="2" justifyContent={"space-between"}>
-              <IconButton
-                aria-label="Switch Theme"
-                icon={colorMode === "light" ? <FiMoon /> : <FiSun />}
-                onClick={toggleColorMode}
-              />
-              <IconButton
-                variant={"ghost"}
-                href="#"
-                aria-label="Logout"
-                icon={<FiLogOut />}
-                onClick={() => {
-                  supabase.auth.signOut().then(() => {
-                    fetch("/api/auth/remove", {
-                      method: "GET",
-                      credentials: "same-origin",
-                    }).then(() => {
-                      router.reload();
-                    });
-                  });
-                }}
-              />
-            </HStack>
-          </MenuList>
-        </Menu>
-      )}
-    </>
+      </MenuList>
+    </Menu>
   );
 }

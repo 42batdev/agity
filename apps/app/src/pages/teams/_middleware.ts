@@ -21,10 +21,10 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
       "Authorization error, redirecting to login page",
       authResult.error
     );
-    return NextResponse.redirect(`/login`);
+    return NextResponse.redirect(`/`);
   } else if (!authResult.user) {
     console.log("No auth user, redirecting");
-    return NextResponse.redirect(`/login`);
+    return NextResponse.redirect(`/`);
   } else {
     return NextResponse.next();
   }
