@@ -27,7 +27,7 @@ import {
   FiSun,
 } from "react-icons/fi";
 import supabase, { useSession } from "supabase";
-import { AppBarLogo } from "./AppBarLogo";
+import { AppBarComponents } from "./AppBarComponents";
 
 interface PageAppBarProps {
   links?: Array<PageAppBarLink>;
@@ -54,7 +54,7 @@ export const PageAppBar = ({ links }: PageAppBarProps) => {
     >
       <Flex alignItems="center" justifyContent={{ base: "space-between" }}>
         <HStack>
-          <AppBarLogo height="32px" />
+          <AppBarComponents height="32px" />
           <Stack>
             <HStack>
               <Menu id="navbar" isLazy>
