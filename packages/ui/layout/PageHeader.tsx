@@ -15,7 +15,16 @@ import NextLink from "next/link";
 import { AppBarComponents, AppBarSlash, AppBarUser } from "./AppBarComponents";
 import { useRouter } from "next/router";
 
-export const PageHeader = () => {
+interface PageHeaderLink {
+  title: string;
+  href: string;
+}
+
+interface PageHeaderProps {
+  links?: Array<PageHeaderLink>;
+}
+
+export const PageHeader = ({ links }: PageHeaderProps) => {
   const session = useSession();
 
   return (
@@ -42,9 +51,9 @@ export const PageHeader = () => {
         </Flex>
         <Flex ml="-2" alignItems={"center"} justifyContent={"space-between"}>
           <HStack as={"nav"} spacing="6">
-            {["Dashboard", "Activity", "Settings"].map((link) => (
-              <NavigationLink key={link} href={`/${link.toLowerCase()}`}>
-                {link}
+            {links.map((link) => (
+              <NavigationLink key={link.href} href={link.href}>
+                {link.title}
               </NavigationLink>
             ))}
           </HStack>

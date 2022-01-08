@@ -10,7 +10,13 @@ const Dashboard = () => {
       <Head>
         <title>Your Agity Teams</title>
       </Head>
-      <PageHeader />
+      <PageHeader
+        links={[
+          { title: "Overview", href: "/dashboard" },
+          { title: "Activity", href: "/dashboard/activity" },
+          { title: "Settings", href: "/dashboard/settings" },
+        ]}
+      />
       <PageContent>
         <PageSubHeader title="Your Teams" actions={<CreateTeamModal />} />
         <TeamManager />

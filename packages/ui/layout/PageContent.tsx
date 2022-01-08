@@ -4,9 +4,7 @@ import * as React from "react";
 export const PageContent = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box as="main" minH="100%" zIndex="200" gridColumn="2" gridRow="3">
-      <Container maxW={"5xl"} py="8">
-        {children}
-      </Container>
+      <Container maxW={"5xl"}>{children}</Container>
     </Box>
   );
 };

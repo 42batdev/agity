@@ -8,7 +8,7 @@ export interface AppHeaderProps {
 
 export const PageSubHeader = ({ title, actions }: AppHeaderProps) => {
   return (
-    <Box pb={8}>
+    <Box py={8}>
       <Flex alignItems="center" justifyContent={{ base: "space-between" }}>
         <Heading as="h3" size="lg">
           {title}
