@@ -42,7 +42,7 @@ export const PageHeader = () => {
         </Flex>
         <Flex ml="-2" alignItems={"center"} justifyContent={"space-between"}>
           <HStack as={"nav"} spacing="6">
-            {["Overview", "Activity", "Settings"].map((link) => (
+            {["Dashboard", "Activity", "Settings"].map((link) => (
               <NavigationLink key={link} href={`/${link.toLowerCase()}`}>
                 {link}
               </NavigationLink>
