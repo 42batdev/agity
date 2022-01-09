@@ -3,10 +3,11 @@ import { ReactNode } from "react";
 
 export interface AppHeaderProps {
   title: string;
+  subTitle?: string;
   actions?: ReactNode;
 }
 
-export const PageSubHeader = ({ title, actions }: AppHeaderProps) => {
+export const PageSubHeader = ({ title, subTitle, actions }: AppHeaderProps) => {
   return (
     <Box py={8}>
       <Flex alignItems="center" justifyContent={{ base: "space-between" }}>
@@ -15,7 +16,7 @@ export const PageSubHeader = ({ title, actions }: AppHeaderProps) => {
         </Heading>
         {actions}
       </Flex>
-      <Text>The Teams you have access to</Text>
+      {subTitle && <Text>{subTitle}</Text>}
     </Box>
   );
 };
