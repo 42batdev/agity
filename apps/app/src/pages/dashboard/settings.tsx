@@ -1,3 +1,4 @@
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
 import { Page, PageContent, PageHeader, PageSubHeader } from "ui";
@@ -20,7 +21,17 @@ const Settings = () => {
           title="Profile & Settings"
           subTitle={"Your personal account"}
         />
-        Nothing to see here
+
+        <Tabs orientation="vertical">
+          <TabList w="30%">
+            <Tab justifyContent={"flex-start"}>Profile</Tab>
+            <Tab justifyContent={"flex-start"}>Account</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel p="2">Content 1</TabPanel>
+            <TabPanel p="2">Content 2</TabPanel>
+          </TabPanels>
+        </Tabs>
       </PageContent>
     </Page>
   );

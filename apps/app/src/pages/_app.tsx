@@ -5,6 +5,8 @@ import { SessionContextProvider } from "supabase/SessionContext";
 import { theme } from "ui";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+import "focus-visible/dist/focus-visible";
+
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {

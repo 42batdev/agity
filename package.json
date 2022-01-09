@@ -36,5 +36,8 @@
         "cache": false
       }
     }
+  },
+  "dependencies": {
+    "focus-visible": "^5.2.0"
   }
 }
