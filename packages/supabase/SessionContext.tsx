@@ -22,7 +22,8 @@ function SessionContextProvider({ children }: { children: ReactNode }) {
   supabase.auth.onAuthStateChange((event, session) => {
     switch (event) {
       case "SIGNED_IN":
-      case "USER_DELETED":
+      case "TOKEN_REFRESHED":
+      case "USER_UPDATED":
         setSession(supabase.auth.session());
         fetch("/api/auth/set", {
           method: "POST",
@@ -32,8 +33,7 @@ function SessionContextProvider({ children }: { children: ReactNode }) {
         }).then(() => router.push("/teams"));
         break;
       case "SIGNED_OUT":
-      case "TOKEN_REFRESHED":
-      case "USER_UPDATED":
+      case "USER_DELETED":
         setSession(null);
         fetch("/api/auth/remove", {
           method: "GET",
