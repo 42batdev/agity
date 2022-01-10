@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSession } from "supabase";
@@ -10,11 +10,16 @@ const Login = () => {
   const router = useRouter();
   const session = useSession();
 
-  useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
-    }
-  }, [router, session]);
+  if (session) {
+    router.push("/dashboard");
+    return (
+      <>
+        <Head>
+          <title>Agity Redirecting...</title>
+        </Head>
+      </>
+    );
+  }
 
   return (
     <>

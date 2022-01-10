@@ -27,7 +27,7 @@ function SessionContextProvider({ children }: { children: ReactNode }) {
           headers: new Headers({ "Content-Type": "application/json" }),
           credentials: "same-origin",
           body: JSON.stringify({ event, session }),
-        }).then(() => router.push("/teams"));
+        }).then(() => router.push("/dashboard"));
         break;
       case "SIGNED_OUT":
       case "USER_DELETED":

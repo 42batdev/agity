@@ -49,7 +49,7 @@ const ManageTeamLink = (props: { name: string }) => {
       <Button
         variant="ghost"
         leftIcon={<CgArrowsExchange />}
-        onClick={() => router.push("/teams")}
+        onClick={() => router.push("/dashboard")}
       >
         {props.name}
       </Button>
