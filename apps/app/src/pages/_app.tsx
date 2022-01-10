@@ -6,6 +6,7 @@ import { theme } from "ui";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import "focus-visible/dist/focus-visible";
+import dynamic from "next/dynamic";
 
 const queryClient = new QueryClient();
 
@@ -21,4 +22,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default dynamic(() => Promise.resolve(MyApp), {
+  ssr: false,
+});
