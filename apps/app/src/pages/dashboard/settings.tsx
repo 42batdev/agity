@@ -11,8 +11,13 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import React from "react";
-import { useSession } from "supabase";
+import React, { useEffect, useState } from "react";
+import {
+  useProfileEmailMutation,
+  useProfileQuery,
+  useProfileUsernameMutation,
+  useSession,
+} from "supabase";
 import { Page, PageContent, PageHeader, PageSubHeader } from "ui";
 import {
   SectionContainer,
@@ -21,6 +26,18 @@ import {
 
 const Settings = () => {
   const session = useSession();
+  const { data: profile } = useProfileQuery();
+
+  const [username, setUsername] = useState("");
+  const { mutate: mutateUsername } = useProfileUsernameMutation();
+
+  const [email, setEmail] = useState(session.user.email);
+  const { mutate: mutateEmail } = useProfileEmailMutation();
+
+  useEffect(() => {
+    console.log("Effect Profile");
+    setUsername(profile?.username);
+  }, [profile]);
 
   return (
     <Page>
@@ -51,23 +68,30 @@ const Settings = () => {
                 <SectionContainer
                   title="Display Name"
                   subTitle="Your display name like your full name."
-                  actions={<Button onClick={() => console.log}>Save</Button>}
+                  actions={
+                    <Button onClick={() => mutateUsername(username)}>
+                      Save
+                    </Button>
+                  }
                 >
                   <Input
                     placeholder="Your display name"
-                    onChange={(event) => {}}
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
                   />
                 </SectionContainer>
                 <SectionContainer
                   title="Email Address"
                   subTitle="Please enter the email address you want to use with Agity."
-                  actions={<Button onClick={() => console.log}>Save</Button>}
+                  actions={
+                    <Button onClick={() => mutateEmail(email)}>Save</Button>
+                  }
                 >
                   <Input
                     type="email"
-                    value={session?.user.email}
+                    value={email}
                     placeholder="Your email address"
-                    onChange={(event) => {}}
+                    onChange={(event) => setEmail(event.target.value)}
                   />
                 </SectionContainer>
                 <SectionContainer

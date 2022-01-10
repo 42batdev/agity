@@ -12,18 +12,15 @@ const SessionContext = React.createContext({} as IContextProps);
 
 function SessionContextProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
-
-  const [session, setSession] = useState<Session | null>(null);
-
-  React.useEffect(() => {
-    setSession(supabase.auth.session());
-  }, []);
+  const [session, setSession] = useState<Session | null>(
+    supabase.auth.session()
+  );
 
   supabase.auth.onAuthStateChange((event, session) => {
+    console.log(event);
     switch (event) {
       case "SIGNED_IN":
       case "TOKEN_REFRESHED":
-      case "USER_UPDATED":
         setSession(supabase.auth.session());
         fetch("/api/auth/set", {
           method: "POST",

@@ -57,8 +57,7 @@ export function SectionContainer({
         backgroundSize: "cover",
         top: 0,
         left: 0,
-        backgroundImage:
-          backgrounds[Math.floor(Math.random() * backgrounds.length)],
+        backgroundImage: backgrounds[title.length % 4],
       }}
     >
       <VStack w="100%">
