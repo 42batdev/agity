@@ -24,7 +24,6 @@ export const TeamManager = () => {
             title={"Admin"}
             stat={team.name}
             onClick={() => {
-              console.log("Test");
               router.push(`/teams/${team.id}`);
             }}
           />

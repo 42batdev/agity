@@ -2,15 +2,14 @@ import Head from "next/head";
 import React from "react";
 import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useSession } from "supabase";
+import supabase from "supabase";
 import { LoginAvatarGroup } from "../components/login/LoginAvatarGroup";
 import { LoginForm } from "../components/login/LoginForm";
 
 const Login = () => {
   const router = useRouter();
-  const session = useSession();
 
-  if (session) {
+  if (supabase.auth.session()) {
     router.push("/dashboard");
     return (
       <>

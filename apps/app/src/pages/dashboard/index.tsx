@@ -1,32 +1,27 @@
-import Head from "next/head";
 import React from "react";
-import { Page, PageContent, PageHeader, PageSubHeader } from "ui";
+import { PageSubHeader } from "ui";
 import { TeamManager } from "../../components/teams/TeamManager";
 import { CreateTeamModal } from "../../components/teams/CreateTeamModal";
+import { GetServerSideProps } from "next/types";
+import {
+  AgityAppLayout,
+  AgityAppServerSideProps,
+  withProfile,
+} from "../../components/teams/layout/AgityAppLAyout";
 
-const Dashboard = () => {
+const Dashboard = (props: AgityAppServerSideProps) => {
   return (
-    <Page>
-      <Head>
-        <title>Agity Dashboard</title>
-      </Head>
-      <PageHeader
-        links={[
-          { title: "Overview", href: "/dashboard" },
-          { title: "Activity", href: "/dashboard/activity" },
-          { title: "Settings", href: "/dashboard/settings" },
-        ]}
+    <AgityAppLayout {...props} title={"Agity Dashboard"}>
+      <PageSubHeader
+        title="Your Teams"
+        subTitle={"The Teams you have access to"}
+        actions={<CreateTeamModal />}
       />
-      <PageContent>
-        <PageSubHeader
-          title="Your Teams"
-          subTitle={"The Teams you have access to"}
-          actions={<CreateTeamModal />}
-        />
-        <TeamManager />
-      </PageContent>
-    </Page>
+      <TeamManager />
+    </AgityAppLayout>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = withProfile();
 
 export default Dashboard;

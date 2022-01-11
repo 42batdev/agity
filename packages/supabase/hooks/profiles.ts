@@ -14,7 +14,7 @@ export function useProfileQuery(id?: string) {
   });
 }
 
-export function useProfileUsernameMutation() {
+export function useProfileDisplayNameMutation() {
   const queryClient = useQueryClient();
   const id = useSession()?.user.id;
 
