@@ -26,7 +26,6 @@ export const AgityAppLayout = ({
         <PageHeader
           links={[
             { title: "Overview", href: "/dashboard" },
-            { title: "Activity", href: "/dashboard/activity" },
             { title: "Settings", href: "/dashboard/settings" },
           ]}
         />
@@ -51,4 +50,52 @@ export const withProfile = () => async (context) => {
       },
     }, // will be passed to the page component as props
   };
+};
+
+export const withProfile123 = () => async (context) => {
+  const { username } = context.query;
+  const { user } = await supabase.auth.api.getUserByCookie(context.req);
+
+  const profileData = await supabase
+    .from("profiles")
+    .select("id, username, displayname")
+    .match({ id: user.id });
+  const profile: Profile = {
+    username: profileData.data[0].username,
+    displayname: profileData.data[0].displayname,
+  };
+
+  console.log(profile);
+  console.log(username);
+  if (profile.username !== username) {
+    return {
+      redirect: {
+        destination: `/${profile.username}/dashboard`,
+        permanent: false,
+      },
+      props: {},
+    };
+  } else {
+    return { props: { profile, username } };
+  }
+};
+
+export const withAuth = (next: (context) => void) => async (context) => {
+  const authResult = await supabase.auth.api.getUserByCookie(context.req);
+  if (authResult.error || !authResult.user) {
+    console.log(
+      "Authorization error or no auth user redirecting to login page",
+      authResult.error
+    );
+    return {
+      redirect: {
+        destination: `/`,
+        permanent: false,
+      },
+      props: {},
+    };
+  } else {
+    console.log("AUTH OKAY");
+    return next(context);
+  }
 };
