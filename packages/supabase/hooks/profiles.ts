@@ -35,6 +35,27 @@ export function useProfileDisplayNameMutation() {
   );
 }
 
+export function useProfileUsernameMutation() {
+  const queryClient = useQueryClient();
+  const id = useSession()?.user.id;
+
+  return useMutation(
+    ["profile"],
+    (username: string) => {
+      return supabase
+        .from("profiles")
+        .update({ id, username })
+        .then(handleSupabaseError)
+        .then(({ data }) => data[0]) as Promise<any>;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("profile");
+      },
+    }
+  );
+}
+
 export function useProfileEmailMutation() {
   const queryClient = useQueryClient();
   const id = useSession()?.user.id;

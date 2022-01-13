@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { SectionContainer } from "./SectionContainer";
-import { useSession } from "supabase";
+import { useProfile, useProfileUsernameMutation, useSession } from "supabase";
 
 export function AccountUsernameSettingsSection() {
-  const [username, setUsername] = useState("");
+  const profile = useProfile();
+
+  const [username, setUsername] = useState(profile.username);
+  const { mutate: mutateUsername } = useProfileUsernameMutation();
 
   return (
     <SectionContainer
       title="Username"
       subTitle="Changing your username can have unintended side effects."
-      actions={<Button onClick={() => console.log()}>Save</Button>}
+      actions={<Button onClick={() => mutateUsername(username)}>Save</Button>}
     >
       <Input
         placeholder="Your username"
         value={username}
-        onChange={(event) => console.log(event.target.value)}
+        onChange={(event) => setUsername(event.target.value)}
       />
     </SectionContainer>
   );

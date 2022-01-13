@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ReactNode } from "react";
-import { useSession } from "supabase";
+import { useProfile, useSession } from "supabase";
 import {
   Avatar,
   Box,
@@ -26,6 +26,7 @@ interface PageHeaderProps {
 
 export const PageHeader = ({ links }: PageHeaderProps) => {
   const session = useSession();
+  const profile = useProfile();
 
   return (
     <Box
@@ -44,7 +45,7 @@ export const PageHeader = ({ links }: PageHeaderProps) => {
             <AppBarSlash height="32px" />
             <HStack>
               <Avatar size="xs" />
-              <Text>{session?.user?.email}</Text>
+              <Text>{profile.username}</Text>
             </HStack>
           </HStack>
           <AppBarUser />
