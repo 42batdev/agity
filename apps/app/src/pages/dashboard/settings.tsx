@@ -17,7 +17,7 @@ import {
   AgityAppLayout,
   AgityAppServerSideProps,
   withProfile,
-} from "../../components/teams/layout/AgityAppLAyout";
+} from "../../components/teams/layout/AgityAppLayout";
 
 const Settings = (props: AgityAppServerSideProps) => {
   return (

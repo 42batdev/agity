@@ -11,7 +11,7 @@ import {
 export function DisplayNameSettingsSection() {
   const profile = useProfile();
 
-  const [displayName, setDisplayName] = useState(profile.username);
+  const [displayName, setDisplayName] = useState(profile.displayname);
   const { mutate: mutateDisplayName } = useProfileDisplayNameMutation();
 
   return (
@@ -35,32 +35,32 @@ export function EmailSettingsSection() {
   const session = useSession();
 
   const [email, setEmail] = useState(session.user.email);
-  const {mutate: mutateEmail} = useProfileEmailMutation();
+  const { mutate: mutateEmail } = useProfileEmailMutation();
 
   return (
-      <SectionContainer
-          title="Email Address"
-          subTitle="Please enter the email address you want to use with Agity."
-          actions={<Button onClick={() => mutateEmail(email)}>Save</Button>}
-      >
-        <Input
-            type="email"
-            value={email}
-            placeholder="Your email address"
-            onChange={(event) => setEmail(event.target.value)}
-        />
-      </SectionContainer>
+    <SectionContainer
+      title="Email Address"
+      subTitle="Please enter the email address you want to use with Agity."
+      actions={<Button onClick={() => mutateEmail(email)}>Save</Button>}
+    >
+      <Input
+        type="email"
+        value={email}
+        placeholder="Your email address"
+        onChange={(event) => setEmail(event.target.value)}
+      />
+    </SectionContainer>
   );
 }
 
 export function AvatarSettingsSection() {
   return (
-      <SectionContainer
-          title="Avatar"
-          subTitle="We strongly recommend to upload an avatar image."
-          actions={<Button onClick={() => console.log}>Save</Button>}
-      >
-        <Avatar/>
-      </SectionContainer>
+    <SectionContainer
+      title="Avatar"
+      subTitle="We strongly recommend to upload an avatar image."
+      actions={<Button onClick={() => console.log}>Save</Button>}
+    >
+      <Avatar />
+    </SectionContainer>
   );
 }

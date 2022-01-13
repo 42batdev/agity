@@ -4,7 +4,7 @@ import { SectionContainer } from "./SectionContainer";
 import { useSession } from "supabase";
 
 export function AccountUsernameSettingsSection() {
-  const [displayName, setDisplayName] = useState("");
+  const [username, setUsername] = useState("");
 
   return (
     <SectionContainer
@@ -14,7 +14,7 @@ export function AccountUsernameSettingsSection() {
     >
       <Input
         placeholder="Your username"
-        value={displayName}
+        value={username}
         onChange={(event) => console.log(event.target.value)}
       />
     </SectionContainer>

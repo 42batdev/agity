@@ -40,10 +40,15 @@ export const withProfile = () => async (context) => {
   const { user } = await supabase.auth.api.getUserByCookie(context.req);
   const profile = await supabase
     .from("profiles")
-    .select("id, username, website")
+    .select("id, username, displayname")
     .match({ id: user.id });
 
   return {
-    props: { profile: { username: profile.data[0].username } }, // will be passed to the page component as props
+    props: {
+      profile: {
+        username: profile.data[0].username,
+        displayname: profile.data[0].displayname,
+      },
+    }, // will be passed to the page component as props
   };
 };

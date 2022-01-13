@@ -20,10 +20,10 @@ export function useProfileDisplayNameMutation() {
 
   return useMutation(
     ["profile"],
-    (username: string) => {
+    (displayname: string) => {
       return supabase
         .from("profiles")
-        .upsert({ id, username })
+        .update({ id, displayname })
         .then(handleSupabaseError)
         .then(({ data }) => data[0]) as Promise<any>;
     },
