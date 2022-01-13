@@ -34,9 +34,6 @@ yarn-error.log*
 # turbo
 .turbo
 
-# Supabase
-/supabase
-
 # IntelliJ
 out/
 
@@ -50,3 +47,8 @@ out/
 # generated
 
 **/generated/
+
+# Supabase
+**/supabase/.branches
+**/supabase/.temp
+**/supabase/.env
