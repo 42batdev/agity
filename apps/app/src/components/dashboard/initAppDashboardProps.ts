@@ -24,7 +24,7 @@ export const initAppDashboardProps = async (
   } else {
     const profileResult = await supabase
       .from("profiles")
-      .select("id, username, displayname")
+      .select("id, username, displayname, avatar_url")
       .match({ id: authResult.user.id });
 
     return {
@@ -32,6 +32,7 @@ export const initAppDashboardProps = async (
         profile: {
           username: profileResult.data[0].username,
           displayname: profileResult.data[0].displayname,
+          avatar_url: profileResult.data[0].avatar_url,
         },
       },
     };

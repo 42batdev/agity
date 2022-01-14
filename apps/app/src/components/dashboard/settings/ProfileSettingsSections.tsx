@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { Avatar, Button, Input } from "@chakra-ui/react";
+import React, { useRef, useState } from "react";
+import { Button, Input } from "@chakra-ui/react";
 import { SectionContainer } from "./SectionContainer";
-import {
+import supabase, {
   useProfile,
+  useProfileAvatarURLMutation,
   useProfileDisplayNameMutation,
   useProfileEmailMutation,
   useSession,
 } from "supabase";
+import ProfileSettingsAvatarEditor from "./ProfileSettingsAvatarEditor";
+import AvatarEditor from "react-avatar-editor";
 
 export function DisplayNameSettingsSection() {
   const profile = useProfile();
@@ -54,13 +57,45 @@ export function EmailSettingsSection() {
 }
 
 export function AvatarSettingsSection() {
+  const { username, avatar_url } = useProfile();
+  const { mutate } = useProfileAvatarURLMutation();
+  const editorRef = useRef<AvatarEditor>(null);
+
   return (
     <SectionContainer
       title="Avatar"
       subTitle="We strongly recommend to upload an avatar image."
-      actions={<Button onClick={() => console.log}>Save</Button>}
+      actions={
+        <Button
+          onClick={() => {
+            editorRef?.current?.getImageScaledToCanvas().toBlob(
+              (blob) => {
+                if (blob) {
+                  supabase.storage
+                    .from("avatars")
+                    .upload(`${username}.jpg`, blob)
+                    .then((result) => {
+                      if (!result.error && result.data) {
+                        mutate(`${username}.jpg`);
+                      } else {
+                        console.error(result);
+                      }
+                    });
+                }
+              },
+              "image/jpeg",
+              0.9
+            );
+          }}
+        >
+          Save
+        </Button>
+      }
     >
-      <Avatar />
+      <ProfileSettingsAvatarEditor
+        editorRef={editorRef}
+        avatar_url={avatar_url}
+      />
     </SectionContainer>
   );
 }

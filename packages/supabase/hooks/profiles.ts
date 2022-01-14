@@ -56,6 +56,27 @@ export function useProfileUsernameMutation() {
   );
 }
 
+export function useProfileAvatarURLMutation() {
+  const queryClient = useQueryClient();
+  const id = useSession()?.user.id;
+
+  return useMutation(
+    ["profile"],
+    (avatar_url: string) => {
+      return supabase
+        .from("profiles")
+        .update({ id, avatar_url })
+        .then(handleSupabaseError)
+        .then(({ data }) => data[0]) as Promise<any>;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("profile");
+      },
+    }
+  );
+}
+
 export function useProfileEmailMutation() {
   const queryClient = useQueryClient();
   const id = useSession()?.user.id;
