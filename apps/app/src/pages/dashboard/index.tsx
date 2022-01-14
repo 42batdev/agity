@@ -2,12 +2,11 @@ import React from "react";
 import { PageSubHeader } from "ui";
 import { TeamManager } from "../../components/teams/TeamManager";
 import { CreateTeamModal } from "../../components/teams/CreateTeamModal";
-import { GetServerSideProps } from "next/types";
 import {
   AgityAppLayout,
   AgityAppServerSideProps,
-  withProfile,
 } from "../../components/teams/layout/AgityAppLayout";
+import { initAppProps } from "../../utils/ssr/initAppProps";
 
 const Dashboard = (props: AgityAppServerSideProps) => {
   return (
@@ -22,6 +21,6 @@ const Dashboard = (props: AgityAppServerSideProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withProfile();
+export const getServerSideProps = initAppProps;
 
 export default Dashboard;

@@ -12,12 +12,11 @@ import {
   AccountIdSettingsSection,
   AccountUsernameSettingsSection,
 } from "../../components/dashboard/settings/AccountSettingsSections";
-import { GetServerSideProps } from "next/types";
 import {
   AgityAppLayout,
   AgityAppServerSideProps,
-  withProfile,
 } from "../../components/teams/layout/AgityAppLayout";
+import { initAppProps } from "../../utils/ssr/initAppProps";
 
 const Settings = (props: AgityAppServerSideProps) => {
   return (
@@ -53,6 +52,6 @@ const Settings = (props: AgityAppServerSideProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withProfile();
+export const getServerSideProps = initAppProps;
 
 export default Settings;
