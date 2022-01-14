@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { ReactNode } from "react";
 import { Page, PageContent, PageHeader } from "ui";
 import { SessionContextProvider } from "supabase";
-import { AgityAppServerSideProps } from "../../../utils/ssr/initAppProps";
+import { AgityAppServerSideProps } from "./initAppDashboardProps";
 
 export interface AgityAppLayoutProps extends AgityAppServerSideProps {
   title: string;
@@ -18,12 +18,12 @@ export const AgityAppLayout = ({
     <SessionContextProvider profile={profile}>
       <Page>
         <Head>
-          <title>Agity Dashboard</title>
+          <title>{title}</title>
         </Head>
         <PageHeader
           links={[
-            { title: "Overview", href: "/dashboard" },
-            { title: "Settings", href: "/dashboard/settings" },
+            { title: "Overview", href: `/dashboard` },
+            { title: "Settings", href: `/dashboard/settings` },
           ]}
         />
         <PageContent>{children}</PageContent>

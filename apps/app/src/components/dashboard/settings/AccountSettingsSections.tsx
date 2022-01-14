@@ -30,7 +30,7 @@ export function AccountIdSettingsSection() {
   return (
     <SectionContainer
       title="Your Agity ID"
-      subTitle="We strongly recommend to upload an avatar image."
+      subTitle="This is your internal agity id.."
     >
       <InputGroup size="md">
         <Input pr="4.5rem" value={session?.user.id} readOnly />
@@ -45,8 +45,6 @@ export function AccountIdSettingsSection() {
 }
 
 export function AccountDeleteSettingsSection() {
-  const session = useSession();
-
   return (
     <SectionContainer
       title="Delete Account"

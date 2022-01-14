@@ -5,10 +5,11 @@ export interface AgityAppServerSideProps {
   profile: Profile;
 }
 
-export const initAppProps = async (
+export const initAppDashboardProps = async (
   context
 ): Promise<GetServerSidePropsResult<AgityAppServerSideProps>> => {
   const authResult = await supabase.auth.api.getUserByCookie(context.req);
+
   if (!authResult || !authResult.user || authResult.error) {
     console.log(
       "Authorization error or no auth user redirecting to login page",
@@ -21,7 +22,7 @@ export const initAppProps = async (
       },
     };
   } else {
-    const profile = await supabase
+    const profileResult = await supabase
       .from("profiles")
       .select("id, username, displayname")
       .match({ id: authResult.user.id });
@@ -29,8 +30,8 @@ export const initAppProps = async (
     return {
       props: {
         profile: {
-          username: profile.data[0].username,
-          displayname: profile.data[0].displayname,
+          username: profileResult.data[0].username,
+          displayname: profileResult.data[0].displayname,
         },
       },
     };

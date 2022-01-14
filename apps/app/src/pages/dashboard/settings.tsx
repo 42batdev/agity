@@ -12,15 +12,15 @@ import {
   AccountIdSettingsSection,
   AccountUsernameSettingsSection,
 } from "../../components/dashboard/settings/AccountSettingsSections";
+import { AgityAppLayout } from "../../components/dashboard/AgityAppLayout";
 import {
-  AgityAppLayout,
   AgityAppServerSideProps,
-} from "../../components/teams/layout/AgityAppLayout";
-import { initAppProps } from "../../utils/ssr/initAppProps";
+  initAppDashboardProps,
+} from "../../components/dashboard/initAppDashboardProps";
 
 const Settings = (props: AgityAppServerSideProps) => {
   return (
-    <AgityAppLayout {...props} title={"Agity Dashboard"}>
+    <AgityAppLayout {...props} title={"Agity Settings"}>
       <PageSubHeader
         title="Profile & Settings"
         subTitle={"Your personal account"}
@@ -52,6 +52,6 @@ const Settings = (props: AgityAppServerSideProps) => {
   );
 };
 
-export const getServerSideProps = initAppProps;
+export const getServerSideProps = initAppDashboardProps;
 
 export default Settings;

@@ -1,12 +1,11 @@
 import React from "react";
-import { PageSubHeader } from "ui";
-import { TeamManager } from "../../components/dashboard/TeamManager";
-import { CreateTeamModal } from "../../components/dashboard/CreateTeamModal";
-import { AgityAppLayout } from "../../components/dashboard/AgityAppLayout";
+import { CreateTeamModal } from "../../../components/dashboard/CreateTeamModal";
 import {
   AgityAppServerSideProps,
   initAppDashboardProps,
-} from "../../components/dashboard/initAppDashboardProps";
+} from "../../../components/dashboard/initAppDashboardProps";
+import { AgityAppLayout } from "../../../components/dashboard/AgityAppLayout";
+import { PageSubHeader } from "ui";
 
 const Dashboard = (props: AgityAppServerSideProps) => {
   return (
@@ -16,7 +15,7 @@ const Dashboard = (props: AgityAppServerSideProps) => {
         subTitle={"The Teams you have access to"}
         actions={<CreateTeamModal />}
       />
-      <TeamManager />
+      This is a team page
     </AgityAppLayout>
   );
 };

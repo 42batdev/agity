@@ -17,7 +17,7 @@ export function DisplayNameSettingsSection() {
   return (
     <SectionContainer
       title="Display Name"
-      subTitle="Your name may appear where you contribute or are mentioned. You can change it at any time."
+      subTitle="Your name may appear where you contribute or are mentioned."
       actions={
         <Button onClick={() => mutateDisplayName(displayName)}>Save</Button>
       }

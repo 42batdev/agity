@@ -2,7 +2,6 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { useProfile, useSession } from "supabase";
 import {
-  Avatar,
   Box,
   Container,
   Flex,
@@ -44,7 +43,6 @@ export const PageHeader = ({ links }: PageHeaderProps) => {
             <AppBarComponents height="32px" />
             <AppBarSlash height="32px" />
             <HStack>
-              <Avatar size="xs" />
               <Text>{profile.username}</Text>
             </HStack>
           </HStack>
