@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { AppBarComponents, AppBarSlash, AppBarUser } from "./AppBarComponents";
+import { AppBarLogo, AppBarSlash, AppBarUser } from "./AppBarComponents";
 import { useRouter } from "next/router";
 
 interface PageHeaderLink {
@@ -40,7 +40,7 @@ export const PageHeader = ({ links }: PageHeaderProps) => {
       <Container maxW={"5xl"}>
         <Flex py="4" alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
-            <AppBarComponents height="32px" />
+            <AppBarLogo height="32px" />
             <AppBarSlash height="32px" />
             <HStack>
               <Text>{profile.username}</Text>

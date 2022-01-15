@@ -1,21 +1,17 @@
-import Head from "next/head";
-import React, { ReactElement } from "react";
-import { HomeLayout } from "../components/HomeLayout";
+import React from "react";
+import { PageSubHeader } from "ui";
 import { IndexComponent } from "../components/index/IndexComponent";
+import { AgityHomeLayout } from "../components/AgityHomeLayout";
 
 const Index = () => {
   return (
-    <>
-      <Head>
-        <title>A G I T Y</title>
-      </Head>
+    <AgityHomeLayout title={"Agity Dashboard"}>
+      <PageSubHeader
+        title="Your Teams"
+        subTitle={"The Teams you have access to"}
+      />
       <IndexComponent />
-    </>
+    </AgityHomeLayout>
   );
 };
-
-Index.getLayout = function getLayout(page: ReactElement) {
-  return <HomeLayout page={page} />;
-};
-
 export default Index;

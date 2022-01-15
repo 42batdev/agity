@@ -14,7 +14,7 @@ import { FiEdit, FiLogOut, FiMoon, FiSun } from "react-icons/fi";
 import * as React from "react";
 import supabase from "supabase";
 
-export const AppBarComponents = (props) => {
+export const AppBarLogo = (props) => {
   return (
     <svg
       {...props}
@@ -70,7 +70,7 @@ export const AppBarSlash = (props) => {
   );
 };
 
-export const AppBarUser = (props) => {
+export const AppBarUser = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
