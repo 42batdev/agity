@@ -18,12 +18,12 @@ import supabase from "supabase";
 
 export interface ProfileSettingsAvatarEditorProps {
   editorRef: MutableRefObject<AvatarEditor>;
-  avatar_url: string | undefined;
+  avatarURL: string | undefined;
 }
 
 export default function ProfileSettingsAvatarEditor({
   editorRef,
-  avatar_url,
+  avatarURL,
 }: ProfileSettingsAvatarEditorProps) {
   const [image, setImage] = useState<File | null>(null);
   const [scale, setScale] = useState<number>(1);
@@ -32,14 +32,14 @@ export default function ProfileSettingsAvatarEditor({
   const dropzoneRef = useRef<DropzoneRef>(null);
 
   useEffect(() => {
-    if (avatar_url) {
+    if (avatarURL) {
       supabase.storage
         .from("avatars")
-        .download(avatar_url)
+        .download(avatarURL)
         .then((result) => {
           if (result.data) {
             setImage(
-              new File([result.data], avatar_url, {
+              new File([result.data], avatarURL, {
                 type: "image/jpeg",
                 lastModified: -1,
               })
@@ -47,7 +47,7 @@ export default function ProfileSettingsAvatarEditor({
           }
         });
     }
-  }, [avatar_url]);
+  }, [avatarURL]);
 
   return (
     <Dropzone

@@ -14,7 +14,7 @@ import AvatarEditor from "react-avatar-editor";
 export function DisplayNameSettingsSection() {
   const profile = useProfile();
 
-  const [displayName, setDisplayName] = useState(profile.displayname);
+  const [displayName, setDisplayName] = useState(profile.displayName);
   const { mutate: mutateDisplayName } = useProfileDisplayNameMutation();
 
   return (
@@ -57,7 +57,7 @@ export function EmailSettingsSection() {
 }
 
 export function AvatarSettingsSection() {
-  const { username, avatar_url } = useProfile();
+  const { username, avatar } = useProfile();
   const { mutate } = useProfileAvatarURLMutation();
   const editorRef = useRef<AvatarEditor>(null);
 
@@ -94,7 +94,7 @@ export function AvatarSettingsSection() {
     >
       <ProfileSettingsAvatarEditor
         editorRef={editorRef}
-        avatar_url={avatar_url}
+        avatarURL={avatar.filename}
       />
     </SectionContainer>
   );

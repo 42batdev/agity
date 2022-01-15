@@ -7,12 +7,13 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Text,
   useColorMode,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { FiEdit, FiLogOut, FiMoon, FiSun } from "react-icons/fi";
 import * as React from "react";
-import supabase from "supabase";
+import supabase, { useProfile } from "supabase";
 
 export const AppBarLogo = (props) => {
   return (
@@ -71,12 +72,17 @@ export const AppBarSlash = (props) => {
 };
 
 export const AppBarUser = () => {
+  const { displayName, avatar } = useProfile();
+
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Menu id="user-menu" matchWidth isLazy>
       <MenuButton p="2">
-        <Avatar size="sm" />
+        <HStack>
+          <Text>{displayName}</Text>
+          <Avatar size="sm" src={avatar.url} />
+        </HStack>
       </MenuButton>
       <MenuList>
         <NextLink href="/dashboard" passHref>

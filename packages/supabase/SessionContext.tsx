@@ -4,8 +4,11 @@ import supabase from "supabase";
 
 export type Profile = {
   username: string;
-  displayname?: string;
-  avatar_url?: string;
+  displayName?: string;
+  avatar: {
+    url?: string;
+    filename?: string;
+  };
 };
 
 interface SessionContextProps {

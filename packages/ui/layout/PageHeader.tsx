@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ReactNode } from "react";
-import { useProfile, useSession } from "supabase";
+import { useProfile } from "supabase";
 import {
   Box,
   Container,
@@ -24,7 +24,6 @@ interface PageHeaderProps {
 }
 
 export const PageHeader = ({ links }: PageHeaderProps) => {
-  const session = useSession();
   const profile = useProfile();
 
   return (
