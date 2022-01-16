@@ -68,24 +68,38 @@ export function AvatarSettingsSection() {
       actions={
         <Button
           onClick={() => {
-            editorRef?.current?.getImageScaledToCanvas().toBlob(
-              (blob) => {
-                if (blob) {
-                  supabase.storage
-                    .from("avatars")
-                    .upload(`${username}.jpg`, blob)
-                    .then((result) => {
-                      if (!result.error && result.data) {
-                        mutate(`${username}.jpg`);
-                      } else {
-                        console.error(result);
-                      }
-                    });
-                }
-              },
-              "image/jpeg",
-              0.9
-            );
+            if (Number.isNaN(editorRef?.current.getCroppingRect().height)) {
+              supabase.storage
+                .from("avatars")
+                .remove([`${username}.jpg`])
+                .then((result) => {
+                  if (!result.error && result.data) {
+                    mutate(null);
+                  } else {
+                    console.error(result);
+                  }
+                });
+            } else {
+              editorRef?.current?.getImageScaledToCanvas().toBlob(
+                (blob) => {
+                  console.log(blob);
+                  if (blob) {
+                    supabase.storage
+                      .from("avatars")
+                      .upload(`${username}.jpg`, blob, { upsert: true })
+                      .then((result) => {
+                        if (!result.error && result.data) {
+                          mutate(`${username}.jpg`);
+                        } else {
+                          console.error(result);
+                        }
+                      });
+                  }
+                },
+                "image/jpeg",
+                0.9
+              );
+            }
           }}
         >
           Save

@@ -62,7 +62,7 @@ export function useProfileAvatarURLMutation() {
 
   return useMutation(
     ["profile"],
-    (avatar_url: string) => {
+    (avatar_url: string | null) => {
       return supabase
         .from("profiles")
         .update({ id, avatar_url })

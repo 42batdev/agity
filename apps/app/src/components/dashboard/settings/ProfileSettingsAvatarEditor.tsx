@@ -97,9 +97,7 @@ export default function ProfileSettingsAvatarEditor({
               <Button
                 aria-label="clear-button"
                 rightIcon={<FiX />}
-                onClick={() => {
-                  setImage(null);
-                }}
+                onClick={() => setImage(null)}
                 isFullWidth
               >
                 Clear
