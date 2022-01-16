@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { AppBarLogo, AppBarSlash, AppBarUser } from "./AppBarComponents";
+import { AppBarLogo, AppBarSlash, AppBarUser } from "./PageHeaderComponents";
 import { useRouter } from "next/router";
 
 interface PageHeaderLink {
