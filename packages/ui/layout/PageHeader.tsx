@@ -29,9 +29,11 @@ export const PageHeader = ({ links }: PageHeaderProps) => {
   return (
     <Box
       as="header"
+      position="fixed"
       gridColumn="1/-1"
       gridRow="2"
       zIndex="250"
+      w="100%"
       borderBottom={useColorModeValue("1px solid #EEE", "1px solid #333")}
       bg={useColorModeValue("rgba(255, 255, 255, 0.5)", "rgba(0, 0, 0, 0.5)")}
       backdropFilter="saturate(180%) blur(5px)"
