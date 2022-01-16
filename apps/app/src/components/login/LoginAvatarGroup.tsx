@@ -21,10 +21,10 @@ export const LoginAvatarGroup = () => {
   return (
     <Stack direction={"row"} spacing={4} justifyContent="center">
       <AvatarGroup>
-        {avatars.map((avatar, index) => (
+        {userIcons.map((icon, index) => (
           <Avatar
             key={index}
-            icon={avatar.icon}
+            icon={icon.component}
             size={size}
             position={"relative"}
             zIndex={2}
@@ -76,20 +76,20 @@ export const LoginAvatarGroup = () => {
   );
 };
 
-const avatars = [
+const userIcons = [
   {
-    icon: <FaUserAstronaut />,
+    component: <FaUserAstronaut />,
   },
   {
-    icon: <FaUserNinja />,
+    component: <FaUserNinja />,
   },
   {
-    icon: <FaUserGraduate />,
+    component: <FaUserGraduate />,
   },
   {
-    icon: <FaUserSecret />,
+    component: <FaUserSecret />,
   },
   {
-    icon: <FaUserTie />,
+    component: <FaUserTie />,
   },
 ];

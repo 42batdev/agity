@@ -81,7 +81,7 @@ export const AppBarUser = () => {
       <MenuButton p="2">
         <HStack>
           <Text>{displayName}</Text>
-          <Avatar size="sm" src={avatar.url} />
+          <Avatar size="sm" src={avatar?.url} />
         </HStack>
       </MenuButton>
       <MenuList>

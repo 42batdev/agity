@@ -108,7 +108,7 @@ export function AvatarSettingsSection() {
     >
       <ProfileSettingsAvatarEditor
         editorRef={editorRef}
-        avatarURL={avatar.filename}
+        avatarURL={avatar?.filename}
       />
     </SectionContainer>
   );
