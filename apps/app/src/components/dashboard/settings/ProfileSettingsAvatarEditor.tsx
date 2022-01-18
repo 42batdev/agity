@@ -14,17 +14,17 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FiUploadCloud, FiX } from "react-icons/fi";
-import supabase from "supabase";
+import supabase, { useProfile } from "supabase";
 
 export interface ProfileSettingsAvatarEditorProps {
   editorRef: MutableRefObject<AvatarEditor>;
-  avatarURL: string | undefined;
 }
 
 export default function ProfileSettingsAvatarEditor({
   editorRef,
-  avatarURL,
 }: ProfileSettingsAvatarEditorProps) {
+  const { avatar } = useProfile();
+
   const [image, setImage] = useState<File | null>(null);
   const [scale, setScale] = useState<number>(1);
   const [rotation, setRotation] = useState<number>(0);
@@ -32,14 +32,14 @@ export default function ProfileSettingsAvatarEditor({
   const dropzoneRef = useRef<DropzoneRef>(null);
 
   useEffect(() => {
-    if (avatarURL) {
+    if (avatar.filename) {
       supabase.storage
         .from("avatars")
-        .download(avatarURL)
+        .download(avatar.filename)
         .then((result) => {
           if (result.data) {
             setImage(
-              new File([result.data], avatarURL, {
+              new File([result.data], avatar.filename, {
                 type: "image/jpeg",
                 lastModified: -1,
               })
@@ -47,7 +47,7 @@ export default function ProfileSettingsAvatarEditor({
           }
         });
     }
-  }, [avatarURL]);
+  }, [avatar]);
 
   return (
     <Dropzone

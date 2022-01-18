@@ -47,7 +47,7 @@ async function createProfile(user: User): Promise<Profile | null> {
     .select("id, username, displayname, avatar_url")
     .match({ id: user.id });
 
-  let avatar = null;
+  let avatar = {};
   if (profileResult.data[0].avatar_url) {
     avatar = {
       url: supabase.storage

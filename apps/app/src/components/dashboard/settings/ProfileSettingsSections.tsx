@@ -1,7 +1,10 @@
 import React, { useRef, useState } from "react";
 import { Button, Input } from "@chakra-ui/react";
 import { SectionContainer } from "./SectionContainer";
-import supabase, {
+import {
+  generateUniqAvatarName,
+  removeAvatarFromStorage,
+  uploadAvatarToStorage,
   useProfile,
   useProfileAvatarURLMutation,
   useProfileDisplayNameMutation,
@@ -57,7 +60,7 @@ export function EmailSettingsSection() {
 }
 
 export function AvatarSettingsSection() {
-  const { username, avatar } = useProfile();
+  const { avatar } = useProfile();
   const { mutate } = useProfileAvatarURLMutation();
   const editorRef = useRef<AvatarEditor>(null);
 
@@ -68,48 +71,31 @@ export function AvatarSettingsSection() {
       actions={
         <Button
           onClick={() => {
-            if (Number.isNaN(editorRef?.current.getCroppingRect().height)) {
-              supabase.storage
-                .from("avatars")
-                .remove([`${username}.jpg`])
-                .then((result) => {
-                  if (!result.error && result.data) {
-                    mutate(null);
-                  } else {
-                    console.error(result);
-                  }
-                });
-            } else {
-              editorRef?.current?.getImageScaledToCanvas().toBlob(
-                (blob) => {
-                  console.log(blob);
-                  if (blob) {
-                    supabase.storage
-                      .from("avatars")
-                      .upload(`${username}.jpg`, blob, { upsert: true })
-                      .then((result) => {
-                        if (!result.error && result.data) {
-                          mutate(`${username}.jpg`);
-                        } else {
-                          console.error(result);
-                        }
+            removeAvatarFromStorage(avatar.filename, () => {
+              if (Number.isNaN(editorRef?.current.getCroppingRect().height)) {
+                mutate(null);
+              } else {
+                const newImageName = `${generateUniqAvatarName()}.jpg`;
+                editorRef?.current?.getImageScaledToCanvas().toBlob(
+                  (blob) => {
+                    if (blob) {
+                      uploadAvatarToStorage(newImageName, blob, () => {
+                        mutate(newImageName);
                       });
-                  }
-                },
-                "image/jpeg",
-                0.9
-              );
-            }
+                    }
+                  },
+                  "image/jpeg",
+                  0.9
+                );
+              }
+            });
           }}
         >
           Save
         </Button>
       }
     >
-      <ProfileSettingsAvatarEditor
-        editorRef={editorRef}
-        avatarURL={avatar?.filename}
-      />
+      <ProfileSettingsAvatarEditor editorRef={editorRef} />
     </SectionContainer>
   );
 }
