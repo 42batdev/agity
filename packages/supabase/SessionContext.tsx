@@ -1,18 +1,14 @@
 import { Session } from "@supabase/gotrue-js/src/lib/types";
-import { createContext, ReactNode, useContext } from "react";
-import supabase from "supabase";
-
-export type Profile = {
-  username: string;
-  displayName?: string;
-  avatar: {
-    url?: string;
-    filename?: string;
-  };
-};
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import supabase, { Profile, useProfileQuery } from "supabase";
 
 interface SessionContextProps {
-  profile: Profile;
   children: ReactNode;
 }
 
@@ -21,13 +17,36 @@ const SessionContext = createContext<{
   profile: Profile;
 }>(undefined);
 
-function SessionContextProvider({ profile, children }: SessionContextProps) {
+function SessionContextProvider({ children }: SessionContextProps) {
+  const [profile, setProfile] = useState<Profile>();
+  const { data, isLoading } = useProfileQuery(supabase.auth.session().user.id);
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      setProfile({
+        username: data.username,
+        displayName: data.displayname,
+        avatar: {
+          url: data.avatar_url
+            ? supabase.storage.from("avatars").getPublicUrl(data.avatar_url)
+                .publicURL
+            : undefined,
+          filename: data.avatar_url,
+        },
+      });
+    }
+  }, [data, isLoading]);
+
   return (
-    <SessionContext.Provider
-      value={{ session: supabase.auth.session(), profile }}
-    >
-      {children}
-    </SessionContext.Provider>
+    <>
+      {profile && (
+        <SessionContext.Provider
+          value={{ session: supabase.auth.session(), profile }}
+        >
+          {children}
+        </SessionContext.Provider>
+      )}
+    </>
   );
 }
 

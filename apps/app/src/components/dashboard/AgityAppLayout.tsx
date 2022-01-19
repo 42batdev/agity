@@ -9,13 +9,9 @@ export interface AgityAppLayoutProps extends AgityAppServerSideProps {
   children: ReactNode;
 }
 
-export const AgityAppLayout = ({
-  title,
-  profile,
-  children,
-}: AgityAppLayoutProps) => {
+export const AgityAppLayout = ({ title, children }: AgityAppLayoutProps) => {
   return (
-    <SessionContextProvider profile={profile}>
+    <SessionContextProvider>
       <Page>
         <Head>
           <title>{title}</title>

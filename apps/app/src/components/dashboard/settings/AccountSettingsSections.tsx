@@ -5,6 +5,7 @@ import { useProfile, useProfileUsernameMutation, useSession } from "supabase";
 
 export function AccountUsernameSettingsSection() {
   const profile = useProfile();
+  const session = useSession();
 
   const [username, setUsername] = useState(profile.username);
   const { mutate: mutateUsername } = useProfileUsernameMutation();

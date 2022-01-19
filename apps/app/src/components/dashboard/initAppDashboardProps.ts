@@ -1,10 +1,7 @@
 import { GetServerSidePropsResult } from "next";
-import supabase, { Profile } from "supabase";
-import { User } from "@supabase/supabase-js";
+import supabase from "supabase";
 
-export interface AgityAppServerSideProps {
-  profile: Profile;
-}
+export interface AgityAppServerSideProps {}
 
 export const initAppDashboardProps = async (
   context
@@ -22,44 +19,8 @@ export const initAppDashboardProps = async (
         permanent: false,
       },
     };
-  } else {
-    const profile = await createProfile(authResult.user);
-    if (profile) {
-      return {
-        props: {
-          profile,
-        },
-      };
-    } else {
-      return {
-        redirect: {
-          destination: `/404`,
-          permanent: false,
-        },
-      };
-    }
   }
-};
-
-async function createProfile(user: User): Promise<Profile | null> {
-  const profileResult = await supabase
-    .from("profiles")
-    .select("id, username, displayname, avatar_url")
-    .match({ id: user.id });
-
-  let avatar = {};
-  if (profileResult.data[0].avatar_url) {
-    avatar = {
-      url: supabase.storage
-        .from("avatars")
-        .getPublicUrl(profileResult.data[0].avatar_url).publicURL,
-      filename: profileResult.data[0].avatar_url,
-    };
-  }
-
   return {
-    username: profileResult.data[0].username,
-    displayName: profileResult.data[0].displayname,
-    avatar,
+    props: {},
   };
-}
+};

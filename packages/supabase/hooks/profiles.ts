@@ -1,14 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import supabase, { useSession } from "supabase";
 
-export function useProfileQuery(id?: string) {
-  const session = useSession();
+export type Profile = {
+  username: string;
+  displayName?: string;
+  avatar: {
+    url?: string;
+    filename?: string;
+  };
+};
 
+export function useProfileQuery(id: string) {
   return useQuery(["profile"], () => {
     return supabase
       .from("profiles")
-      .select("id, username")
-      .match({ id: id ?? session.user.id })
+      .select("id, username, displayname, avatar_url")
+      .match({ id })
       .then(handleSupabaseError)
       .then(({ data }) => data[0]) as Promise<any>;
   });
