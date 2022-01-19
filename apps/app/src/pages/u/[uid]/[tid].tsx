@@ -1,25 +1,23 @@
 import React from "react";
-import { CreateTeamModal } from "../../../components/dashboard/CreateTeamModal";
-import {
-  AgityAppServerSideProps,
-  initAppDashboardProps,
-} from "../../../components/dashboard/initAppDashboardProps";
 import { AgityAppLayout } from "../../../components/dashboard/AgityAppLayout";
 import { PageSubHeader } from "ui";
+import {
+  initAppTeamProps,
+  TeamServerSideProps,
+} from "../../../utils/ssr/serversideprops";
 
-const Dashboard = (props: AgityAppServerSideProps) => {
+const TeamDashboard = (props: TeamServerSideProps) => {
   return (
-    <AgityAppLayout {...props} title={"Agity Dashboard"}>
+    <AgityAppLayout {...props} title={"TEAM XYZ Dashboard"}>
       <PageSubHeader
-        title="Your Teams"
+        title="TEAM XYZ Dashboard"
         subTitle={"The Teams you have access to"}
-        actions={<CreateTeamModal />}
       />
-      This is a team page
+      This is a team page for {props.tid} from {props.uid}
     </AgityAppLayout>
   );
 };
 
-export const getServerSideProps = initAppDashboardProps;
+export const getServerSideProps = initAppTeamProps;
 
-export default Dashboard;
+export default TeamDashboard;

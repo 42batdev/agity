@@ -14,11 +14,11 @@ import {
 } from "../../components/dashboard/settings/AccountSettingsSections";
 import { AgityAppLayout } from "../../components/dashboard/AgityAppLayout";
 import {
-  AgityAppServerSideProps,
+  DashboardServerSideProps,
   initAppDashboardProps,
-} from "../../components/dashboard/initAppDashboardProps";
+} from "../../utils/ssr/serversideprops";
 
-const Settings = (props: AgityAppServerSideProps) => {
+const Settings = (props: DashboardServerSideProps) => {
   return (
     <AgityAppLayout {...props} title={"Agity Settings"}>
       <PageSubHeader

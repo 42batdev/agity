@@ -2,9 +2,9 @@ import Head from "next/head";
 import React, { ReactNode } from "react";
 import { Page, PageContent, PageHeader } from "ui";
 import { SessionContextProvider } from "supabase";
-import { AgityAppServerSideProps } from "./initAppDashboardProps";
+import { DashboardServerSideProps } from "./initAppDashboardProps";
 
-export interface AgityAppLayoutProps extends AgityAppServerSideProps {
+export interface AgityAppLayoutProps extends DashboardServerSideProps {
   title: string;
   children: ReactNode;
 }

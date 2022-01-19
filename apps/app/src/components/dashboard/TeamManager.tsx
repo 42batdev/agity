@@ -8,11 +8,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FiUsers } from "react-icons/fi";
-import { useTeams } from "supabase";
+import { useProfile, useTeams } from "supabase";
 import { useRouter } from "next/router";
 
 export const TeamManager = () => {
   const router = useRouter();
+  const profile = useProfile();
 
   const { data, isLoading } = useTeams();
   return (
@@ -24,7 +25,7 @@ export const TeamManager = () => {
             title={"Admin"}
             stat={team.name}
             onClick={() => {
-              router.push(`/teams/${team.id}`);
+              router.push(`/u/${profile.username}/${team.id}`);
             }}
           />
         ))}

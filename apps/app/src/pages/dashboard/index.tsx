@@ -4,11 +4,11 @@ import { TeamManager } from "../../components/dashboard/TeamManager";
 import { CreateTeamModal } from "../../components/dashboard/CreateTeamModal";
 import { AgityAppLayout } from "../../components/dashboard/AgityAppLayout";
 import {
-  AgityAppServerSideProps,
+  DashboardServerSideProps,
   initAppDashboardProps,
-} from "../../components/dashboard/initAppDashboardProps";
+} from "../../utils/ssr/serversideprops";
 
-const Dashboard = (props: AgityAppServerSideProps) => {
+const Dashboard = (props: DashboardServerSideProps) => {
   return (
     <AgityAppLayout {...props} title={"Agity Dashboard"}>
       <PageSubHeader
