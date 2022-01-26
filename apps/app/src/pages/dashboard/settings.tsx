@@ -17,10 +17,11 @@ import {
   DashboardServerSideProps,
   initAppDashboardProps,
 } from "../../utils/ssr/serversideprops";
+import { dashboardLinks } from "./index";
 
 const Settings = (props: DashboardServerSideProps) => {
   return (
-    <AgityAppLayout {...props} title={"Agity Settings"}>
+    <AgityAppLayout {...props} title={"Agity Settings"} links={dashboardLinks}>
       <PageSubHeader
         title="Profile & Settings"
         subTitle={"Your personal account"}

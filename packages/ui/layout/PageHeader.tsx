@@ -14,10 +14,10 @@ import NextLink from "next/link";
 import { AppBarLogo, AppBarSlash, AppBarUser } from "./PageHeaderComponents";
 import { useRouter } from "next/router";
 
-interface PageHeaderLink {
+export type PageHeaderLink = {
   title: string;
   href: string;
-}
+};
 
 interface PageHeaderProps {
   links?: Array<PageHeaderLink>;
@@ -69,7 +69,8 @@ interface NavigationLinkProps {
 }
 
 const NavigationLink = ({ href, children }: NavigationLinkProps) => {
-  const isActiveLink = useRouter()?.pathname === href;
+  const router = useRouter();
+  const isActiveLink = router.asPath === href;
   const borderColor = useColorModeValue("#333", "#FFF");
 
   return (
