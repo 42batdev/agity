@@ -1,15 +1,13 @@
 import React from "react";
-import { AgityAppLayout } from "../../../components/dashboard/AgityAppLayout";
+import { AgityAppLayout } from "../../../../components/dashboard/AgityAppLayout";
 import { PageHeaderLink, PageSubHeader } from "ui";
 import {
   initAppTeamProps,
   TeamServerSideProps,
-} from "../../../utils/ssr/serversideprops";
+} from "../../../../utils/ssr/serversideprops";
 
 const TeamDashboard = (props: TeamServerSideProps) => {
-  const teamLinks: Array<PageHeaderLink> = [
-    { title: "Overview", href: `/u/${props.uid}/${props.tid}` },
-  ];
+  const teamLinks = getPageHeaderLinks(props);
 
   return (
     <AgityAppLayout {...props} title={"TEAM XYZ Dashboard"} links={teamLinks}>
@@ -21,6 +19,14 @@ const TeamDashboard = (props: TeamServerSideProps) => {
     </AgityAppLayout>
   );
 };
+
+export function getPageHeaderLinks(props: TeamServerSideProps) {
+  const teamLinks: Array<PageHeaderLink> = [
+    { title: "Overview", href: `/u/${props.uid}/${props.tid}` },
+    { title: "Members", href: `/u/${props.uid}/${props.tid}/members` },
+  ];
+  return teamLinks;
+}
 
 export const getServerSideProps = initAppTeamProps;
 
