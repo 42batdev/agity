@@ -6,6 +6,8 @@ import {
   TeamServerSideProps,
 } from "../../../../utils/ssr/serversideprops";
 import { getPageHeaderLinks } from "./index";
+import MemberCard from "../../../../components/team/MemberCard";
+import { SimpleGrid } from "@chakra-ui/react";
 
 const TeamDashboard = (props: TeamServerSideProps) => {
   return (
@@ -18,7 +20,9 @@ const TeamDashboard = (props: TeamServerSideProps) => {
         title="TEAM XYZ Members"
         subTitle={"The Teams you have access to"}
       />
-      This is a team page for {props.tid} from {props.uid}
+      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
+        <MemberCard name="John Doe" />
+      </SimpleGrid>
     </AgityAppLayout>
   );
 };
