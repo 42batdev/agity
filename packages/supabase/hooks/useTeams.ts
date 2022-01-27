@@ -1,14 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import supabase from "supabase";
+import supabase, { useSession } from "supabase";
 
-export function useTeam(id: string) {
+export function useTeam(tid: string) {
   return useQuery(
     ["team"],
     () =>
       supabase
         .from("teams")
-        .select("id, name")
-        .match({ id })
+        .select("id, tid, name")
+        .match({ tid })
         .then(handleSupabaseError)
         .then(({ data }) => data[0]) as Promise<any>
   );
@@ -20,7 +20,7 @@ export function useTeams() {
     () =>
       supabase
         .from("teams")
-        .select("id, name")
+        .select("id, tid, name")
         .then(handleSupabaseError)
         .then(({ data }) => data) as Promise<any>
   );
@@ -28,23 +28,21 @@ export function useTeams() {
 
 export function useCreateTeam() {
   const client = useQueryClient();
+  const { user } = useSession();
 
-  return useMutation<unknown, unknown, { id: string; name: string }, unknown>(
+  return useMutation<unknown, unknown, { tid: string; name: string }, unknown>(
     ["teams"],
-    (variables) =>
+    ({ tid, name }) =>
       supabase
-        .from("teams")
-        .insert([
-          {
-            id: variables.id,
-            name: variables.name,
-            owner_id: supabase.auth.user().id,
-          },
-        ])
+        .rpc("add_team", {
+          tid,
+          name,
+          user_id: user.id,
+        })
         .then(handleSupabaseError)
         .then(({ data }) => data) as Promise<any>,
     {
-      onSuccess: (data, variables) => {
+      onSuccess: () => {
         client.invalidateQueries(["teams"]);
       },
     }

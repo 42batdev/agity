@@ -20,12 +20,12 @@ export const CreateTeamModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [name, setName] = useState("");
-  const [id, setId] = useState("");
+  const [tid, setTid] = useState("");
 
   const { mutate } = useCreateTeam();
 
   const onSave = () => {
-    mutate({ id, name });
+    mutate({ tid, name });
     onClose();
   };
 
@@ -54,8 +54,8 @@ export const CreateTeamModal = () => {
                 <FormLabel>The unique team id</FormLabel>
                 <Input
                   placeholder="Team ID"
-                  value={id}
-                  onChange={(e) => setId(e.target.value)}
+                  value={tid}
+                  onChange={(e) => setTid(e.target.value)}
                 />
               </FormControl>
             </ModalBody>
