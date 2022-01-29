@@ -19,6 +19,6 @@ const supabase = createClient(
 
 export default supabase;
 export * from "./SessionContext";
-export * from "./hooks/useTeams";
+export * from "./hooks/teams";
 export * from "./hooks/profiles";
 export * from "./storage/avatar";
