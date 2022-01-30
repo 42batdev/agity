@@ -7,7 +7,7 @@ export function useTeam(tid: string) {
     () =>
       supabase
         .from("teams")
-        .select("id, tid, name")
+        .select("id, tid, name, members")
         .match({ tid })
         .then(handleSupabaseError)
         .then(({ data }) => data[0]) as Promise<any>
