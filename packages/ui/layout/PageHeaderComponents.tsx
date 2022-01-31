@@ -72,7 +72,7 @@ export const AppBarSlash = (props) => {
 };
 
 export const AppBarUser = () => {
-  const { displayName, avatar } = useProfile();
+  const { name, avatar } = useProfile();
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -80,7 +80,7 @@ export const AppBarUser = () => {
     <Menu id="user-menu" matchWidth isLazy>
       <MenuButton p="2">
         <HStack>
-          <Text>{displayName}</Text>
+          <Text>{name}</Text>
           <Avatar size="sm" src={avatar?.url} />
         </HStack>
       </MenuButton>

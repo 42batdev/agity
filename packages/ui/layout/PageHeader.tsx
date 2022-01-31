@@ -44,7 +44,7 @@ export const PageHeader = ({ links }: PageHeaderProps) => {
             <AppBarLogo height="32px" />
             <AppBarSlash height="32px" />
             <HStack>
-              <Text>{profile.username}</Text>
+              <Text>{profile.uid}</Text>
             </HStack>
           </HStack>
           <AppBarUser />

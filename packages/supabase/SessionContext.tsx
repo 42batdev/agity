@@ -24,8 +24,8 @@ function SessionContextProvider({ children }: SessionContextProps) {
   useEffect(() => {
     if (!isLoading && data) {
       setProfile({
-        username: data.username,
-        displayName: data.displayname,
+        uid: data.uid,
+        name: data.name,
         avatar: {
           url: data.avatar_url
             ? supabase.storage.from("avatars").getPublicUrl(data.avatar_url)

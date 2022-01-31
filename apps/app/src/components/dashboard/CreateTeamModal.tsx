@@ -17,7 +17,12 @@ import { useCreateTeam } from "supabase";
 import { useState } from "react";
 
 export const CreateTeamModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure({
+    onClose: () => {
+      setName("");
+      setTid("");
+    },
+  });
 
   const [name, setName] = useState("");
   const [tid, setTid] = useState("");

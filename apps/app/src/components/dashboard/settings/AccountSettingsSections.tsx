@@ -7,19 +7,19 @@ export function AccountUsernameSettingsSection() {
   const profile = useProfile();
   const session = useSession();
 
-  const [username, setUsername] = useState(profile.username);
+  const [uid, setUid] = useState(profile.uid);
   const { mutate: mutateUsername } = useProfileUsernameMutation();
 
   return (
     <SectionContainer
-      title="Username"
-      subTitle="Changing your username can have unintended side effects."
-      actions={<Button onClick={() => mutateUsername(username)}>Save</Button>}
+      title="User ID"
+      subTitle="Changing your user ID can have unintended side effects."
+      actions={<Button onClick={() => mutateUsername(uid)}>Save</Button>}
     >
       <Input
-        placeholder="Your username"
-        value={username}
-        onChange={(event) => setUsername(event.target.value)}
+        placeholder="Your user ID"
+        value={uid}
+        onChange={(event) => setUid(event.target.value)}
       />
     </SectionContainer>
   );

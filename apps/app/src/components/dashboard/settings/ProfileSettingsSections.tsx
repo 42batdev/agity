@@ -17,21 +17,19 @@ import AvatarEditor from "react-avatar-editor";
 export function DisplayNameSettingsSection() {
   const profile = useProfile();
 
-  const [displayName, setDisplayName] = useState(profile.displayName);
+  const [name, setName] = useState(profile.name);
   const { mutate: mutateDisplayName } = useProfileDisplayNameMutation();
 
   return (
     <SectionContainer
       title="Display Name"
       subTitle="Your name may appear where you contribute or are mentioned."
-      actions={
-        <Button onClick={() => mutateDisplayName(displayName)}>Save</Button>
-      }
+      actions={<Button onClick={() => mutateDisplayName(name)}>Save</Button>}
     >
       <Input
         placeholder="Your display name"
-        value={displayName}
-        onChange={(event) => setDisplayName(event.target.value)}
+        value={name}
+        onChange={(event) => setName(event.target.value)}
       />
     </SectionContainer>
   );

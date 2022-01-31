@@ -32,35 +32,35 @@ export const OnboardingForm = () => {
   const router = useRouter();
 
   const [uid, setUid] = useState<string>("");
-  const [usernameCheck, setUsernameCheck] = useState<UsernameCheckState>();
+  const [uidCheck, setUidCheck] = useState<UsernameCheckState>();
   const debouncedUsernameCheck = useRef(
     debounce((newUid: string) => {
       supabase
         .from("profiles")
         .select("id", { count: "exact", head: true })
-        .match({ username: newUid })
+        .match({ uid: newUid })
         .then((query) => {
           if (query.error || query.count > 0) {
-            setUsernameCheck(UsernameCheckState.ERROR);
+            setUidCheck(UsernameCheckState.ERROR);
           } else {
-            setUsernameCheck(UsernameCheckState.VALID);
+            setUidCheck(UsernameCheckState.VALID);
           }
         });
     }, 500)
   );
 
-  const [displayName, setDisplayName] = useState<string>("");
+  const [name, setName] = useState<string>("");
 
   const handleUsernameChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const newUid = event.currentTarget.value;
     debouncedUsernameCheck.current.cancel();
     if (newUid && newUid.length > 0) {
       setUid(newUid);
-      setUsernameCheck(UsernameCheckState.LOADING);
+      setUidCheck(UsernameCheckState.LOADING);
 
       debouncedUsernameCheck.current(newUid);
     } else {
-      setUsernameCheck(undefined);
+      setUidCheck(undefined);
     }
   };
 
@@ -68,8 +68,8 @@ export const OnboardingForm = () => {
     const result = await supabase.from("profiles").insert([
       {
         id: supabase.auth.session().user.id,
-        username: uid,
-        displayname: displayName,
+        uid,
+        name,
       },
     ]);
     router.push("/");
@@ -101,7 +101,7 @@ export const OnboardingForm = () => {
         <Stack spacing={4}>
           <InputGroup>
             <InputLeftElement>
-              <Tooltip label="Agity uses your username to associate your teams with an identity. It must be unique. ">
+              <Tooltip label="Agity uses your user ID to associate your teams with an identity. It must be unique. ">
                 <span>
                   <FiHelpCircle color="black" />
                 </span>
@@ -119,22 +119,22 @@ export const OnboardingForm = () => {
               }}
             />
             <InputRightElement>
-              {usernameCheck === UsernameCheckState.LOADING && (
+              {uidCheck === UsernameCheckState.LOADING && (
                 <Skeleton>
                   <span>
                     <FiSearch color="grey" />
                   </span>
                 </Skeleton>
               )}
-              {usernameCheck === UsernameCheckState.ERROR && (
-                <Tooltip label="This username is not available.">
+              {uidCheck === UsernameCheckState.ERROR && (
+                <Tooltip label="This user ID is not available.">
                   <span>
                     <FiXCircle color="red" />
                   </span>
                 </Tooltip>
               )}
-              {usernameCheck === UsernameCheckState.VALID && (
-                <Tooltip label="This username is available">
+              {uidCheck === UsernameCheckState.VALID && (
+                <Tooltip label="This user ID is available">
                   <span>
                     <FiCheckCircle color="green" />
                   </span>
@@ -144,7 +144,7 @@ export const OnboardingForm = () => {
           </InputGroup>
           <InputGroup>
             <InputLeftElement>
-              <Tooltip label="Your display name may appear around Agity where you participate or are mentioned.">
+              <Tooltip label="Your name may appear around Agity where you participate or are mentioned.">
                 <span>
                   <FiHelpCircle color="black" />
                 </span>
@@ -153,7 +153,7 @@ export const OnboardingForm = () => {
             <Input
               type="text"
               placeholder="Your Display Name"
-              onChange={(event) => setDisplayName(event.currentTarget.value)}
+              onChange={(event) => setName(event.currentTarget.value)}
               bg={"gray.100"}
               border={0}
               color={"gray.500"}
@@ -174,7 +174,7 @@ export const OnboardingForm = () => {
             boxShadow: "xl",
           }}
           onClick={handleLogin}
-          disabled={usernameCheck !== UsernameCheckState.VALID}
+          disabled={uidCheck !== UsernameCheckState.VALID}
         >
           Create your Profile
         </Button>

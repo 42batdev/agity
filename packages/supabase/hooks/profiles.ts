@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import supabase, { useSession } from "supabase";
 
 export type Profile = {
-  username: string;
-  displayName?: string;
+  uid: string;
+  name?: string;
   avatar: {
     url?: string;
     filename?: string;
@@ -14,7 +14,7 @@ export function useProfileQuery(id: string) {
   return useQuery(["profile", id], () => {
     return supabase
       .from("profiles")
-      .select("id, username, displayname, avatar_url")
+      .select("id, uid, name, avatar_url")
       .match({ id })
       .then(handleSupabaseError)
       .then(({ data }) => data[0]) as Promise<any>;
@@ -27,10 +27,10 @@ export function useProfileDisplayNameMutation() {
 
   return useMutation(
     ["profile"],
-    (displayname: string) => {
+    (name: string) => {
       return supabase
         .from("profiles")
-        .update({ id, displayname })
+        .update({ id, name })
         .then(handleSupabaseError)
         .then(({ data }) => data[0]) as Promise<any>;
     },
@@ -48,10 +48,10 @@ export function useProfileUsernameMutation() {
 
   return useMutation(
     ["profile"],
-    (username: string) => {
+    (uid: string) => {
       return supabase
         .from("profiles")
-        .update({ id, username })
+        .update({ id, uid })
         .then(handleSupabaseError)
         .then(({ data }) => data[0]) as Promise<any>;
     },
