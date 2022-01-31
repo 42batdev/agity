@@ -44,7 +44,7 @@ function useSupabaseAuthHandler() {
           headers: new Headers({ "Content-Type": "application/json" }),
           credentials: "same-origin",
           body: JSON.stringify({ event, session }),
-        }).then(() => router.push("/dashboard"));
+        }).then(() => router.push("/"));
         break;
       case "SIGNED_OUT":
       case "USER_DELETED":

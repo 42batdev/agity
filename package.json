@@ -15,6 +15,7 @@
     "prettier": "prettier --write '**/*.{ts,tsx,.md}'"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.178",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
@@ -38,6 +39,7 @@
     }
   },
   "dependencies": {
-    "focus-visible": "^5.2.0"
+    "focus-visible": "^5.2.0",
+    "lodash": "^4.17.21"
   }
 }

@@ -11,7 +11,7 @@ export type Profile = {
 };
 
 export function useProfileQuery(id: string) {
-  return useQuery(["profile"], () => {
+  return useQuery(["profile", id], () => {
     return supabase
       .from("profiles")
       .select("id, username, displayname, avatar_url")
