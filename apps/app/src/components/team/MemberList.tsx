@@ -1,15 +1,21 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import MemberCard from "./MemberCard";
 import React from "react";
+import { useTeam } from "./TeamContextProvider";
+import { useMembersQuery } from "supabase";
 
-export interface MemberListProps {
-  tid: string;
-}
+export const MemberList = () => {
+  const team = useTeam();
 
-export const MemberList = ({ tid }: MemberListProps) => {
+  const { isLoading, data } = useMembersQuery(team);
+
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-      <MemberCard name="John Doe" />
+      {!isLoading &&
+        data &&
+        data.map((profile) => {
+          return <MemberCard key={profile.id} name={profile.name} />;
+        })}
     </SimpleGrid>
   );
 };

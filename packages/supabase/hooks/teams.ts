@@ -1,13 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import supabase, { useSession } from "supabase";
 
-export function useTeam(tid: string) {
+export interface Team {
+  id: string;
+  tid: string;
+  name: string;
+}
+
+export function useTeamQuery(tid: string) {
   return useQuery(
     ["team"],
     () =>
       supabase
         .from("teams")
-        .select("id, tid, name, members")
+        .select("id, tid, name")
         .match({ tid })
         .then(handleSupabaseError)
         .then(({ data }) => data[0]) as Promise<any>

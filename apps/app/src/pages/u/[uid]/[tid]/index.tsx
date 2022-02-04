@@ -5,18 +5,21 @@ import {
   initAppTeamProps,
   TeamServerSideProps,
 } from "../../../../utils/ssr/serversideprops";
+import { TeamContextProvider } from "../../../../components/team/TeamContextProvider";
 
 const TeamDashboard = (props: TeamServerSideProps) => {
   const teamLinks = getPageHeaderLinks(props);
 
   return (
-    <AgityAppLayout {...props} title={"TEAM XYZ Dashboard"} links={teamLinks}>
-      <PageSubHeader
-        title="TEAM XYZ Dashboard"
-        subTitle={"The Teams you have access to"}
-      />
-      This is a team page for {props.tid} from {props.uid}
-    </AgityAppLayout>
+    <TeamContextProvider tid={props.tid}>
+      <AgityAppLayout {...props} title={"TEAM XYZ Dashboard"} links={teamLinks}>
+        <PageSubHeader
+          title="TEAM XYZ Dashboard"
+          subTitle={"The Teams you have access to"}
+        />
+        This is a team page for {props.tid} from {props.uid}
+      </AgityAppLayout>
+    </TeamContextProvider>
   );
 };
 
