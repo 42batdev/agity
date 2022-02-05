@@ -7,7 +7,6 @@ import {
   Flex,
   HStack,
   Link,
-  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
@@ -20,10 +19,11 @@ export type PageHeaderLink = {
 };
 
 interface PageHeaderProps {
+  breadcrumbs: Array<PageHeaderLink>;
   links?: Array<PageHeaderLink>;
 }
 
-export const PageHeader = ({ links }: PageHeaderProps) => {
+export const PageHeader = ({ breadcrumbs, links }: PageHeaderProps) => {
   const profile = useProfile();
 
   return (
@@ -41,11 +41,19 @@ export const PageHeader = ({ links }: PageHeaderProps) => {
       <Container maxW={"5xl"}>
         <Flex py="4" alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
-            <AppBarLogo height="32px" />
-            <AppBarSlash height="32px" />
-            <HStack>
-              <Text>{profile.uid}</Text>
-            </HStack>
+            <NextLink href="/" passHref>
+              <Link>
+                <AppBarLogo height="32px" />
+              </Link>
+            </NextLink>
+            {breadcrumbs.map(({ href, title }) => (
+              <HStack key={href}>
+                <AppBarSlash height="32px" />
+                <NextLink href={href} passHref>
+                  {title}
+                </NextLink>
+              </HStack>
+            ))}
           </HStack>
           <AppBarUser />
         </Flex>

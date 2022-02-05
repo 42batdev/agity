@@ -5,32 +5,49 @@ import {
   initAppTeamProps,
   TeamServerSideProps,
 } from "../../../../utils/ssr/serversideprops";
-import { TeamContextProvider } from "../../../../components/team/TeamContextProvider";
+import {
+  TeamContextProvider,
+  useTeam,
+} from "../../../../components/team/TeamContextProvider";
+import { SessionContextProvider, useProfile } from "supabase/SessionContext";
 
-const TeamDashboard = (props: TeamServerSideProps) => {
-  const teamLinks = getPageHeaderLinks(props);
+export const getServerSideProps = initAppTeamProps;
 
+export default function (props: TeamServerSideProps) {
   return (
-    <TeamContextProvider tid={props.tid}>
-      <AgityAppLayout {...props} title={"TEAM XYZ Dashboard"} links={teamLinks}>
-        <PageSubHeader
-          title="TEAM XYZ Dashboard"
-          subTitle={"The Teams you have access to"}
-        />
-        This is a team page for {props.tid} from {props.uid}
-      </AgityAppLayout>
-    </TeamContextProvider>
+    <SessionContextProvider>
+      <TeamContextProvider tid={props.tid}>
+        <TeamDashboardContent {...props} />
+      </TeamContextProvider>
+    </SessionContextProvider>
   );
-};
+}
 
-export function getPageHeaderLinks(props: TeamServerSideProps) {
+const TeamDashboardContent = (props: TeamServerSideProps) => {
+  const team = useTeam();
+  const profile = useProfile();
+
   const teamLinks: Array<PageHeaderLink> = [
     { title: "Overview", href: `/u/${props.uid}/${props.tid}` },
     { title: "Members", href: `/u/${props.uid}/${props.tid}/members` },
   ];
-  return teamLinks;
-}
 
-export const getServerSideProps = initAppTeamProps;
+  const breadcrumbs: Array<PageHeaderLink> = [
+    { title: profile.name, href: `/dashboard` },
+    { title: team.name, href: `/u/${props.uid}/${props.tid}` },
+  ];
 
-export default TeamDashboard;
+  return (
+    <AgityAppLayout
+      title={team.name}
+      links={teamLinks}
+      breadcrumbs={breadcrumbs}
+    >
+      <PageSubHeader
+        title={`Team Dashboard`}
+        subTitle={"The Teams you have access to"}
+      />
+      This is a team Dashboard for {team.name}
+    </AgityAppLayout>
+  );
+};

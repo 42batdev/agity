@@ -7,15 +7,37 @@ import {
   DashboardServerSideProps,
   initAppDashboardProps,
 } from "../../utils/ssr/serversideprops";
+import { SessionContextProvider, useProfile } from "supabase";
 
-export const dashboardLinks: Array<PageHeaderLink> = [
-  { title: "Overview", href: `/dashboard` },
-  { title: "Settings", href: `/dashboard/settings` },
-];
+export const getServerSideProps = initAppDashboardProps;
 
-const Dashboard = (props: DashboardServerSideProps) => {
+export default function (props: DashboardServerSideProps) {
   return (
-    <AgityAppLayout {...props} title={"Agity Dashboard"} links={dashboardLinks}>
+    <SessionContextProvider>
+      <DashboardContent {...props} />
+    </SessionContextProvider>
+  );
+}
+
+const DashboardContent = (props: DashboardServerSideProps) => {
+  const profile = useProfile();
+
+  const dashboardLinks: Array<PageHeaderLink> = [
+    { title: "Overview", href: `/dashboard` },
+    { title: "Settings", href: `/dashboard/settings` },
+  ];
+
+  const breadcrumbs: Array<PageHeaderLink> = [
+    { title: profile.name, href: `/dashboard` },
+  ];
+
+  return (
+    <AgityAppLayout
+      {...props}
+      title={"Agity Dashboard"}
+      links={dashboardLinks}
+      breadcrumbs={breadcrumbs}
+    >
       <PageSubHeader
         title="Your Teams"
         subTitle={"The Teams you have access to"}
@@ -25,7 +47,3 @@ const Dashboard = (props: DashboardServerSideProps) => {
     </AgityAppLayout>
   );
 };
-
-export const getServerSideProps = initAppDashboardProps;
-
-export default Dashboard;

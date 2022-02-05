@@ -7,11 +7,10 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Text,
   useColorMode,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { FiEdit, FiLogOut, FiMoon, FiSun } from "react-icons/fi";
+import { FiChevronDown, FiEdit, FiLogOut, FiMoon, FiSun } from "react-icons/fi";
 import * as React from "react";
 import supabase, { useProfile } from "supabase";
 
@@ -80,8 +79,8 @@ export const AppBarUser = () => {
     <Menu id="user-menu" matchWidth isLazy>
       <MenuButton p="2">
         <HStack>
-          <Text>{name}</Text>
           <Avatar size="sm" src={avatar?.url} />
+          <FiChevronDown />
         </HStack>
       </MenuButton>
       <MenuList>
