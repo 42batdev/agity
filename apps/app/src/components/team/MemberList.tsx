@@ -8,14 +8,17 @@ export const MemberList = () => {
   const team = useTeam();
 
   const { isLoading, data } = useMembersQuery(team);
-
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
       {!isLoading &&
         data &&
-        data.map((profile) => {
-          return <MemberCard key={profile.id} name={profile.name} />;
-        })}
+        data.map((profile) => (
+          <MemberCard
+            key={profile.uid}
+            name={profile.name}
+            avatarURL={profile.avatar.url}
+          />
+        ))}
     </SimpleGrid>
   );
 };

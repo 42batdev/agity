@@ -9,7 +9,7 @@ import { LoginForm } from "../components/login/LoginForm";
 const Login = () => {
   const router = useRouter();
 
-  if (supabase.auth.session()) {
+  if (supabase.auth.session() && supabase.auth.session().user) {
     supabase
       .from("profiles")
       .select("id", { count: "exact", head: true })

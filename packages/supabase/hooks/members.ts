@@ -1,8 +1,15 @@
 import { useQuery } from "react-query";
-import supabase, { Team } from "supabase";
+import supabase, { Profile, Team } from "supabase";
+
+export enum TeamPermission {
+  ADMIN,
+  USER,
+}
+
+export type TeamMember = Profile & { permission: TeamPermission };
 
 export function useMembersQuery(team: Team) {
-  return useQuery(
+  return useQuery<TeamMember[]>(
     ["members", team.id],
     () =>
       supabase
@@ -10,7 +17,23 @@ export function useMembersQuery(team: Team) {
           team_id_input: team.id,
         })
         .then(handleSupabaseError)
-        .then(({ data }) => data) as Promise<any>
+        .then(({ data }) =>
+          data.map(
+            (profile) =>
+              ({
+                uid: profile.uid,
+                name: profile.name,
+                avatar: {
+                  url: profile.avatar_url
+                    ? supabase.storage
+                        .from("avatars")
+                        .getPublicUrl(profile.avatar_url).publicURL
+                    : undefined,
+                  filename: profile.avatar_url,
+                },
+              } as TeamMember)
+          )
+        ) as Promise<any>
   );
 }
 
