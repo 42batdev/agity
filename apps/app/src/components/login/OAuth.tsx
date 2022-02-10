@@ -90,18 +90,18 @@ export const OAuth = () => {
   }
 };
 
-const DividerWithText = (props: FlexProps) => {
+export const DividerWithText = (props: FlexProps) => {
   const { children, ...flexProps } = props;
   return (
-    <Flex align="center" {...flexProps}>
+    <Flex align="center" my={5} {...flexProps}>
       <Box flex="1">
-        <Divider borderColor="gray.700" />
+        <Divider />
       </Box>
-      <Text as="span" px="3" color="gray.700" fontWeight="medium">
+      <Text as="span" px="3" fontWeight="medium">
         {children}
       </Text>
       <Box flex="1">
-        <Divider borderColor="gray.700" />
+        <Divider />
       </Box>
     </Flex>
   );

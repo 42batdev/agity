@@ -39,6 +39,7 @@
     }
   },
   "dependencies": {
+    "chakra-react-select": "^3.0.4",
     "focus-visible": "^5.2.0",
     "lodash": "^4.17.21"
   }

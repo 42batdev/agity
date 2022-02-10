@@ -11,6 +11,7 @@ import {
   useTeam,
 } from "../../../../components/team/TeamContextProvider";
 import { SessionContextProvider, useProfile } from "supabase";
+import { InviteMemberModal } from "../../../../components/team/InviteMemberModal";
 
 export const getServerSideProps = initAppTeamProps;
 
@@ -47,6 +48,7 @@ const TeamMembersContent = (props: TeamServerSideProps) => {
       <PageSubHeader
         title={`Team Members`}
         subTitle={"View and manage the team members"}
+        actions={<InviteMemberModal />}
       />
       <MemberList />
     </AgityAppLayout>
