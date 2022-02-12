@@ -1,6 +1,9 @@
 import React from "react";
 import {useUserProfileQuery} from "../../generated/graphql";
+import {initAppProps} from "../../server/ssr/props";
 import {useUser} from "../../supabase/AuthContext";
+
+export const getServerSideProps = initAppProps;
 
 export default function () {
   return (

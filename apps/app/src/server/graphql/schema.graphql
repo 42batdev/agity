@@ -4,6 +4,12 @@ type Query {
 
 type User {
     id: ID!
+    uid: String!
     name: String
-    avatar: String
+    avatar: Avatar
+}
+
+type Avatar {
+    url: String
+    filename: String
 }
