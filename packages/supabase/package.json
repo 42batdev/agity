@@ -1,9 +1,0 @@
-{
-  "name": "supabase",
-  "version": "1.0.0",
-  "license": "MIT",
-  "main": "index.ts",
-  "files": [
-    "SessionContext.tsx"
-  ]
-}
