@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FiUsers } from "react-icons/fi";
+import { useGetUserTeamsQuery } from "../../generated/graphql";
 import { useActiveUserProfileQuery } from "../../utils/hooks/profile";
 
 export const TeamManager = () => {
@@ -16,14 +17,13 @@ export const TeamManager = () => {
 
   const { data } = useActiveUserProfileQuery();
 
-  // const { data, isLoading } = useTeams();
-  const isLoading = false;
-  const teams = [];
+  const { data: teamsData, loading } = useGetUserTeamsQuery();
 
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-      {!isLoading &&
-        teams?.map((team) => (
+      {!loading &&
+        teamsData &&
+        teamsData.getTeams?.map((team) => (
           <TeamCard
             key={team.id}
             title={"Admin"}

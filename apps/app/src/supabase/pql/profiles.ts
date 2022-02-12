@@ -2,12 +2,12 @@ import { PostgrestResponse } from "@supabase/supabase-js";
 import { Profile } from "../../generated/graphql";
 import supabase from "../index";
 
-export function createProfile(data: Array<any>) {
-  let filename = data[0].avatar_url;
+export function createProfile(data: any) {
+  let filename = data.avatar_url;
   const profile: Profile = {
-    id: data[0].id,
-    uid: data[0].uid,
-    name: data[0].name,
+    id: data.id,
+    uid: data.uid,
+    name: data.name,
     avatar: filename && {
       url: supabase.storage.from("avatars").getPublicUrl(filename).publicURL,
       filename,

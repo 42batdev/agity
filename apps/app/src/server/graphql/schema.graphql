@@ -1,5 +1,7 @@
 type Query {
     getProfile(id: ID!): Profile
+
+    getTeams: [Team]
 }
 
 type Mutation {
@@ -16,6 +18,12 @@ type Profile {
 type Avatar {
     url: String
     filename: String
+}
+
+type Team {
+    id: ID!
+    tid: String!
+    name: String
 }
 
 input ProfileInput {

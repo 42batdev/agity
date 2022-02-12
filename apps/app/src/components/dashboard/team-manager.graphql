@@ -1,0 +1,11 @@
+query GetUserTeams {
+    getTeams {
+        ...TeamFields
+    }
+}
+
+fragment TeamFields on Team {
+    id
+    tid
+    name
+}
