@@ -5,9 +5,8 @@ import { theme } from "ui";
 
 import "focus-visible/dist/focus-visible";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { NextPage } from "next";
-import supabase from "../supabase";
+import {AuthContextProvider} from "../supabase/AuthContext";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -18,38 +17,13 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  useSupabaseAuthHandler();
-
   return (
-      <ChakraProvider theme={theme} resetCSS>
+    <ChakraProvider theme={theme} resetCSS>
+      <AuthContextProvider>
         <Component {...pageProps} />
-      </ChakraProvider>
+      </AuthContextProvider>
+    </ChakraProvider>
   );
-}
-
-function useSupabaseAuthHandler() {
-  const router = useRouter();
-
-  supabase.auth.onAuthStateChange((event, session) => {
-    switch (event) {
-      case "SIGNED_IN":
-      case "TOKEN_REFRESHED":
-        fetch("/api/auth/set", {
-          method: "POST",
-          headers: new Headers({ "Content-Type": "application/json" }),
-          credentials: "same-origin",
-          body: JSON.stringify({ event, session }),
-        }).then(() => router.push("/"));
-        break;
-      case "SIGNED_OUT":
-      case "USER_DELETED":
-        fetch("/api/auth/remove", {
-          method: "GET",
-          credentials: "same-origin",
-        }).then(() => router.push("/"));
-        break;
-    }
-  });
 }
 
 export default dynamic(() => Promise.resolve(MyApp), {

@@ -4,6 +4,6 @@
   "license": "MIT",
   "main": "index.ts",
   "files": [
-    "SessionContext.tsx"
+    "AuthContext.tsx"
   ]
 }
