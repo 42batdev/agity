@@ -1,7 +1,15 @@
 import React from "react";
-import { useUserProfileQuery } from "../../generated/graphql";
+import { CreateTeamModal } from "../../components/dashboard/CreateTeamModal";
+import { TeamManager } from "../../components/dashboard/TeamManager";
+import {
+  Page,
+  PageContent,
+  PageHeader,
+  PageHeaderLink,
+  PageSubHeader,
+} from "../../components/layout";
 import { initAppProps } from "../../server/ssr/props";
-import { useUser } from "../../supabase/AuthContext";
+import { useActiveUserProfileQuery } from "../../utils/hooks/profile";
 
 export const getServerSideProps = initAppProps;
 
@@ -10,10 +18,28 @@ export default function Dashboard() {
 }
 
 const DashboardContent = () => {
-  const user = useUser();
-  const { loading, data, error } = useUserProfileQuery({
-    variables: { id: user?.id },
-  });
+  const { data } = useActiveUserProfileQuery();
 
-  return <div>{data?.getUserProfile.id}</div>;
+  const links: Array<PageHeaderLink> = [
+    { title: "Overview", href: `/dashboard` },
+    { title: "Settings", href: `/dashboard/settings` },
+  ];
+
+  const breadcrumbs: Array<PageHeaderLink> = data
+    ? [{ title: data?.getUserProfile.name, href: `/dashboard` }]
+    : [];
+
+  return (
+    <Page>
+      <PageHeader links={links} breadcrumbs={breadcrumbs} />
+      <PageContent>
+        <PageSubHeader
+          title="Your Teams"
+          subTitle={"The Teams you have access to"}
+          actions={<CreateTeamModal />}
+        />
+        <TeamManager />
+      </PageContent>
+    </Page>
+  );
 };

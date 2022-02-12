@@ -1,5 +1,5 @@
 import { ApiError } from "@supabase/gotrue-js/src/lib/types";
-import { User, UserCredentials } from "@supabase/supabase-js";
+import { User, UserAttributes, UserCredentials } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import {
   createContext,
@@ -17,6 +17,9 @@ interface AuthContextProps {
 const AuthContext = createContext<{
   signIn: (credentials: UserCredentials) => Promise<{ error: ApiError | null }>;
   signOut: () => Promise<{ error: ApiError | null }>;
+  updateUser: (
+    attributes: UserAttributes
+  ) => Promise<{ error: ApiError | null }>;
   user: User;
 }>(undefined);
 
@@ -71,6 +74,7 @@ function AuthContextProvider({ children }: AuthContextProps) {
         signOut: () => {
           return supabase.auth.signOut();
         },
+        updateUser: (attributes) => supabase.auth.update(attributes),
         user,
       }}
     >
@@ -93,6 +97,14 @@ export function useSignOut() {
     throw new Error("useSignOut must be used within a AuthContext");
   }
   return context.signOut;
+}
+
+export function useUpdateUser() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useUpdateUser must be used within a AuthContext");
+  }
+  return context.updateUser;
 }
 
 export function useUser(): User {
