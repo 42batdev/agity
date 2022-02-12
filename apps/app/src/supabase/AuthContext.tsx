@@ -1,7 +1,13 @@
-import {ApiError} from "@supabase/gotrue-js/src/lib/types";
-import {User, UserCredentials} from "@supabase/supabase-js";
-import {useRouter} from "next/router";
-import {createContext, ReactNode, useContext, useEffect, useState,} from "react";
+import { ApiError } from "@supabase/gotrue-js/src/lib/types";
+import { User, UserCredentials } from "@supabase/supabase-js";
+import { useRouter } from "next/router";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import supabase from "./index";
 
 interface AuthContextProps {
@@ -9,27 +15,27 @@ interface AuthContextProps {
 }
 
 const AuthContext = createContext<{
-  signIn: (credentials: UserCredentials) => Promise<{ error: ApiError | null }>,
-  signOut: () => Promise<{ error: ApiError | null }>,
-  user: User,
+  signIn: (credentials: UserCredentials) => Promise<{ error: ApiError | null }>;
+  signOut: () => Promise<{ error: ApiError | null }>;
+  user: User;
 }>(undefined);
 
 function AuthContextProvider({ children }: AuthContextProps) {
   const router = useRouter();
 
-  const [user, setUser] = useState<User>()
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<User>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const session = supabase.auth.session()
+    const session = supabase.auth.session();
 
-    setUser(session?.user ?? null)
-    setLoading(false)
+    setUser(session?.user ?? null);
+    setLoading(false);
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        setUser(session?.user ?? null)
-        setLoading(false)
+        setUser(session?.user ?? null);
+        setLoading(false);
         switch (event) {
           case "SIGNED_IN":
           case "TOKEN_REFRESHED":
@@ -49,23 +55,25 @@ function AuthContextProvider({ children }: AuthContextProps) {
             break;
         }
       }
-    )
+    );
 
     return () => {
-      listener?.unsubscribe()
-    }
-  }, [])
+      listener?.unsubscribe();
+    };
+  }, []);
 
   return (
-    <AuthContext.Provider value={{
-      signIn: (credentials) => {
-        return supabase.auth.signIn(credentials);
-      },
-      signOut: () => {
-        return supabase.auth.signOut();
-      },
-      user,
-    }}>
+    <AuthContext.Provider
+      value={{
+        signIn: (credentials) => {
+          return supabase.auth.signIn(credentials);
+        },
+        signOut: () => {
+          return supabase.auth.signOut();
+        },
+        user,
+      }}
+    >
       {!loading && children}
     </AuthContext.Provider>
   );

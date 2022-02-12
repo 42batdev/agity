@@ -11,10 +11,10 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { FaBitbucket, FaGithub, FaGitlab, FaGoogle } from "react-icons/fa";
-import {useSignIn} from "../../supabase/AuthContext";
+import { useSignIn } from "../../supabase/AuthContext";
 
 export const OAuth = () => {
-  const signIn = useSignIn()
+  const signIn = useSignIn();
 
   return (
     <>
@@ -29,7 +29,7 @@ export const OAuth = () => {
               bgGradient: "linear(to-r, red.400,pink.500)",
               boxShadow: "xl",
             }}
-            onClick={() => signIn({provider: "google"})}
+            onClick={() => signIn({ provider: "google" })}
           >
             <VisuallyHidden>Login with Google</VisuallyHidden>
             <FaGoogle />
@@ -44,7 +44,7 @@ export const OAuth = () => {
               bgGradient: "linear(to-r, red.400,pink.500)",
               boxShadow: "xl",
             }}
-            onClick={() => signIn({provider: "gitlab"})}
+            onClick={() => signIn({ provider: "gitlab" })}
           >
             <VisuallyHidden>Login with Gitlab</VisuallyHidden>
             <FaGitlab />
@@ -59,7 +59,7 @@ export const OAuth = () => {
               bgGradient: "linear(to-r, red.400,pink.500)",
               boxShadow: "xl",
             }}
-            onClick={() => signIn({provider: "github"})}
+            onClick={() => signIn({ provider: "github" })}
           >
             <VisuallyHidden>Login with Github</VisuallyHidden>
             <FaGithub />
@@ -74,7 +74,7 @@ export const OAuth = () => {
               bgGradient: "linear(to-r, red.400,pink.500)",
               boxShadow: "xl",
             }}
-            onClick={() => signIn({provider: "bitbucket"})}
+            onClick={() => signIn({ provider: "bitbucket" })}
           >
             <VisuallyHidden>Login with Bitbucket</VisuallyHidden>
             <FaBitbucket />

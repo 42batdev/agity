@@ -19,7 +19,7 @@ export const LoginAvatarYou = () => {
   return (
     <Stack direction={"row"} spacing={4} justifyContent="center">
       <Flex
-        align={"center"} 
+        align={"center"}
         justify={"center"}
         fontFamily={"heading"}
         fontSize={{ base: "sm", md: "lg" }}

@@ -1,4 +1,3 @@
-import { User, UserResolvers } from '../../../generated/graphql';
+import { User, UserResolvers } from "../../../generated/graphql";
 
-export const usersResolvers: UserResolvers = {
-};
+export const usersResolvers: UserResolvers = {};

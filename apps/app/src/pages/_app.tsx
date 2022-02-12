@@ -1,4 +1,4 @@
-import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import React, { ReactElement, ReactNode } from "react";
@@ -7,7 +7,7 @@ import { theme } from "ui";
 import "focus-visible/dist/focus-visible";
 import dynamic from "next/dynamic";
 import { NextPage } from "next";
-import {AuthContextProvider} from "../supabase/AuthContext";
+import { AuthContextProvider } from "../supabase/AuthContext";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -18,9 +18,9 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export const apolloClient = new ApolloClient({
-  uri: '/api/graphql',
+  uri: "/api/graphql",
   cache: new InMemoryCache(),
-  connectToDevTools: true
+  connectToDevTools: true,
 });
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -28,7 +28,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <ChakraProvider theme={theme} resetCSS>
       <AuthContextProvider>
         <ApolloProvider client={apolloClient}>
-        <Component {...pageProps} /></ApolloProvider>
+          <Component {...pageProps} />
+        </ApolloProvider>
       </AuthContextProvider>
     </ChakraProvider>
   );
