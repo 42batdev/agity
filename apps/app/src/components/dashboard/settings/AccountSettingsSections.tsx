@@ -17,7 +17,7 @@ export function AccountUsernameSettingsSection() {
   const { loading, data } = useActiveUserProfileQuery();
   const [mutate] = useUpdateUserProfileMutation();
   useLayoutEffect(() => {
-    setUid(data?.getUserProfile?.uid ?? "");
+    setUid(data?.getProfile?.uid ?? "");
   }, [data]);
 
   return (
@@ -29,7 +29,7 @@ export function AccountUsernameSettingsSection() {
           onClick={() =>
             mutate({
               variables: {
-                id: data?.getUserProfile?.id,
+                id: data?.getProfile?.id,
                 input: {
                   uid,
                 },

@@ -37,7 +37,7 @@ const SettingsContent = () => {
   ];
 
   const breadcrumbs: Array<PageHeaderLink> = data
-    ? [{ title: data?.getUserProfile.name, href: `/dashboard` }]
+    ? [{ title: data?.getProfile.name, href: `/dashboard` }]
     : [];
 
   return (

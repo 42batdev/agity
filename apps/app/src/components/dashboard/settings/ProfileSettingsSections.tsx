@@ -19,7 +19,7 @@ export function DisplayNameSettingsSection() {
   const { loading, data } = useActiveUserProfileQuery();
   const [mutate] = useUpdateUserProfileMutation();
   useLayoutEffect(() => {
-    setName(data?.getUserProfile?.name ?? "");
+    setName(data?.getProfile?.name ?? "");
   }, [data]);
 
   return (
@@ -31,7 +31,7 @@ export function DisplayNameSettingsSection() {
           onClick={() =>
             mutate({
               variables: {
-                id: data?.getUserProfile?.id,
+                id: data?.getProfile?.id,
                 input: {
                   name,
                 },
@@ -89,13 +89,13 @@ export function AvatarSettingsSection() {
         <Button
           isDisabled={loading}
           onClick={() => {
-            const currentFilename = data?.getUserProfile?.avatar?.filename;
+            const currentFilename = data?.getProfile?.avatar?.filename;
 
             removeAvatarFromStorage(currentFilename, () => {
               if (Number.isNaN(editorRef?.current.getCroppingRect().height)) {
                 mutate({
                   variables: {
-                    id: data?.getUserProfile?.id,
+                    id: data?.getProfile?.id,
                     input: {
                       avatar: { filename: null },
                     },
@@ -109,7 +109,7 @@ export function AvatarSettingsSection() {
                       uploadAvatarToStorage(filename, blob, () => {
                         mutate({
                           variables: {
-                            id: data?.getUserProfile?.id,
+                            id: data?.getProfile?.id,
                             input: {
                               avatar: { filename },
                             },

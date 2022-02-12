@@ -1,8 +1,10 @@
-import { MutationResolvers } from "../../../generated/graphql";
+import { MutationResolvers, Profile } from "../../../generated/graphql";
 import supabase from "../../../supabase";
+import { handleSupabaseError } from "../../../supabase/pql";
+import { createProfile } from "../../../supabase/pql/profiles";
 
 export const mutationResolvers: MutationResolvers = {
-  updateUserProfile: (parent, { id, input }) => {
+  updateProfile: (parent, { id, input }) => {
     let update = {};
     if (input.uid !== undefined) update = { ...update, uid: input.uid };
     if (input.name !== undefined) update = { ...update, name: input.name };
@@ -13,12 +15,7 @@ export const mutationResolvers: MutationResolvers = {
       .from("profiles")
       .update({ ...update })
       .match({ id })
-      .then((result) => {
-        if (result.error) {
-          throw result.error;
-        }
-
-        return result.data[0];
-      }) as Promise<any>;
+      .then(handleSupabaseError)
+      .then(({ data }) => createProfile(data)) as Promise<Profile>;
   },
 };

@@ -33,7 +33,7 @@ export default function ProfileSettingsAvatarEditor({
   const dropzoneRef = useRef<DropzoneRef>(null);
 
   useEffect(() => {
-    const filename = data?.getUserProfile?.avatar?.filename;
+    const filename = data?.getProfile?.avatar?.filename;
     if (filename) {
       supabase.storage
         .from("avatars")

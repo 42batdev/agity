@@ -29,7 +29,7 @@ export const TeamManager = () => {
             title={"Admin"}
             stat={team.name}
             onClick={() => {
-              router.push(`/u/${data?.getUserProfile?.uid}/${team.tid}`);
+              router.push(`/u/${data?.getProfile?.uid}/${team.tid}`);
             }}
           />
         ))}

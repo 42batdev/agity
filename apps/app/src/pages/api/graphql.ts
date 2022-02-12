@@ -18,8 +18,6 @@ export default async function handler(
   const user = await supabase.auth.api.getUserByCookie(req, res);
   supabase.auth.setAuth(user.token);
 
-  console.log(supabase.auth);
-
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Origin",

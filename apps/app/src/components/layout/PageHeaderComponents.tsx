@@ -67,46 +67,46 @@ export const AppBarLogo = (props) => {
 export const AppBarSlash = (props) => {
   return (
     <svg {...props} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path d="M16.9 3.5 7 20.5"/>
+      <path d="M16.9 3.5 7 20.5" />
     </svg>
   );
 };
 
 export const AppBarUser = () => {
-  const {loading, data} = useActiveUserProfileQuery();
+  const { loading, data } = useActiveUserProfileQuery();
   const signOut = useSignOut();
 
-  const {colorMode, toggleColorMode} = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Menu id="user-menu" matchWidth isLazy>
       <MenuButton p="2">
         <HStack>
           <SkeletonCircle isLoaded={!loading}>
-            <Avatar size="sm" src={data?.getUserProfile?.avatar?.url}/>
+            <Avatar size="sm" src={data?.getProfile?.avatar?.url} />
           </SkeletonCircle>
-          <FiChevronDown/>
+          <FiChevronDown />
         </HStack>
       </MenuButton>
       <MenuList>
         <NextLink href="/dashboard" passHref>
-          <MenuItem minH="42px" icon={<FiEdit/>}>
+          <MenuItem minH="42px" icon={<FiEdit />}>
             Dashboard
           </MenuItem>
         </NextLink>
 
-        <MenuDivider/>
+        <MenuDivider />
 
         <HStack px="2" justifyContent={"space-between"}>
           <IconButton
             aria-label="Switch Theme"
-            icon={colorMode === "light" ? <FiMoon/> : <FiSun/>}
+            icon={colorMode === "light" ? <FiMoon /> : <FiSun />}
             onClick={toggleColorMode}
           />
           <IconButton
             variant={"ghost"}
             aria-label="Logout"
-            icon={<FiLogOut/>}
+            icon={<FiLogOut />}
             onClick={() => signOut()}
           />
         </HStack>

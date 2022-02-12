@@ -1,16 +1,16 @@
 query UserProfile($id: ID!) {
-    getUserProfile(id: $id) {
+    getProfile(id: $id) {
         ...UserFields
     }
 }
 
-mutation UpdateUserProfile($id: ID!, $input: UserInput!) {
-    updateUserProfile(id: $id, input: $input) {
+mutation UpdateUserProfile($id: ID!, $input: ProfileInput!) {
+    updateProfile(id: $id, input: $input) {
         ...UserFields
     }
 }
 
-fragment UserFields on User {
+fragment UserFields on Profile {
     id
     uid
     name
