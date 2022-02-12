@@ -9,18 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.8.3",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@supabase/supabase-js": "^1.30.0",
+    "focus-visible": "^5.2.0",
     "next": "12.0.8",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "ui": "*"
   },
   "devDependencies": {
+    "@types/node": "^17.0.12",
+    "@types/react": "17.0.37",
     "config": "*",
     "eslint": "7.32.0",
     "next-transpile-modules": "9.0.0",
     "tsconfig": "*",
-    "@types/node": "^17.0.12",
-    "@types/react": "17.0.37",
     "typescript": "^4.5.3"
   }
 }

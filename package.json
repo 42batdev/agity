@@ -8,6 +8,9 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "build:app": "yarn turbo run build --scope=app",
+    "build:docs": "yarn turbo run build --scope=docs",
+    "build:web": "yarn turbo run build --scope=web",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
