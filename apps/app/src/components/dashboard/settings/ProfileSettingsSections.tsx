@@ -1,6 +1,7 @@
-import { Button, Input } from "@chakra-ui/react";
+import { Button, Input, Skeleton } from "@chakra-ui/react";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
+import { useUpdateUserProfileMutation } from "../../../generated/graphql";
 import { useUpdateUser, useUser } from "../../../supabase/AuthContext";
 import {
   generateUniqAvatarName,
@@ -16,11 +17,10 @@ export function DisplayNameSettingsSection() {
   const [name, setName] = useState("");
 
   const { loading, data } = useActiveUserProfileQuery();
+  const [mutate] = useUpdateUserProfileMutation();
   useLayoutEffect(() => {
-    setName(data?.getUserProfile?.name);
+    setName(data?.getUserProfile?.name ?? "");
   }, [data]);
-
-  // const { mutate: mutateDisplayName } = useProfileDisplayNameMutation();
 
   return (
     <SectionContainer
@@ -28,20 +28,29 @@ export function DisplayNameSettingsSection() {
       subTitle="Your name may appear where you contribute or are mentioned."
       actions={
         <Button
-          onClick={() => {
-            // return mutateDisplayName(name);
-          }}
+          onClick={() =>
+            mutate({
+              variables: {
+                id: data?.getUserProfile?.id,
+                input: {
+                  name,
+                },
+              },
+            })
+          }
         >
           Save
         </Button>
       }
     >
-      <Input
-        isDisabled={loading}
-        placeholder="Your display name"
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-      />
+      <Skeleton width="100%" isLoaded={!loading}>
+        <Input
+          isDisabled={loading}
+          placeholder="Your display name"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+        />
+      </Skeleton>
     </SectionContainer>
   );
 }
@@ -68,8 +77,7 @@ export function EmailSettingsSection() {
 
 export function AvatarSettingsSection() {
   const { loading, data } = useActiveUserProfileQuery();
-
-  // const { mutate } = useProfileAvatarURLMutation();
+  const [mutate] = useUpdateUserProfileMutation();
 
   const editorRef = useRef<AvatarEditor>(null);
 
@@ -81,18 +89,32 @@ export function AvatarSettingsSection() {
         <Button
           isDisabled={loading}
           onClick={() => {
-            const filename = data?.getUserProfile?.avatar?.filename;
+            const currentFilename = data?.getUserProfile?.avatar?.filename;
 
-            removeAvatarFromStorage(filename, () => {
+            removeAvatarFromStorage(currentFilename, () => {
               if (Number.isNaN(editorRef?.current.getCroppingRect().height)) {
-                // mutate(null);
+                mutate({
+                  variables: {
+                    id: data?.getUserProfile?.id,
+                    input: {
+                      avatar: { filename: null },
+                    },
+                  },
+                });
               } else {
-                const newImageName = `${generateUniqAvatarName()}.jpg`;
+                const filename = `${generateUniqAvatarName()}.jpg`;
                 editorRef?.current?.getImageScaledToCanvas().toBlob(
                   (blob) => {
                     if (blob) {
-                      uploadAvatarToStorage(newImageName, blob, () => {
-                        // mutate(newImageName);
+                      uploadAvatarToStorage(filename, blob, () => {
+                        mutate({
+                          variables: {
+                            id: data?.getUserProfile?.id,
+                            input: {
+                              avatar: { filename },
+                            },
+                          },
+                        });
                       });
                     }
                   },

@@ -4,6 +4,12 @@ query UserProfile($id: ID!) {
     }
 }
 
+mutation UpdateUserProfile($id: ID!, $input: UserInput!) {
+    updateUserProfile(id: $id, input: $input) {
+        ...UserFields
+    }
+}
+
 fragment UserFields on User {
     id
     uid

@@ -2,6 +2,10 @@ type Query {
     getUserProfile(id: ID!): User
 }
 
+type Mutation {
+    updateUserProfile(id: ID!, input: UserInput!): User
+}
+
 type User {
     id: ID!
     uid: String!
@@ -11,5 +15,15 @@ type User {
 
 type Avatar {
     url: String
+    filename: String
+}
+
+input UserInput {
+    uid: String
+    name: String
+    avatar: AvatarInput
+}
+
+input AvatarInput {
     filename: String
 }

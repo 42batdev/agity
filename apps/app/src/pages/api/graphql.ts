@@ -1,21 +1,13 @@
-import { ApolloError } from "apollo-server-errors";
 import { ApolloServer } from "apollo-server-micro";
 import { NextApiRequest, NextApiResponse } from "next";
 import { resolvers } from "../../server/graphql/resolvers";
 import * as typeDefs from "../../server/graphql/schema.graphql";
+import supabase from "../../supabase";
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
 });
-
-export class DatabaseError extends ApolloError {
-  constructor(message: string) {
-    super(message, "DATABASE_ERROR");
-
-    Object.defineProperty(this, "name", { value: "DatabaseError" });
-  }
-}
 
 const startServer = apolloServer.start();
 
@@ -23,6 +15,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const user = await supabase.auth.api.getUserByCookie(req, res);
+  supabase.auth.setAuth(user.token);
+
+  console.log(supabase.auth);
+
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Origin",
