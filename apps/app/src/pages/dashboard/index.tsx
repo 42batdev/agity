@@ -1,4 +1,6 @@
 import React from "react";
+import {useUserProfileQuery} from "../../generated/graphql";
+import {useUser} from "../../supabase/AuthContext";
 
 export default function () {
   return (
@@ -7,5 +9,8 @@ export default function () {
 }
 
 const DashboardContent = () => {
-  return <div>Content</div>
+  const user = useUser()
+  const {loading, data, error} = useUserProfileQuery({variables: {id: user?.id}})
+
+  return <div>{data?.getUserProfile.id}</div>
 };

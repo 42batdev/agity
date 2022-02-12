@@ -1,3 +1,4 @@
+import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import React, { ReactElement, ReactNode } from "react";
@@ -16,11 +17,18 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+export const apolloClient = new ApolloClient({
+  uri: '/api/graphql',
+  cache: new InMemoryCache(),
+  connectToDevTools: true
+});
+
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <ChakraProvider theme={theme} resetCSS>
       <AuthContextProvider>
-        <Component {...pageProps} />
+        <ApolloProvider client={apolloClient}>
+        <Component {...pageProps} /></ApolloProvider>
       </AuthContextProvider>
     </ChakraProvider>
   );
