@@ -6,6 +6,8 @@ type Query {
 
 type Mutation {
     updateProfile(id: ID!, input: ProfileInput!): Profile
+
+    createTeam (input: CreateTeamInput!): Team
 }
 
 type Profile {
@@ -34,4 +36,9 @@ input ProfileInput {
 
 input AvatarInput {
     filename: String
+}
+
+input CreateTeamInput {
+    tid: String!
+    name: String
 }

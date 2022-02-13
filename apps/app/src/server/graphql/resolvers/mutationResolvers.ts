@@ -1,9 +1,11 @@
-import { MutationResolvers, Profile } from "../../../generated/graphql";
-import supabase from "../../../supabase";
+import { randomUUID } from "crypto";
+import { MutationResolvers, Profile, Team } from "../../../generated/graphql";
+import supabase, { supabaseServiceRole } from "../../../supabase";
 import { handleSupabaseError } from "../../../supabase/pql";
 import { createProfile } from "../../../supabase/pql/profiles";
+import { createTeam } from "../../../supabase/pql/teams";
 
-export const mutationResolvers: MutationResolvers = {
+export const profileMutationResolvers: MutationResolvers = {
   updateProfile: (parent, { id, input }) => {
     let update = {};
     if (input.uid !== undefined) update = { ...update, uid: input.uid };
@@ -16,6 +18,34 @@ export const mutationResolvers: MutationResolvers = {
       .update({ ...update })
       .match({ id })
       .then(handleSupabaseError)
-      .then(({ data }) => createProfile(data)) as Promise<Profile>;
+      .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
+  },
+};
+
+export const teamMutationResolvers: MutationResolvers = {
+  createTeam: async (parent, { input }, { user }) => {
+    let newTeamId = randomUUID();
+    let teamInsertValues: any = { id: newTeamId };
+    if (input.tid !== undefined)
+      teamInsertValues = { ...teamInsertValues, tid: input.tid };
+    if (input.name !== undefined)
+      teamInsertValues = { ...teamInsertValues, name: input.name };
+
+    const team = await supabaseServiceRole
+      .from("teams")
+      .insert({ ...teamInsertValues })
+      .then(handleSupabaseError)
+      .then(({ data }) => createTeam(data[0]));
+
+    await supabaseServiceRole.from("members").insert(
+      {
+        team_id: newTeamId,
+        user_id: user.id,
+        permission_level: "owner",
+      },
+      { returning: "minimal" }
+    );
+
+    return team;
   },
 };

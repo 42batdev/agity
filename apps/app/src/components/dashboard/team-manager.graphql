@@ -4,6 +4,12 @@ query GetUserTeams {
     }
 }
 
+mutation CreateTeam($input: CreateTeamInput!) {
+    createTeam(input: $input) {
+        ...TeamFields
+    }
+}
+
 fragment TeamFields on Team {
     id
     tid

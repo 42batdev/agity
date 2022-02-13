@@ -5,3 +5,8 @@ export function handleSupabaseError({ error, ...rest }) {
   }
   return rest;
 }
+
+export function logSupabaseData(result) {
+  console.log(result);
+  return result;
+}

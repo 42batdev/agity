@@ -14,6 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
+import {
+  GetUserTeamsDocument,
+  useCreateTeamMutation,
+} from "../../generated/graphql";
 
 export const CreateTeamModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure({
@@ -26,10 +30,13 @@ export const CreateTeamModal = () => {
   const [name, setName] = useState("");
   const [tid, setTid] = useState("");
 
-  // const { mutate } = useCreateTeam();
+  const [mutate] = useCreateTeamMutation();
 
   const onSave = () => {
-    // mutate({ tid, name });
+    mutate({
+      variables: { input: { tid, name } },
+      refetchQueries: [GetUserTeamsDocument],
+    });
     onClose();
   };
 
