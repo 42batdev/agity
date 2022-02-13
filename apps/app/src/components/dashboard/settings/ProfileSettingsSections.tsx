@@ -1,14 +1,16 @@
 import { Button, Input, Skeleton } from "@chakra-ui/react";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
-import { useUpdateUserProfileMutation } from "../../../generated/graphql";
+import {
+  useUpdateUserProfileMutation,
+  useUserProfileQuery,
+} from "../../../generated/graphql";
 import { useUpdateUser, useUser } from "../../../supabase/AuthContext";
 import {
   generateUniqAvatarName,
   removeAvatarFromStorage,
   uploadAvatarToStorage,
 } from "../../../supabase/storage/avatar";
-import { useActiveUserProfileQuery } from "../../../utils/hooks/profile";
 
 import ProfileSettingsAvatarEditor from "./ProfileSettingsAvatarEditor";
 import { SectionContainer } from "./SectionContainer";
@@ -16,10 +18,10 @@ import { SectionContainer } from "./SectionContainer";
 export function DisplayNameSettingsSection() {
   const [name, setName] = useState("");
 
-  const { loading, data } = useActiveUserProfileQuery();
+  const { loading, data } = useUserProfileQuery();
   const [mutate] = useUpdateUserProfileMutation();
   useLayoutEffect(() => {
-    setName(data?.getProfile?.name ?? "");
+    setName(data?.getUserProfile?.name ?? "");
   }, [data]);
 
   return (
@@ -31,7 +33,7 @@ export function DisplayNameSettingsSection() {
           onClick={() =>
             mutate({
               variables: {
-                id: data?.getProfile?.id,
+                id: data?.getUserProfile?.id,
                 input: {
                   name,
                 },
@@ -76,7 +78,7 @@ export function EmailSettingsSection() {
 }
 
 export function AvatarSettingsSection() {
-  const { loading, data } = useActiveUserProfileQuery();
+  const { loading, data } = useUserProfileQuery();
   const [mutate] = useUpdateUserProfileMutation();
 
   const editorRef = useRef<AvatarEditor>(null);
@@ -89,13 +91,13 @@ export function AvatarSettingsSection() {
         <Button
           isDisabled={loading}
           onClick={() => {
-            const currentFilename = data?.getProfile?.avatar?.filename;
+            const currentFilename = data?.getUserProfile?.avatar?.filename;
 
             removeAvatarFromStorage(currentFilename, () => {
               if (Number.isNaN(editorRef?.current.getCroppingRect().height)) {
                 mutate({
                   variables: {
-                    id: data?.getProfile?.id,
+                    id: data?.getUserProfile?.id,
                     input: {
                       avatar: { filename: null },
                     },
@@ -109,7 +111,7 @@ export function AvatarSettingsSection() {
                       uploadAvatarToStorage(filename, blob, () => {
                         mutate({
                           variables: {
-                            id: data?.getProfile?.id,
+                            id: data?.getUserProfile?.id,
                             input: {
                               avatar: { filename },
                             },

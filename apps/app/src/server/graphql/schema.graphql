@@ -1,7 +1,5 @@
 type Query {
-    getProfile(id: ID!): Profile
-
-    getTeams: [Team]
+    getUserProfile: Profile
 }
 
 type Mutation {
@@ -15,6 +13,7 @@ type Profile {
     uid: String!
     name: String
     avatar: Avatar
+    teams: [Team]!
 }
 
 type Avatar {

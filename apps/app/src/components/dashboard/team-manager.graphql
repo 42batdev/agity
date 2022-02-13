@@ -1,6 +1,8 @@
 query GetUserTeams {
-    getTeams {
-        ...TeamFields
+    getUserProfile {
+        teams {
+            ...TeamFields
+        }
     }
 }
 

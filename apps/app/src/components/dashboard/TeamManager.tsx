@@ -9,13 +9,15 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FiUsers } from "react-icons/fi";
-import { useGetUserTeamsQuery } from "../../generated/graphql";
-import { useActiveUserProfileQuery } from "../../utils/hooks/profile";
+import {
+  useGetUserTeamsQuery,
+  useUserProfileQuery,
+} from "../../generated/graphql";
 
 export const TeamManager = () => {
   const router = useRouter();
 
-  const { data } = useActiveUserProfileQuery();
+  const { data } = useUserProfileQuery();
 
   const { data: teamsData, loading } = useGetUserTeamsQuery();
 
@@ -23,13 +25,13 @@ export const TeamManager = () => {
     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
       {!loading &&
         teamsData &&
-        teamsData.getTeams?.map((team) => (
+        teamsData.getUserProfile?.teams?.map((team) => (
           <TeamCard
             key={team.id}
             title={"Admin"}
             stat={team.name}
             onClick={() => {
-              router.push(`/u/${data?.getProfile?.uid}/${team.tid}`);
+              router.push(`/u/${data?.getUserProfile?.uid}/${team.tid}`);
             }}
           />
         ))}

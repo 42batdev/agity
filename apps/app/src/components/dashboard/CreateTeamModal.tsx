@@ -46,7 +46,7 @@ export const CreateTeamModal = () => {
         Create
       </Button>
       {isOpen && (
-        <Modal isOpen onClose={onClose} isCentered>
+        <Modal isOpen onClose={onClose} size="xl">
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Create a new Team</ModalHeader>

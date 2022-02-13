@@ -6,18 +6,20 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import React, { useLayoutEffect, useState } from "react";
-import { useUpdateUserProfileMutation } from "../../../generated/graphql";
+import {
+  useUpdateUserProfileMutation,
+  useUserProfileQuery,
+} from "../../../generated/graphql";
 import { useUser } from "../../../supabase/AuthContext";
-import { useActiveUserProfileQuery } from "../../../utils/hooks/profile";
 import { SectionContainer } from "./SectionContainer";
 
 export function AccountUsernameSettingsSection() {
   const [uid, setUid] = useState("");
 
-  const { loading, data } = useActiveUserProfileQuery();
+  const { loading, data } = useUserProfileQuery();
   const [mutate] = useUpdateUserProfileMutation();
   useLayoutEffect(() => {
-    setUid(data?.getProfile?.uid ?? "");
+    setUid(data?.getUserProfile?.uid ?? "");
   }, [data]);
 
   return (
@@ -29,7 +31,7 @@ export function AccountUsernameSettingsSection() {
           onClick={() =>
             mutate({
               variables: {
-                id: data?.getProfile?.id,
+                id: data?.getUserProfile?.id,
                 input: {
                   uid,
                 },

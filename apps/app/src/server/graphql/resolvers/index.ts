@@ -3,9 +3,9 @@ import {
   profileMutationResolvers,
   teamMutationResolvers,
 } from "./mutationResolvers";
-import { profileQueryResolvers, teamQueryResolvers } from "./queryResolvers";
+import { profileQueryResolvers } from "./queryResolvers";
 
 export const resolvers: Resolvers = {
-  Query: { ...profileQueryResolvers, ...teamQueryResolvers },
+  Query: { ...profileQueryResolvers },
   Mutation: { ...profileMutationResolvers, ...teamMutationResolvers },
 };

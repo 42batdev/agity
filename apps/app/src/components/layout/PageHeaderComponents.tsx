@@ -13,8 +13,8 @@ import {
 import NextLink from "next/link";
 import * as React from "react";
 import { FiChevronDown, FiEdit, FiLogOut, FiMoon, FiSun } from "react-icons/fi";
+import { useUserProfileQuery } from "../../generated/graphql";
 import { useSignOut } from "../../supabase/AuthContext";
-import { useActiveUserProfileQuery } from "../../utils/hooks/profile";
 
 export const AppBarLogo = (props) => {
   return (
@@ -73,7 +73,7 @@ export const AppBarSlash = (props) => {
 };
 
 export const AppBarUser = () => {
-  const { loading, data } = useActiveUserProfileQuery();
+  const { loading, data } = useUserProfileQuery();
   const signOut = useSignOut();
 
   const { colorMode, toggleColorMode } = useColorMode();
@@ -83,7 +83,7 @@ export const AppBarUser = () => {
       <MenuButton p="2">
         <HStack>
           <SkeletonCircle isLoaded={!loading}>
-            <Avatar size="sm" src={data?.getProfile?.avatar?.url} />
+            <Avatar size="sm" src={data?.getUserProfile?.avatar?.url} />
           </SkeletonCircle>
           <FiChevronDown />
         </HStack>

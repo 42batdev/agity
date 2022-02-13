@@ -12,6 +12,7 @@ export function createProfile(data: any) {
       url: supabase.storage.from("avatars").getPublicUrl(filename).publicURL,
       filename,
     },
+    teams: [],
   };
 
   return profile;

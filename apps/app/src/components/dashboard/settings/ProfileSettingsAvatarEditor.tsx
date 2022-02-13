@@ -14,8 +14,8 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import Dropzone, { DropzoneRef } from "react-dropzone";
 import { FiUploadCloud, FiX } from "react-icons/fi";
+import { useUserProfileQuery } from "../../../generated/graphql";
 import supabase from "../../../supabase";
-import { useActiveUserProfileQuery } from "../../../utils/hooks/profile";
 
 export interface ProfileSettingsAvatarEditorProps {
   editorRef: MutableRefObject<AvatarEditor>;
@@ -24,7 +24,7 @@ export interface ProfileSettingsAvatarEditorProps {
 export default function ProfileSettingsAvatarEditor({
   editorRef,
 }: ProfileSettingsAvatarEditorProps) {
-  const { data } = useActiveUserProfileQuery();
+  const { data } = useUserProfileQuery();
 
   const [image, setImage] = useState<File | null>(null);
   const [scale, setScale] = useState<number>(1);
@@ -33,7 +33,7 @@ export default function ProfileSettingsAvatarEditor({
   const dropzoneRef = useRef<DropzoneRef>(null);
 
   useEffect(() => {
-    const filename = data?.getProfile?.avatar?.filename;
+    const filename = data?.getUserProfile?.avatar?.filename;
     if (filename) {
       supabase.storage
         .from("avatars")

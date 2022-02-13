@@ -8,8 +8,8 @@ import {
   PageHeaderLink,
   PageSubHeader,
 } from "../../components/layout";
+import { useUserProfileQuery } from "../../generated/graphql";
 import { initAppProps } from "../../server/ssr/props";
-import { useActiveUserProfileQuery } from "../../utils/hooks/profile";
 
 export const getServerSideProps = initAppProps;
 
@@ -18,7 +18,7 @@ export default function Dashboard() {
 }
 
 const DashboardContent = () => {
-  const { data } = useActiveUserProfileQuery();
+  const { data } = useUserProfileQuery();
 
   const links: Array<PageHeaderLink> = [
     { title: "Overview", href: `/dashboard` },
@@ -26,7 +26,7 @@ const DashboardContent = () => {
   ];
 
   const breadcrumbs: Array<PageHeaderLink> = data
-    ? [{ title: data?.getProfile.name, href: `/dashboard` }]
+    ? [{ title: data?.getUserProfile.name, href: `/dashboard` }]
     : [];
 
   return (

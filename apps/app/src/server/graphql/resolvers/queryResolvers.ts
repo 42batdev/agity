@@ -1,34 +1,24 @@
-import { PostgrestResponse } from "@supabase/supabase-js";
-import {
-  QueryResolvers,
-  Profile,
-  Team,
-  MutationResolvers,
-} from "../../../generated/graphql";
+import { QueryResolvers } from "../../../generated/graphql";
 import supabase from "../../../supabase";
-import { handleSupabaseError } from "../../../supabase/pql";
+import { handleSupabaseError, logSupabaseData } from "../../../supabase/pql";
 import { createProfile } from "../../../supabase/pql/profiles";
 import { createTeam } from "../../../supabase/pql/teams";
 
 export const profileQueryResolvers: QueryResolvers = {
-  getProfile(parent, { id }) {
-    return supabase
+  async getUserProfile(parent, args, { user }) {
+    const profile = await supabase
       .from("profiles")
-      .select("id, uid, name, avatar_url")
-      .match({ id })
+      .select("*")
+      .match({ id: user.id })
       .then(handleSupabaseError)
-      .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
-  },
-};
+      .then(({ data }) => createProfile(data[0]));
 
-export const teamQueryResolvers: QueryResolvers = {
-  getTeams() {
-    return supabase
+    profile.teams = await supabase
       .from("teams")
-      .select("id, tid, name")
+      .select("*")
       .then(handleSupabaseError)
-      .then(({ data }) => data.map((aData) => createTeam(aData))) as Promise<
-      Team[]
-    >;
+      .then(({ data }) => data.map((aData) => createTeam(aData)));
+
+    return profile;
   },
 };
