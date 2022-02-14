@@ -5,6 +5,7 @@ import React from "react";
 import { LoginAvatarGroup } from "../components/login/LoginAvatarGroup";
 import { LoginForm } from "../components/login/LoginForm";
 import { useUser } from "../supabase/AuthContext";
+import { checkUserProfileExists } from "../supabase/pql/profiles";
 
 export default function Login() {
   return <LoginContent />;
@@ -15,7 +16,9 @@ const LoginContent = () => {
   const user = useUser();
 
   if (user) {
-    router.push("/dashboard");
+    checkUserProfileExists().then((exists) => {
+      exists ? router.push("/dashboard") : router.push("/onboarding");
+    });
     return (
       <>
         <Head>

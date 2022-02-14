@@ -6,6 +6,19 @@ import { createProfile } from "../../../supabase/pql/profiles";
 import { createTeam } from "../../../supabase/pql/teams";
 
 export const profileMutationResolvers: MutationResolvers = {
+  createUserProfile: (parent, { input }, { user }) => {
+    let create: any = {
+      id: user.id,
+      uid: input.uid,
+      name: input.name ?? "Anonymous",
+    };
+
+    return supabase
+      .from("profiles")
+      .insert({ ...create })
+      .then(handleSupabaseError)
+      .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
+  },
   updateProfile: (parent, { id, input }) => {
     let update = {};
     if (input.uid !== undefined) update = { ...update, uid: input.uid };
