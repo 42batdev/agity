@@ -20,9 +20,9 @@ import {
   FiXCircle,
 } from "react-icons/fi";
 import debounce from "lodash/debounce";
-import { useCreateUserProfileMutation } from "../../generated/graphql";
-import supabase from "../../supabase";
-import { checkUidExists } from "../../supabase/pql/profiles";
+import { useCreateUserProfileMutation } from "../../../generated/graphql";
+import supabase from "../../../supabase";
+import { checkUidExists } from "../../../supabase/pql/profiles";
 
 enum UsernameCheckState {
   LOADING,
@@ -40,9 +40,9 @@ export const OnboardingForm = () => {
     debounce((newUid: string) => {
       checkUidExists(newUid).then((exists) => {
         if (exists) {
-          // setUidCheck(UsernameCheckState.ERROR);
+          setUidCheck(UsernameCheckState.ERROR);
         } else {
-          // setUidCheck(UsernameCheckState.VALID);
+          setUidCheck(UsernameCheckState.VALID);
         }
       });
     }, 500)

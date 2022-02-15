@@ -1,11 +1,14 @@
 import { GetServerSidePropsResult } from "next";
 import supabase from "../../supabase";
+import { User } from "@supabase/supabase-js";
 
-export interface DashboardServerSideProps {}
+export interface AppServerSideProps {
+  user: User;
+}
 
 export const initAppProps = async (
   context
-): Promise<GetServerSidePropsResult<DashboardServerSideProps>> => {
+): Promise<GetServerSidePropsResult<AppServerSideProps>> => {
   const authResult = await supabase.auth.api.getUserByCookie(context.req);
 
   if (!authResult || !authResult.user || authResult.error) {
@@ -21,6 +24,6 @@ export const initAppProps = async (
     };
   }
   return {
-    props: {},
+    props: { user: authResult.user },
   };
 };

@@ -19,7 +19,7 @@ export type PageHeaderLink = {
 
 interface PageHeaderProps {
   breadcrumbs: Array<PageHeaderLink>;
-  links?: Array<PageHeaderLink>;
+  links: Array<PageHeaderLink>;
 }
 
 export const PageHeader = ({ breadcrumbs, links }: PageHeaderProps) => {

@@ -9,12 +9,17 @@ import {
   PageSubHeader,
 } from "../../components/layout";
 import { useUserProfileQuery } from "../../generated/graphql";
-import { initAppProps } from "../../server/ssr/props";
+import { AppServerSideProps, initAppProps } from "../../server/ssr/props";
+import { AuthContextProvider } from "../../supabase/AuthContext";
 
 export const getServerSideProps = initAppProps;
 
-export default function Dashboard() {
-  return <DashboardContent />;
+export default function Dashboard({ user }: AppServerSideProps) {
+  return (
+    <AuthContextProvider sessionUser={user}>
+      <DashboardContent />
+    </AuthContextProvider>
+  );
 }
 
 const DashboardContent = () => {
@@ -25,9 +30,10 @@ const DashboardContent = () => {
     { title: "Settings", href: `/dashboard/settings` },
   ];
 
-  const breadcrumbs: Array<PageHeaderLink> = data
-    ? [{ title: data?.getUserProfile.name, href: `/dashboard` }]
-    : [];
+  const breadcrumbs: PageHeaderLink[] =
+    data && data?.getUserProfile
+      ? [{ title: data.getUserProfile.name, href: `/dashboard` }]
+      : [];
 
   return (
     <Page>

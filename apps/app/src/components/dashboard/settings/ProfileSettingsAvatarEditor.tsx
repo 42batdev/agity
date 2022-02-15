@@ -18,7 +18,7 @@ import { useUserProfileQuery } from "../../../generated/graphql";
 import supabase from "../../../supabase";
 
 export interface ProfileSettingsAvatarEditorProps {
-  editorRef: MutableRefObject<AvatarEditor>;
+  editorRef: MutableRefObject<AvatarEditor | null>;
 }
 
 export default function ProfileSettingsAvatarEditor({
@@ -76,10 +76,10 @@ export default function ProfileSettingsAvatarEditor({
           <Box>
             <input {...getInputProps()} />
             <AvatarEditor
-              ref={editorRef}
+              ref={(editor) => (editorRef.current = editor)}
               style={{ height: "100%", width: "100%", aspectRatio: "1/1" }}
               borderRadius={125}
-              image={image}
+              image={image!}
               color={[238, 238, 238, 0.8]}
               rotate={rotation}
               scale={scale}

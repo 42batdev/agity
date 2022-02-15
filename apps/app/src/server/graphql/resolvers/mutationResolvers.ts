@@ -23,8 +23,10 @@ export const profileMutationResolvers: MutationResolvers = {
     let update = {};
     if (input.uid !== undefined) update = { ...update, uid: input.uid };
     if (input.name !== undefined) update = { ...update, name: input.name };
-    if (input.avatar !== undefined)
-      update = { ...update, avatar_url: input.avatar.filename };
+    if (input.avatar !== undefined) {
+      const avatar_url = input.avatar === null ? null : input.avatar.filename;
+      update = { ...update, avatar_url };
+    }
 
     return supabase
       .from("profiles")

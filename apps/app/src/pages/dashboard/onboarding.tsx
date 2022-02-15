@@ -1,14 +1,19 @@
 import Head from "next/head";
 import React from "react";
 import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { LoginAvatarYou } from "../components/login/LoginAvatarGroup";
-import { OnboardingForm } from "../components/login/OnboardingForm";
-import { initAppProps } from "../server/ssr/props";
+import { LoginAvatarYou } from "../../components/login/LoginAvatarGroup";
+import { OnboardingForm } from "../../components/dashboard/onboarding/OnboardingForm";
+import { AppServerSideProps, initAppProps } from "../../server/ssr/props";
+import { AuthContextProvider } from "../../supabase/AuthContext";
 
 export const getServerSideProps = initAppProps;
 
-export default function Onboarding() {
-  return <OnboardingContent />;
+export default function Onboarding({ user }: AppServerSideProps) {
+  return (
+    <AuthContextProvider sessionUser={user}>
+      <OnboardingContent />
+    </AuthContextProvider>
+  );
 }
 
 const OnboardingContent = () => {

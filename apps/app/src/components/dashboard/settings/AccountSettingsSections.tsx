@@ -15,6 +15,7 @@ import { SectionContainer } from "./SectionContainer";
 
 export function AccountUsernameSettingsSection() {
   const [uid, setUid] = useState("");
+  const user = useUser();
 
   const { loading, data } = useUserProfileQuery();
   const [mutate] = useUpdateUserProfileMutation();
@@ -31,7 +32,7 @@ export function AccountUsernameSettingsSection() {
           onClick={() =>
             mutate({
               variables: {
-                id: data?.getUserProfile?.id,
+                id: user.id,
                 input: {
                   uid,
                 },

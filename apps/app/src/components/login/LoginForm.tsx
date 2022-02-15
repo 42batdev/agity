@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useSignIn } from "../../supabase/AuthContext";
+import supabase from "../../supabase";
 import { OAuth } from "./OAuth";
 
 enum SignInState {
@@ -25,7 +25,7 @@ enum SignInState {
 
 export const LoginForm = () => {
   const router = useRouter();
-  const signIn = useSignIn();
+  const signIn = (credentials) => supabase.auth.signIn(credentials);
 
   const [email, setEmail] = useState("");
   const [signInState, setSignInState] = useState<SignInState>(SignInState.NONE);

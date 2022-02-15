@@ -83,7 +83,10 @@ export const AppBarUser = () => {
       <MenuButton p="2">
         <HStack>
           <SkeletonCircle isLoaded={!loading}>
-            <Avatar size="sm" src={data?.getUserProfile?.avatar?.url} />
+            <Avatar
+              size="sm"
+              src={data?.getUserProfile?.avatar?.url ?? undefined}
+            />
           </SkeletonCircle>
           <FiChevronDown />
         </HStack>

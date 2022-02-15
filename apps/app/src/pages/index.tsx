@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { LoginAvatarGroup } from "../components/login/LoginAvatarGroup";
 import { LoginForm } from "../components/login/LoginForm";
+import supabase from "../supabase";
 import { useUser } from "../supabase/AuthContext";
 import { checkUserProfileExists } from "../supabase/pql/profiles";
 
@@ -13,11 +14,11 @@ export default function Login() {
 
 const LoginContent = () => {
   const router = useRouter();
-  const user = useUser();
 
+  const user = supabase.auth.user();
   if (user) {
-    checkUserProfileExists().then((exists) => {
-      exists ? router.push("/dashboard") : router.push("/onboarding");
+    checkUserProfileExists(user).then((exists) => {
+      exists ? router.push("/dashboard") : router.push("/dashboard/onboarding");
     });
     return (
       <>

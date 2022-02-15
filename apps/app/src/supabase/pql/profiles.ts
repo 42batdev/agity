@@ -1,13 +1,13 @@
-import { PostgrestResponse } from "@supabase/supabase-js";
+import { PostgrestResponse, User } from "@supabase/supabase-js";
 import { Profile } from "../../generated/graphql";
 import supabase from "../index";
 
-export function checkUserProfileExists() {
+export function checkUserProfileExists(user: User) {
   return supabase
     .from("profiles")
     .select("id", { count: "exact", head: true })
-    .match({ id: supabase.auth.session().user.id })
-    .then((result) => result.count > 0);
+    .match({ id: user.id })
+    .then((result) => result.count ?? 0 > 0);
 }
 
 export function checkUidExists(uid: string) {
@@ -15,7 +15,7 @@ export function checkUidExists(uid: string) {
     .from("profiles")
     .select("id", { count: "exact", head: true })
     .match({ uid: uid })
-    .then((result) => result.count > 0);
+    .then((result) => result.count ?? 0 > 0);
 }
 
 export function createProfile(data: any) {

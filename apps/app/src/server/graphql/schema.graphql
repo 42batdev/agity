@@ -12,9 +12,9 @@ type Mutation {
 type Profile {
     id: ID!
     uid: String!
-    name: String
+    name: String!
     avatar: Avatar
-    teams: [Team]!
+    teams: [Team!]
 }
 
 type Avatar {
@@ -25,7 +25,7 @@ type Avatar {
 type Team {
     id: ID!
     tid: String!
-    name: String
+    name: String!
 }
 
 input CreateUserProfileInput {

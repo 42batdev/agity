@@ -16,6 +16,8 @@ import ProfileSettingsAvatarEditor from "./ProfileSettingsAvatarEditor";
 import { SectionContainer } from "./SectionContainer";
 
 export function DisplayNameSettingsSection() {
+  const user = useUser();
+
   const [name, setName] = useState("");
 
   const { loading, data } = useUserProfileQuery();
@@ -33,7 +35,7 @@ export function DisplayNameSettingsSection() {
           onClick={() =>
             mutate({
               variables: {
-                id: data?.getUserProfile?.id,
+                id: user.id,
                 input: {
                   name,
                 },
@@ -78,6 +80,8 @@ export function EmailSettingsSection() {
 }
 
 export function AvatarSettingsSection() {
+  const user = useUser();
+
   const { loading, data } = useUserProfileQuery();
   const [mutate] = useUpdateUserProfileMutation();
 
@@ -94,10 +98,10 @@ export function AvatarSettingsSection() {
             const currentFilename = data?.getUserProfile?.avatar?.filename;
 
             removeAvatarFromStorage(currentFilename, () => {
-              if (Number.isNaN(editorRef?.current.getCroppingRect().height)) {
+              if (Number.isNaN(editorRef?.current?.getCroppingRect().height)) {
                 mutate({
                   variables: {
-                    id: data?.getUserProfile?.id,
+                    id: user.id,
                     input: {
                       avatar: { filename: null },
                     },
@@ -111,7 +115,7 @@ export function AvatarSettingsSection() {
                       uploadAvatarToStorage(filename, blob, () => {
                         mutate({
                           variables: {
-                            id: data?.getUserProfile?.id,
+                            id: user.id,
                             input: {
                               avatar: { filename },
                             },

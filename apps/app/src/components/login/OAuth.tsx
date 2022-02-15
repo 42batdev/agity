@@ -11,10 +11,10 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { FaBitbucket, FaGithub, FaGitlab, FaGoogle } from "react-icons/fa";
-import { useSignIn } from "../../supabase/AuthContext";
+import supabase from "../../supabase";
 
 export const OAuth = () => {
-  const signIn = useSignIn();
+  const signIn = (credentials) => supabase.auth.signIn(credentials);
 
   return (
     <>

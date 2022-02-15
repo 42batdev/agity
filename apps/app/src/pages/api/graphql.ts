@@ -9,7 +9,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await supabase.auth.api.getUserByCookie(req, res);
-  supabase.auth.setAuth(session.token);
+  if (session.token) {
+    supabase.auth.setAuth(session.token);
+  } else {
+    throw Error;
+  }
 
   const apolloServer = new ApolloServer({
     typeDefs,
