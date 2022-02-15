@@ -14,25 +14,33 @@ interface AuthContextProps {
   children: ReactNode;
 }
 
-const AuthContext = createContext<{
-  signIn: (credentials: UserCredentials) => Promise<{ error: ApiError | null }>;
-  signOut: () => Promise<{ error: ApiError | null }>;
+interface AuthState {
+  user: User | null;
   updateUser: (
     attributes: UserAttributes
   ) => Promise<{ error: ApiError | null }>;
-  user: User;
-}>(undefined);
+  signIn: (credentials: UserCredentials) => Promise<{ error: ApiError | null }>;
+  signOut: () => Promise<{ error: ApiError | null }>;
+}
+
+const defaultAuthState: AuthState = {
+  user: null,
+  signIn: (credentials) => supabase.auth.signIn(credentials),
+  signOut: () => supabase.auth.signOut(),
+  updateUser: (attributes) => supabase.auth.update(attributes),
+};
+
+const AuthContext = createContext<AuthState>(defaultAuthState);
 
 function AuthContextProvider({ children }: AuthContextProps) {
   const router = useRouter();
 
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const session = supabase.auth.session();
-
-    setUser(session?.user ?? null);
+    console.log(supabase.auth.session());
+    setUser(supabase.auth.session()?.user ?? null);
     setLoading(false);
 
     const { data: listener } = supabase.auth.onAuthStateChange(
@@ -66,21 +74,26 @@ function AuthContextProvider({ children }: AuthContextProps) {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{
-        signIn: (credentials) => {
-          return supabase.auth.signIn(credentials);
-        },
-        signOut: () => {
-          return supabase.auth.signOut();
-        },
-        updateUser: (attributes) => supabase.auth.update(attributes),
-        user,
-      }}
-    >
+    <AuthContext.Provider value={{ ...defaultAuthState, user }}>
       {!loading && children}
     </AuthContext.Provider>
   );
+}
+
+export function useUser() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useUser must be used within a AuthContext");
+  }
+  return context.user;
+}
+
+export function useUpdateUser() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useUpdateUser must be used within a AuthContext");
+  }
+  return context.updateUser;
 }
 
 export function useSignIn() {
@@ -97,22 +110,6 @@ export function useSignOut() {
     throw new Error("useSignOut must be used within a AuthContext");
   }
   return context.signOut;
-}
-
-export function useUpdateUser() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useUpdateUser must be used within a AuthContext");
-  }
-  return context.updateUser;
-}
-
-export function useUser(): User {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useUser must be used within a AuthContext");
-  }
-  return context.user;
 }
 
 export { AuthContextProvider };
