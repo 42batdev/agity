@@ -11,11 +11,15 @@ import {
   useUserProfileQuery,
 } from "../../../generated/graphql";
 import { useUser } from "../../../supabase/AuthContext";
+import { checkUidExists } from "../../../supabase/pql/profiles";
+import ValidatedInput from "../../utils/ValidateInput";
 import { SectionContainer } from "./SectionContainer";
 
 export function AccountUsernameSettingsSection() {
-  const [uid, setUid] = useState("");
   const user = useUser();
+
+  const [uid, setUid] = useState("");
+  const [uidExists, setUidExists] = useState(true);
 
   const { loading, data } = useUserProfileQuery();
   const [mutate] = useUpdateUserProfileMutation();
@@ -29,6 +33,7 @@ export function AccountUsernameSettingsSection() {
       subTitle="Changing your user ID can have unintended side effects."
       actions={
         <Button
+          isDisabled={uidExists || uid.length === 0}
           onClick={() =>
             mutate({
               variables: {
@@ -45,11 +50,20 @@ export function AccountUsernameSettingsSection() {
       }
     >
       <Skeleton width="100%" isLoaded={!loading}>
-        <Input
-          isDisabled={loading}
-          placeholder="Your user ID"
-          value={uid}
-          onChange={(event) => setUid(event.target.value)}
+        <ValidatedInput
+          onChange={(value) => setUid(value)}
+          onValidate={(value) => {
+            return checkUidExists(value).then((exists) => {
+              setUidExists(exists);
+              return exists;
+            });
+          }}
+          helpLabel="Agity uses your user ID to associate your teams with an identity. It must be unique."
+          inputProps={{
+            type: "text",
+            placeholder: "Your User ID",
+            value: uid,
+          }}
         />
       </Skeleton>
     </SectionContainer>

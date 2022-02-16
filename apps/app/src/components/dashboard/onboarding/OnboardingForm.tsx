@@ -23,45 +23,14 @@ import debounce from "lodash/debounce";
 import { useCreateUserProfileMutation } from "../../../generated/graphql";
 import supabase from "../../../supabase";
 import { checkUidExists } from "../../../supabase/pql/profiles";
-
-enum UsernameCheckState {
-  LOADING,
-  VALID,
-  ERROR,
-}
+import ValidatedInput from "../../utils/ValidateInput";
 
 export const OnboardingForm = () => {
   const router = useRouter();
   const [mutate] = useCreateUserProfileMutation();
 
   const [uid, setUid] = useState<string>("");
-  const [uidCheck, setUidCheck] = useState<UsernameCheckState>();
-  const debouncedUsernameCheck = useRef(
-    debounce((newUid: string) => {
-      checkUidExists(newUid).then((exists) => {
-        if (exists) {
-          setUidCheck(UsernameCheckState.ERROR);
-        } else {
-          setUidCheck(UsernameCheckState.VALID);
-        }
-      });
-    }, 500)
-  );
-
   const [name, setName] = useState<string>("");
-
-  const handleUsernameChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const newUid = event.currentTarget.value;
-    debouncedUsernameCheck.current.cancel();
-    if (newUid && newUid.length > 0) {
-      setUid(newUid);
-      setUidCheck(UsernameCheckState.LOADING);
-
-      debouncedUsernameCheck.current(newUid);
-    } else {
-      setUidCheck(undefined);
-    }
-  };
 
   const handleLogin = async () => {
     mutate({ variables: { input: { uid, name } } }).then(() => {
@@ -93,54 +62,31 @@ export const OnboardingForm = () => {
       </Stack>
       <Box as={"form"}>
         <Stack spacing={4}>
-          <InputGroup>
-            <InputLeftElement>
-              <Tooltip label="Agity uses your user ID to associate your teams with an identity. It must be unique. ">
-                <span>
-                  <FiHelpCircle color="black" />
-                </span>
-              </Tooltip>
-            </InputLeftElement>
-            <Input
-              type="text"
-              placeholder="Your Username"
-              onChange={handleUsernameChange}
-              bg={"gray.100"}
-              border={0}
-              color={"gray.500"}
-              _placeholder={{
+          <ValidatedInput
+            onValidate={(value) => {
+              return checkUidExists(value).then((exists) => {
+                if (!exists) setUid(value);
+                else setUid("");
+                return exists;
+              });
+            }}
+            helpLabel="Agity uses your user ID to associate your teams with an identity. It must be unique."
+            inputProps={{
+              type: "text",
+              placeholder: "Your User ID",
+              bg: "gray.100",
+              color: "gray.500",
+              border: 0,
+              _placeholder: {
                 color: "gray.500",
-              }}
-            />
-            <InputRightElement>
-              {uidCheck === UsernameCheckState.LOADING && (
-                <SkeletonCircle w="1.25rem" h="1.25rem">
-                  <span>
-                    <FiSearch color="grey" />
-                  </span>
-                </SkeletonCircle>
-              )}
-              {uidCheck === UsernameCheckState.ERROR && (
-                <Tooltip label="This user ID is not available.">
-                  <span>
-                    <FiXCircle color="red" />
-                  </span>
-                </Tooltip>
-              )}
-              {uidCheck === UsernameCheckState.VALID && (
-                <Tooltip label="This user ID is available">
-                  <span>
-                    <FiCheckCircle color="green" />
-                  </span>
-                </Tooltip>
-              )}
-            </InputRightElement>
-          </InputGroup>
+              },
+            }}
+          />
           <InputGroup>
             <InputLeftElement>
               <Tooltip label="Your name may appear around Agity where you participate or are mentioned.">
                 <span>
-                  <FiHelpCircle color="black" />
+                  <FiHelpCircle color="grey" />
                 </span>
               </Tooltip>
             </InputLeftElement>
@@ -168,7 +114,7 @@ export const OnboardingForm = () => {
             boxShadow: "xl",
           }}
           onClick={handleLogin}
-          disabled={uidCheck !== UsernameCheckState.VALID}
+          disabled={uid.length === 0 || name.length === 0}
         >
           Create your Profile
         </Button>
