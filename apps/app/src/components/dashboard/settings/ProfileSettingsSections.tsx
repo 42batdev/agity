@@ -35,7 +35,6 @@ export function DisplayNameSettingsSection() {
           onClick={() =>
             mutate({
               variables: {
-                id: user.id,
                 input: {
                   name,
                 },
@@ -101,7 +100,6 @@ export function AvatarSettingsSection() {
               if (Number.isNaN(editorRef?.current?.getCroppingRect().height)) {
                 mutate({
                   variables: {
-                    id: user.id,
                     input: {
                       avatar: { filename: null },
                     },
@@ -115,7 +113,6 @@ export function AvatarSettingsSection() {
                       uploadAvatarToStorage(filename, blob, () => {
                         mutate({
                           variables: {
-                            id: user.id,
                             input: {
                               avatar: { filename },
                             },

@@ -19,7 +19,7 @@ export const profileMutationResolvers: MutationResolvers = {
       .then(handleSupabaseError)
       .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
   },
-  updateProfile: (parent, { id, input }) => {
+  updateUserProfile: (parent, { input }, { user }) => {
     let update = {};
     if (input.uid !== undefined) update = { ...update, uid: input.uid };
     if (input.name !== undefined) update = { ...update, name: input.name };
@@ -31,7 +31,7 @@ export const profileMutationResolvers: MutationResolvers = {
     return supabase
       .from("profiles")
       .update({ ...update })
-      .match({ id })
+      .match({ id: user.id })
       .then(handleSupabaseError)
       .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
   },

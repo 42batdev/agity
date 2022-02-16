@@ -4,7 +4,7 @@ type Query {
 
 type Mutation {
     createUserProfile (input: CreateUserProfileInput!): Profile
-    updateProfile(id: ID!, input: UpdateProfileInput!): Profile
+    updateUserProfile(input: UpdateProfileInput!): Profile
 
     createTeam (input: CreateTeamInput!): Team
 }

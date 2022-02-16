@@ -37,7 +37,6 @@ export function AccountUsernameSettingsSection() {
           onClick={() =>
             mutate({
               variables: {
-                id: user.id,
                 input: {
                   uid,
                 },

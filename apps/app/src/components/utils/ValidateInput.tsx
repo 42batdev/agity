@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import debounce from "lodash/debounce";
-import { ChangeEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FiCheckCircle, FiHelpCircle, FiXCircle } from "react-icons/fi";
 
 export type ValidationResult = "LOADING" | "VALID" | "ERROR";
@@ -58,7 +58,7 @@ const ValidateInput = ({
             setValidationResult("LOADING");
             debouncedValidation.current(value);
           }
-          onChange(value);
+          if (onChange) onChange(value);
         }}
       />
       <InputRightElement>

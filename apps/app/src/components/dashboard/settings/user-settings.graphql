@@ -4,8 +4,8 @@ query UserProfile {
     }
 }
 
-mutation UpdateUserProfile($id: ID!, $input: UpdateProfileInput!) {
-    updateProfile(id: $id, input: $input) {
+mutation UpdateUserProfile($input: UpdateProfileInput!) {
+    updateUserProfile(input: $input) {
         ...UserProfileFields
     }
 }
