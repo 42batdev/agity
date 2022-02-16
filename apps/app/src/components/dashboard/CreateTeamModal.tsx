@@ -18,6 +18,7 @@ import {
   GetUserTeamsDocument,
   useCreateTeamMutation,
 } from "../../generated/graphql";
+import { validIDPattern } from "../../server/graphql/errors";
 import { checkUidExists } from "../../supabase/pql/profiles";
 import { checkTidExists } from "../../supabase/pql/teams";
 import ValidatedInput from "../utils/ValidateInput";
@@ -32,7 +33,7 @@ export const CreateTeamModal = () => {
 
   const [name, setName] = useState("");
   const [tid, setTid] = useState("");
-  const [tidExists, setTidExists] = useState(true);
+  const [tidValid, setTidValid] = useState(true);
 
   const [createTeamMutation] = useCreateTeamMutation();
 
@@ -70,8 +71,9 @@ export const CreateTeamModal = () => {
                   onChange={(value) => setTid(value)}
                   onValidate={(value) => {
                     return checkTidExists(value).then((exists) => {
-                      setTidExists(exists);
-                      return exists;
+                      const valid = validIDPattern.test(value);
+                      setTidValid(valid && !exists);
+                      return !valid || exists;
                     });
                   }}
                   helpLabel="Agity uses your team ID to identify our team. It must be unique."
@@ -88,7 +90,7 @@ export const CreateTeamModal = () => {
               <Button
                 mr={3}
                 onClick={onSave}
-                isDisabled={tidExists || tid.length === 0 || name.length === 0}
+                isDisabled={!tidValid || tid.length === 0 || name.length === 0}
               >
                 Save
               </Button>

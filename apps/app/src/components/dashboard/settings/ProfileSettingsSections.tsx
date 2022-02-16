@@ -16,8 +16,6 @@ import ProfileSettingsAvatarEditor from "./ProfileSettingsAvatarEditor";
 import { SectionContainer } from "./SectionContainer";
 
 export function DisplayNameSettingsSection() {
-  const user = useUser();
-
   const [name, setName] = useState("");
 
   const { loading, data } = useUserProfileQuery();
@@ -32,6 +30,7 @@ export function DisplayNameSettingsSection() {
       subTitle="Your name may appear where you contribute or are mentioned."
       actions={
         <Button
+          isDisabled={name.length === 0}
           onClick={() =>
             mutate({
               variables: {

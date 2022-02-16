@@ -21,6 +21,7 @@ import {
 } from "react-icons/fi";
 import debounce from "lodash/debounce";
 import { useCreateUserProfileMutation } from "../../../generated/graphql";
+import { validIDPattern } from "../../../server/graphql/errors";
 import supabase from "../../../supabase";
 import { checkUidExists } from "../../../supabase/pql/profiles";
 import ValidatedInput from "../../utils/ValidateInput";
@@ -29,6 +30,7 @@ export const OnboardingForm = () => {
   const router = useRouter();
   const [mutate] = useCreateUserProfileMutation();
 
+  const [uidValid, setUidValid] = useState(true);
   const [uid, setUid] = useState<string>("");
   const [name, setName] = useState<string>("");
 
@@ -63,11 +65,12 @@ export const OnboardingForm = () => {
       <Box as={"form"}>
         <Stack spacing={4}>
           <ValidatedInput
+            onChange={(value) => setUid(value)}
             onValidate={(value) => {
               return checkUidExists(value).then((exists) => {
-                if (!exists) setUid(value);
-                else setUid("");
-                return exists;
+                const valid = validIDPattern.test(value);
+                setUidValid(valid && !exists);
+                return !valid || exists;
               });
             }}
             helpLabel="Agity uses your user ID to associate your teams with an identity. It must be unique."
@@ -114,7 +117,7 @@ export const OnboardingForm = () => {
             boxShadow: "xl",
           }}
           onClick={handleLogin}
-          disabled={uid.length === 0 || name.length === 0}
+          isDisabled={!uidValid || uid.length === 0 || name.length === 0}
         >
           Create your Profile
         </Button>
