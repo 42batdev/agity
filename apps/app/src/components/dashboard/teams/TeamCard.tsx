@@ -35,10 +35,10 @@ export default function TeamCard({
       userSelect="none"
       onClick={onClick}
     >
-      <StatNumber isTruncated>{name}</StatNumber>
       <StatLabel fontWeight={"medium"} isTruncated>
         {permissionLevel}&nbsp;
       </StatLabel>
+      <StatNumber isTruncated>{name}</StatNumber>
     </Stat>
   );
 }

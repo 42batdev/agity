@@ -18,8 +18,7 @@ import TeamCard, { TeamCardSkeleton } from "./TeamCard";
 export const TeamManager = () => {
   const router = useRouter();
 
-  const { data } = useUserProfileQuery();
-
+  const { data: userData } = useUserProfileQuery();
   const { data: teamsData, loading } = useGetUserTeamsQuery();
 
   return (
@@ -36,8 +35,9 @@ export const TeamManager = () => {
           <TeamCard
             key={team.id}
             name={team.name}
+            permissionLevel={team.myPermissions.permissionLevel}
             onClick={() => {
-              router.push(`/u/${data?.getUserProfile?.uid}/${team.tid}`);
+              router.push(`/u/${userData?.getUserProfile?.uid}/${team.tid}`);
             }}
           />
         ))}
