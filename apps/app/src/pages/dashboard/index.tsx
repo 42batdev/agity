@@ -1,6 +1,6 @@
 import React from "react";
-import { CreateTeamModal } from "../../components/dashboard/CreateTeamModal";
-import { TeamManager } from "../../components/dashboard/TeamManager";
+import { CreateTeamModal } from "../../components/dashboard/teams/CreateTeamModal";
+import { TeamManager } from "../../components/dashboard/teams/TeamManager";
 import {
   Page,
   PageContent,

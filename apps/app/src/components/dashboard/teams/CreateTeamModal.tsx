@@ -17,11 +17,11 @@ import { FiPlus } from "react-icons/fi";
 import {
   GetUserTeamsDocument,
   useCreateTeamMutation,
-} from "../../generated/graphql";
-import { validIDPattern } from "../../server/graphql/errors";
-import { checkUidExists } from "../../supabase/pql/profiles";
-import { checkTidExists } from "../../supabase/pql/teams";
-import ValidatedInput from "../utils/ValidateInput";
+} from "../../../generated/graphql";
+import { validIDPattern } from "../../../server/graphql/errors";
+import { checkUidExists } from "../../../supabase/pql/profiles";
+import { checkTidExists } from "../../../supabase/pql/teams";
+import ValidatedInput from "../../utils/ValidateInput";
 
 export const CreateTeamModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure({
