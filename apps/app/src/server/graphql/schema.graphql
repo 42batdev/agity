@@ -26,6 +26,11 @@ type Team {
     id: ID!
     tid: String!
     name: String!
+    myPermissions: TeamPermission
+}
+
+type TeamPermission {
+    permissionLevel: String!
 }
 
 input CreateUserProfileInput {

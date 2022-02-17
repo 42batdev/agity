@@ -2,6 +2,9 @@ query GetUserTeams {
     getUserProfile {
         teams {
             ...TeamFields
+            myPermissions {
+                permissionLevel
+            }
         }
     }
 }
