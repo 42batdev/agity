@@ -1,5 +1,5 @@
 import { Resolvers } from "../../../generated/graphql";
-import { profileResolvers } from "./basicResolvers";
+import { profileResolvers } from "./typeResolvers";
 import {
   profileMutationResolvers,
   teamMutationResolvers,
