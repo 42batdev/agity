@@ -1,4 +1,4 @@
-import { Team, TeamPermission } from "../../generated/graphql";
+import { PermissionLevel, Team, TeamPermission } from "../../generated/graphql";
 import supabase from "../index";
 
 export function checkTidExists(tid: string) {
@@ -14,11 +14,23 @@ export function createTeam(data: any): Team {
     id: data.id,
     tid: data.tid,
     name: data.name,
+    myPermissions: {
+      permissionLevel: "" as PermissionLevel,
+    },
   };
 }
 
 export function createTeamPermission(data: any): TeamPermission {
+  let permissionLevel;
+  switch (data.permission_level) {
+    case "owner":
+      permissionLevel = PermissionLevel.OWNER;
+      break;
+    case "member":
+    default:
+      permissionLevel = PermissionLevel.MEMBER;
+  }
   return {
-    permissionLevel: data.permission_level,
+    permissionLevel,
   };
 }
