@@ -1,4 +1,4 @@
-import MemberSelectInput from "./MemberSelectInput";
+import InviteMembersSelect from "./InviteMembersSelect";
 import {
   Box,
   Button,
@@ -18,12 +18,11 @@ import {
   ModalOverlay,
   Text,
   useDisclosure,
-  VStack,
 } from "@chakra-ui/react";
 import React from "react";
 import { FiPlus } from "react-icons/fi";
 
-export const InviteMemberModal = () => {
+export const InviteMembersModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure({
     onClose: () => {},
   });
@@ -57,12 +56,8 @@ export const InviteMemberModal = () => {
               </FormControl>
 
               <DividerWithText>or</DividerWithText>
-              <MemberSelectInput />
-              <VStack alignItems="stretch">
-                <Button isFullWidth onClick={onSave}>
-                  Confirm
-                </Button>
-              </VStack>
+
+              <InviteMembersSelect />
             </ModalBody>
           </ModalContent>
         </Modal>
@@ -71,7 +66,7 @@ export const InviteMemberModal = () => {
   );
 };
 
-const DividerWithText = (props: FlexProps) => {
+export const DividerWithText = (props: FlexProps) => {
   const { children, ...flexProps } = props;
   return (
     <Flex align="center" my={5} {...flexProps}>
