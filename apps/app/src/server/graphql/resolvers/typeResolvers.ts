@@ -1,4 +1,6 @@
 import {
+  Member,
+  MemberResolvers,
   Profile,
   ProfileResolvers,
   Team,
@@ -7,7 +9,12 @@ import {
 } from "../../../generated/graphql";
 import supabase from "../../../supabase";
 import { handleSupabaseError, logSupabaseData } from "../../../supabase/pql";
-import { createTeam, createTeamPermission } from "../../../supabase/pql/teams";
+import { createProfile } from "../../../supabase/pql/profiles";
+import {
+  createMember,
+  createTeam,
+  createTeamPermission,
+} from "../../../supabase/pql/teams";
 
 export const profileResolvers: ProfileResolvers = {
   teams() {
@@ -31,5 +38,27 @@ export const teamResolvers: TeamResolvers = {
       .then(({ data }) =>
         createTeamPermission(data[0])
       ) as Promise<TeamPermission>;
+  },
+  members(team, _) {
+    return supabase
+      .from("members")
+      .select("*")
+      .match({ team_id: team.id })
+      .then(handleSupabaseError)
+      .then(({ data }) => data.map((aData) => createMember(aData))) as Promise<
+      Member[]
+    >;
+  },
+};
+
+export const memberResolvers: MemberResolvers = {
+  profile(member) {
+    return supabase
+      .from("profiles")
+      .select("*")
+      .match({ id: member.profile.id })
+      .then(handleSupabaseError)
+      .then(logSupabaseData)
+      .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
   },
 };

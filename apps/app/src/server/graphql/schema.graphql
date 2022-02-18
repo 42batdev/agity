@@ -28,6 +28,7 @@ type Team {
     tid: String!
     name: String!
     myPermissions: TeamPermission!
+    members: [Member!]
 }
 
 type TeamPermission {
@@ -36,6 +37,11 @@ type TeamPermission {
 
 enum PermissionLevel {
     OWNER, MEMBER
+}
+
+type Member {
+    profile: Profile!
+    permission: TeamPermission!
 }
 
 input CreateUserProfileInput {
