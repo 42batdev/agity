@@ -60,7 +60,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     return () => {
       listener?.unsubscribe();
     };
-  }, []);
+  }, [router]);
 
   return (
     <ChakraProvider theme={theme} resetCSS>

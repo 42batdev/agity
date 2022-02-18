@@ -1,0 +1,10 @@
+query GetTeamByTid($tid: String!) {
+    getTeam(tid: $tid) {
+        id
+        tid
+        name
+        myPermissions {
+            permissionLevel
+        }
+    }
+}

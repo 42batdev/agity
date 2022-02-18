@@ -23,7 +23,34 @@ export const initAppProps = async (
       },
     };
   }
+
   return {
     props: { user: authResult.user },
+  };
+};
+
+export interface TeamServerSideProps {
+  uid: string;
+  tid: string;
+}
+
+export const initUProps = async (
+  context
+): Promise<GetServerSidePropsResult<TeamServerSideProps>> => {
+  const { uid, tid } = context.query;
+  if (!uid || !tid) {
+    return {
+      redirect: {
+        destination: `/`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      uid,
+      tid,
+    },
   };
 };
