@@ -1,3 +1,4 @@
+import { AppBarLogo, AppBarSlash, AppBarUser } from "./PageHeaderComponents";
 import {
   Box,
   Container,
@@ -10,7 +11,6 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { ReactNode } from "react";
-import { AppBarLogo, AppBarSlash, AppBarUser } from "./PageHeaderComponents";
 
 export type PageHeaderLink = {
   title: string;

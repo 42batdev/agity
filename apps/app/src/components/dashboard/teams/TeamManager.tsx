@@ -1,4 +1,9 @@
 import {
+  useGetUserTeamsQuery,
+  useUserProfileQuery,
+} from "../../../generated/graphql";
+import TeamCard, { TeamCardSkeleton } from "./TeamCard";
+import {
   Box,
   Flex,
   SimpleGrid,
@@ -9,11 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FiUsers } from "react-icons/fi";
-import {
-  useGetUserTeamsQuery,
-  useUserProfileQuery,
-} from "../../../generated/graphql";
-import TeamCard, { TeamCardSkeleton } from "./TeamCard";
 
 export const TeamManager = () => {
   const router = useRouter();

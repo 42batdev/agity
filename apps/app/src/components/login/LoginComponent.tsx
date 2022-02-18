@@ -1,6 +1,6 @@
-import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { LoginAvatarGroup } from "./LoginAvatarGroup";
 import { LoginForm } from "./LoginForm";
+import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 
 export const LoginComponent = () => {
   return (

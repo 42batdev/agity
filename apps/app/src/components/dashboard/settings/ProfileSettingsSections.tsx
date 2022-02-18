@@ -1,6 +1,3 @@
-import { Button, Input, Skeleton } from "@chakra-ui/react";
-import React, { useLayoutEffect, useRef, useState } from "react";
-import AvatarEditor from "react-avatar-editor";
 import {
   useUpdateUserProfileMutation,
   useUserProfileQuery,
@@ -11,9 +8,11 @@ import {
   removeAvatarFromStorage,
   uploadAvatarToStorage,
 } from "../../../supabase/storage/avatar";
-
 import ProfileSettingsAvatarEditor from "./ProfileSettingsAvatarEditor";
 import { SectionContainer } from "./SectionContainer";
+import { Button, Input, Skeleton } from "@chakra-ui/react";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import AvatarEditor from "react-avatar-editor";
 
 export function DisplayNameSettingsSection() {
   const [name, setName] = useState("");

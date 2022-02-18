@@ -1,6 +1,6 @@
-import { PostgrestResponse, User } from "@supabase/supabase-js";
 import { Profile } from "../../generated/graphql";
 import supabase from "../index";
+import { PostgrestResponse, User } from "@supabase/supabase-js";
 
 export function checkUserProfileExists(user: User) {
   return supabase

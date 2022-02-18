@@ -1,3 +1,5 @@
+import { useUserProfileQuery } from "../../generated/graphql";
+import { useSignOut } from "../../supabase/AuthContext";
 import {
   Avatar,
   HStack,
@@ -13,8 +15,6 @@ import {
 import NextLink from "next/link";
 import * as React from "react";
 import { FiChevronDown, FiEdit, FiLogOut, FiMoon, FiSun } from "react-icons/fi";
-import { useUserProfileQuery } from "../../generated/graphql";
-import { useSignOut } from "../../supabase/AuthContext";
 
 export const AppBarLogo = (props) => {
   return (

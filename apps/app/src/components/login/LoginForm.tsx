@@ -1,3 +1,5 @@
+import supabase from "../../supabase";
+import { OAuth } from "./OAuth";
 import {
   Alert,
   AlertDescription,
@@ -13,8 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import supabase from "../../supabase";
-import { OAuth } from "./OAuth";
 
 enum SignInState {
   NONE,

@@ -1,12 +1,4 @@
 import {
-  Button,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Skeleton,
-} from "@chakra-ui/react";
-import React, { useLayoutEffect, useState } from "react";
-import {
   useUpdateUserProfileMutation,
   useUserProfileQuery,
 } from "../../../generated/graphql";
@@ -15,6 +7,14 @@ import { useUser } from "../../../supabase/AuthContext";
 import { checkUidExists } from "../../../supabase/pql/profiles";
 import ValidatedInput from "../../utils/ValidateInput";
 import { SectionContainer } from "./SectionContainer";
+import {
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Skeleton,
+} from "@chakra-ui/react";
+import React, { useLayoutEffect, useState } from "react";
 
 export function AccountUsernameSettingsSection() {
   const [uid, setUid] = useState("");

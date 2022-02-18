@@ -4,6 +4,7 @@ import {
 } from "../../../generated/graphql";
 import { PageHeaderLink } from "../../layout";
 import { useTid, useUid } from "./TeamNavigationContext";
+
 export function useTeamPageHeaderLinks() {
   const uid = useUid();
   const tid = useTid();

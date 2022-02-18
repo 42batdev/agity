@@ -1,10 +1,10 @@
-import { randomUUID } from "crypto";
 import { MutationResolvers, Profile, Team } from "../../../generated/graphql";
 import supabase, { supabaseServiceRole } from "../../../supabase";
 import { handleSupabaseError } from "../../../supabase/pql";
 import { createProfile } from "../../../supabase/pql/profiles";
 import { createTeam } from "../../../supabase/pql/teams";
 import { validateId } from "../errors";
+import { randomUUID } from "crypto";
 
 export const profileMutationResolvers: MutationResolvers = {
   createUserProfile: (parent, { input }, { user }) => {

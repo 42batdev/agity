@@ -1,3 +1,4 @@
+import supabase from "../../supabase";
 import {
   Box,
   Button,
@@ -11,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { FaBitbucket, FaGithub, FaGitlab, FaGoogle } from "react-icons/fa";
-import supabase from "../../supabase";
 
 export const OAuth = () => {
   const signIn = (credentials) => supabase.auth.signIn(credentials);

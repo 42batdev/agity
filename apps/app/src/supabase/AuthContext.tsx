@@ -1,3 +1,4 @@
+import supabase from "./index";
 import { ApiError } from "@supabase/gotrue-js/src/lib/types";
 import {
   Session,
@@ -13,7 +14,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import supabase from "./index";
 
 interface AuthContextProps {
   sessionUser: User;

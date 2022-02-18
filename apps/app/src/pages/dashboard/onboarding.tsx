@@ -1,10 +1,10 @@
-import Head from "next/head";
-import React from "react";
-import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { LoginAvatarYou } from "../../components/login/LoginAvatarGroup";
 import { OnboardingForm } from "../../components/dashboard/onboarding/OnboardingForm";
+import { LoginAvatarYou } from "../../components/login/LoginAvatarGroup";
 import { AppServerSideProps, initAppProps } from "../../server/ssr/props";
 import { AuthContextProvider } from "../../supabase/AuthContext";
+import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import Head from "next/head";
+import React from "react";
 
 export const getServerSideProps = initAppProps;
 

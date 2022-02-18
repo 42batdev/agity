@@ -1,6 +1,6 @@
-import { GetServerSidePropsResult } from "next";
 import supabase from "../../supabase";
 import { User } from "@supabase/supabase-js";
+import { GetServerSidePropsResult } from "next";
 
 export interface AppServerSideProps {
   user: User;

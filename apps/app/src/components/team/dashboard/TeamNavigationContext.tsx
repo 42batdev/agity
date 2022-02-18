@@ -1,3 +1,4 @@
+import { TeamServerSideProps } from "../../../server/ssr/props";
 import { ApiError } from "@supabase/gotrue-js/src/lib/types";
 import {
   Session,
@@ -13,7 +14,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { TeamServerSideProps } from "../../../server/ssr/props";
 
 interface TeamNavigationContextProps extends TeamServerSideProps {
   children: ReactNode;

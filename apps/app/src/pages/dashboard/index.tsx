@@ -1,4 +1,3 @@
-import React from "react";
 import { CreateTeamModal } from "../../components/dashboard/teams/CreateTeamModal";
 import { TeamManager } from "../../components/dashboard/teams/TeamManager";
 import {
@@ -11,6 +10,7 @@ import {
 import { useUserProfileQuery } from "../../generated/graphql";
 import { AppServerSideProps, initAppProps } from "../../server/ssr/props";
 import { AuthContextProvider } from "../../supabase/AuthContext";
+import React from "react";
 
 export const getServerSideProps = initAppProps;
 

@@ -58,7 +58,6 @@ export const memberResolvers: MemberResolvers = {
       .select("*")
       .match({ id: member.profile.id })
       .then(handleSupabaseError)
-      .then(logSupabaseData)
       .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
   },
 };

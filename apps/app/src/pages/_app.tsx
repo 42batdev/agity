@@ -1,15 +1,14 @@
+import supabase from "../supabase";
+import { AuthContextProvider } from "../supabase/AuthContext";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";
+import "focus-visible/dist/focus-visible";
+import { NextPage } from "next";
 import type { AppProps } from "next/app";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import { theme } from "ui";
-
-import "focus-visible/dist/focus-visible";
-import dynamic from "next/dynamic";
-import { NextPage } from "next";
-import supabase from "../supabase";
-import { AuthContextProvider } from "../supabase/AuthContext";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

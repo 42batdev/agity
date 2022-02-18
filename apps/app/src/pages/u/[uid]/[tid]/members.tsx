@@ -1,13 +1,11 @@
-import { mergeProps } from "next-merge-props";
-import React from "react";
 import {
   Page,
   PageContent,
   PageHeader,
   PageSubHeader,
 } from "../../../../components/layout";
-import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
 import { TeamNavigationContextProvider } from "../../../../components/team/dashboard/TeamNavigationContext";
+import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
 import { MemberList } from "../../../../components/team/members/MemberList";
 import {
   AppServerSideProps,
@@ -16,6 +14,8 @@ import {
   TeamServerSideProps,
 } from "../../../../server/ssr/props";
 import { AuthContextProvider } from "../../../../supabase/AuthContext";
+import { mergeProps } from "next-merge-props";
+import React from "react";
 
 export const getServerSideProps = mergeProps<
   AppServerSideProps & TeamServerSideProps

@@ -1,5 +1,3 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import React from "react";
 import {
   AccountDeleteSettingsSection,
   AccountIdSettingsSection,
@@ -19,9 +17,10 @@ import {
   PageSubHeader,
 } from "../../components/layout";
 import { useUserProfileQuery } from "../../generated/graphql";
-
 import { AppServerSideProps, initAppProps } from "../../server/ssr/props";
 import { AuthContextProvider } from "../../supabase/AuthContext";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import React from "react";
 
 export const getServerSideProps = initAppProps;
 

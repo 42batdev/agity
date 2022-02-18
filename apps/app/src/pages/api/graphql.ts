@@ -1,8 +1,8 @@
-import { ApolloServer } from "apollo-server-micro";
-import { NextApiRequest, NextApiResponse } from "next";
 import { resolvers } from "../../server/graphql/resolvers";
 import * as typeDefs from "../../server/graphql/schema.graphql";
 import supabase, { supabaseServiceRole } from "../../supabase";
+import { ApolloServer } from "apollo-server-micro";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,

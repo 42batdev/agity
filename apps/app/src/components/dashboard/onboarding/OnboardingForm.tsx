@@ -1,3 +1,8 @@
+import { useCreateUserProfileMutation } from "../../../generated/graphql";
+import { validIDPattern } from "../../../server/graphql/errors";
+import supabase from "../../../supabase";
+import { checkUidExists } from "../../../supabase/pql/profiles";
+import ValidatedInput from "../../utils/ValidateInput";
 import {
   Box,
   Button,
@@ -11,6 +16,7 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
+import debounce from "lodash/debounce";
 import { useRouter } from "next/router";
 import { ChangeEvent, useRef, useState } from "react";
 import {
@@ -19,12 +25,6 @@ import {
   FiSearch,
   FiXCircle,
 } from "react-icons/fi";
-import debounce from "lodash/debounce";
-import { useCreateUserProfileMutation } from "../../../generated/graphql";
-import { validIDPattern } from "../../../server/graphql/errors";
-import supabase from "../../../supabase";
-import { checkUidExists } from "../../../supabase/pql/profiles";
-import ValidatedInput from "../../utils/ValidateInput";
 
 export const OnboardingForm = () => {
   const router = useRouter();

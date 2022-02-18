@@ -1,14 +1,14 @@
 import { Resolvers } from "../../../generated/graphql";
 import {
-  memberResolvers,
-  profileResolvers,
-  teamResolvers,
-} from "./typeResolvers";
-import {
   profileMutationResolvers,
   teamMutationResolvers,
 } from "./mutationResolvers";
 import { profileQueryResolvers, teamQueryResolvers } from "./queryResolvers";
+import {
+  memberResolvers,
+  profileResolvers,
+  teamResolvers,
+} from "./typeResolvers";
 
 export const resolvers: Resolvers = {
   Mutation: { ...profileMutationResolvers, ...teamMutationResolvers },

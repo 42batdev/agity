@@ -1,3 +1,5 @@
+import { useUserProfileQuery } from "../../../generated/graphql";
+import supabase from "../../../supabase";
 import {
   Box,
   Button,
@@ -14,8 +16,6 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import Dropzone, { DropzoneRef } from "react-dropzone";
 import { FiUploadCloud, FiX } from "react-icons/fi";
-import { useUserProfileQuery } from "../../../generated/graphql";
-import supabase from "../../../supabase";
 
 export interface ProfileSettingsAvatarEditorProps {
   editorRef: MutableRefObject<AvatarEditor | null>;
