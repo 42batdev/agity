@@ -1,16 +1,19 @@
-# Turborepo starter with NPM
+# The Agity project
 
-This is an official starter turborepo.
 
-## What's inside?
+## Turborepo starter with NPM
 
-This turborepo uses [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
+This repository is set up to use [Turborepo](https://turborepo.org) with [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org) app
-- `web`: another [Next.js](https://nextjs.org) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
+#### Apps
+- `app`: a [Next.js](https://nextjs.org) app to provide the core application of Agity.
+- `web`: a [Next.js](https://nextjs.org) app to provide the front page of Agity.
+- `doc`: a [Next.js](https://nextjs.org) app to provide a documentation and help center.
+
+#### Packages
+- `ui`: a simple React component library shared by the applications
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
@@ -18,7 +21,7 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ### Utilities
 
-This turborepo has some additional tools already setup for you:
+This project has some additional tools already setup:
 
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
@@ -26,25 +29,38 @@ This turborepo has some additional tools already setup for you:
 
 ## Setup
 
-This repository is used in the `npx create-turbo@latest` command, and selected when choosing which package manager you wish to use with your monorepo (NPM).
+This is easily done inside the root package.json. 
+Run `npm install` to create the symlinks inside node_modules for all apps and packages in this repository.
+
 
 ### Build
 
-To build all apps and packages, run the following command:
+To build all apps and packages, run `npm run build`. 
 
-```
-cd my-turborepo
-npm run build
-```
+To build a specific app-part of the repository run:`npm run build:app`.
 
 ### Develop
 
-To develop all apps and packages, run the following command:
+To develop all apps and packages, run `npm run dev`.
 
+Running the start script from a subpackage is done with the following command:
 ```
-cd my-turborepo
-npm run dev
+npm run --workspace app dev
+# or for short
+npm run -w app dev 
 ```
+
+### Installing / Uninstalling Dependencies
+
+When installing new packages, you must keep in mind that the commands to install dependencies and run scripts are different as the dependencies are managed by the Turborepo. 
+```
+npm install --workspace app neverthrow
+# or for short
+npm i -w app neverthrow
+```
+Do not try to install the npm project inside the apps itself. This will break your local environment.
+
+
 
 ### Remote Caching
 
@@ -53,7 +69,6 @@ Turborepo can use a technique known as [Remote Caching (Beta)](https://turborepo
 By default, Turborepo will cache locally. To enable Remote Caching (Beta) you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
 
 ```
-cd my-turborepo
 npx turbo login
 ```
 
@@ -65,7 +80,7 @@ Next, you can link your Turborepo to your Remote Cache by running the following 
 npx turbo link
 ```
 
-## Useful Links
+## Useful links regarding Turborepo
 
 Learn more about the power of Turborepo:
 
