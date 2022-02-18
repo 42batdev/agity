@@ -3,7 +3,7 @@ import {
   SearchProfilesResult,
 } from "../../../generated/graphql";
 import supabase from "../../../supabase";
-import { handleSupabaseError, logSupabaseData } from "../../../supabase/pql";
+import { handleSupabaseError } from "../../../supabase/pql";
 import {
   createProfile,
   createSearchProfilesResult,
@@ -21,8 +21,10 @@ export const profileQueryResolvers: QueryResolvers = {
   },
   searchProfiles(parent, { input }) {
     let filter: string[] = [];
-    if (input.uid !== undefined) filter.push(`uid.ilike.%${input.uid}%`);
-    if (input.name !== undefined) filter.push(`name.ilike.%${input.name}%`);
+    if (input.uid) filter.push(`uid.ilike.%${input.uid}%`);
+    if (input.name) filter.push(`name.ilike.%${input.name}%`);
+
+    if (filter.length === 0) return createSearchProfilesResult([], 0);
 
     let postgrestFilterBuilder = supabase
       .from("profiles")
@@ -31,7 +33,6 @@ export const profileQueryResolvers: QueryResolvers = {
     return postgrestFilterBuilder
       .or(filter.join(","))
       .then(handleSupabaseError)
-      .then(logSupabaseData)
       .then(({ data, count }) =>
         createSearchProfilesResult(data, count)
       ) as Promise<SearchProfilesResult>;

@@ -25,6 +25,7 @@ export const MemberSelectInput = (): JSX.Element => {
 
   const debouncedValidation = useRef(
     debounce((value: string) => {
+      console.log("QUERY");
       search({
         variables: {
           input: {
@@ -36,6 +37,10 @@ export const MemberSelectInput = (): JSX.Element => {
       });
     }, 300)
   );
+
+  const noSearchResults = !loading && data?.searchProfiles?.count === 0;
+  const tooManySearchResults =
+    !loading && (data?.searchProfiles?.count ?? 0) > SEARCH_RESULT_LIMIT;
 
   return (
     <Box position="relative" width="100%" pb="2">
@@ -61,7 +66,7 @@ export const MemberSelectInput = (): JSX.Element => {
           <FiSearch />
         </InputRightElement>
       </InputGroup>
-      {input && (focusedInput || focusedButton) ? (
+      {(input && !noSearchResults) || focusedInput || focusedButton ? (
         <Wrap
           w="100%"
           rounded="4px"
@@ -71,52 +76,61 @@ export const MemberSelectInput = (): JSX.Element => {
           onFocus={() => setFocusedButton(true)}
           onBlur={() => setFocusedButton(false)}
         >
-          {data?.searchProfiles.profiles?.map((profile) => (
-            <Tag
-              key={profile.id}
-              size="lg"
-              borderRadius="full"
-              variant={"subtle"}
-              _hover={{ cursor: "pointer" }}
-              onClick={() => {
-                setInput(profile.name);
-                setFocusedButton(false);
-                setFocusedInput(false);
-              }}
-            >
-              <Avatar
-                size="xs"
-                src={profile.avatar?.url ?? undefined}
-                ml={-2}
-                mr={2}
-              />
-              <TagLabel>{profile.name}</TagLabel>
+          {loading && <SearchTagSkeletons />}
+          {noSearchResults && (
+            <Tag size="lg" borderRadius="full" variant="outline">
+              No Matches Found
             </Tag>
-          ))}
-          {data?.searchProfiles.profiles &&
-            data.searchProfiles.count > SEARCH_RESULT_LIMIT && (
-              <Tag size="lg" borderRadius="full" variant="outline">
-                ...
+          )}
+          {!loading &&
+            data?.searchProfiles.profiles?.map((profile) => (
+              <Tag
+                key={profile.id}
+                size="lg"
+                borderRadius="full"
+                variant={"subtle"}
+                _hover={{ cursor: "pointer" }}
+                onClick={() => {
+                  setInput(profile.name);
+                  setFocusedButton(false);
+                  setFocusedInput(false);
+                }}
+              >
+                <Avatar
+                  size="xs"
+                  src={profile.avatar?.url ?? undefined}
+                  ml={-2}
+                  mr={2}
+                />
+                <TagLabel>{profile.name}</TagLabel>
               </Tag>
-            )}
-          {loading && (
-            <>
-              <Skeleton rounded="full">
-                <Tag size="lg" borderRadius="full" variant="outline">
-                  Loading First ...
-                </Tag>
-              </Skeleton>
-              <Skeleton rounded="full">
-                <Tag size="lg" borderRadius="full" variant="outline">
-                  Loading ...
-                </Tag>
-              </Skeleton>
-            </>
+            ))}
+          {tooManySearchResults && (
+            <Tag size="lg" borderRadius="full" variant="outline">
+              ...
+            </Tag>
           )}
         </Wrap>
       ) : null}
     </Box>
   );
 };
+
+function SearchTagSkeletons() {
+  return (
+    <>
+      <Skeleton rounded="full">
+        <Tag size="lg" borderRadius="full" variant="outline">
+          Loading First ...
+        </Tag>
+      </Skeleton>
+      <Skeleton rounded="full">
+        <Tag size="lg" borderRadius="full" variant="outline">
+          Loading ...
+        </Tag>
+      </Skeleton>
+    </>
+  );
+}
 
 export default MemberSelectInput;
