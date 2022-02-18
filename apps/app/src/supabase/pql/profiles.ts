@@ -1,6 +1,6 @@
 import { Profile } from "../../generated/graphql";
 import supabase from "../index";
-import { PostgrestResponse, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 
 export function checkUserProfileExists(user: User) {
   return supabase
@@ -32,4 +32,11 @@ export function createProfile(data: any) {
   };
 
   return profile;
+}
+
+export function createSearchProfilesResult(data: any[], count: number) {
+  return {
+    profiles: data.map((aData) => createProfile(aData)),
+    count,
+  };
 }

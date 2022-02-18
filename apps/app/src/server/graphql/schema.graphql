@@ -1,5 +1,8 @@
 type Query {
     getUserProfile: Profile
+
+    searchProfiles(input: SearchProfilesInput!): SearchProfilesResult!
+
     getTeam(tid: String!): Team
 }
 
@@ -16,6 +19,17 @@ type Profile {
     name: String!
     avatar: Avatar
     teams: [Team!]
+}
+
+input SearchProfilesInput {
+    uid: String
+    name: String
+    limit: Int
+}
+
+type SearchProfilesResult {
+    profiles: [Profile!]
+    count: Int!
 }
 
 type Avatar {

@@ -85,7 +85,7 @@ export const OAuth = () => {
   );
 };
 
-export const DividerWithText = (props: FlexProps) => {
+const DividerWithText = (props: FlexProps) => {
   const { children, ...flexProps } = props;
   return (
     <Flex align="center" my={5} {...flexProps}>

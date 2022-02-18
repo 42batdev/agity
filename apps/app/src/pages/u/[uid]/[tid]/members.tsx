@@ -6,6 +6,7 @@ import {
 } from "../../../../components/layout";
 import { TeamNavigationContextProvider } from "../../../../components/team/dashboard/TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
+import { InviteMemberModal } from "../../../../components/team/members/InviteMemberModal";
 import { MemberList } from "../../../../components/team/members/MemberList";
 import {
   AppServerSideProps,
@@ -43,6 +44,7 @@ const TeamMembersContent = () => {
         <PageSubHeader
           title={`Team Members`}
           subTitle={"View and manage the team members"}
+          actions={<InviteMemberModal />}
         />
         <MemberList />
       </PageContent>

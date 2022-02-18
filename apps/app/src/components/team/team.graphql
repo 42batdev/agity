@@ -20,3 +20,16 @@ query GetTeamByTid($tid: String!) {
         }
     }
 }
+
+query SearchProfiles($input: SearchProfilesInput!) {
+    searchProfiles(input: $input) {
+        profiles {
+            id
+            name
+            avatar {
+                url
+            }
+        }
+        count
+    }
+}

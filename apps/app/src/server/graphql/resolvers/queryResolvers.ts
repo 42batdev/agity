@@ -1,7 +1,13 @@
-import { QueryResolvers } from "../../../generated/graphql";
+import {
+  QueryResolvers,
+  SearchProfilesResult,
+} from "../../../generated/graphql";
 import supabase from "../../../supabase";
-import { handleSupabaseError } from "../../../supabase/pql";
-import { createProfile } from "../../../supabase/pql/profiles";
+import { handleSupabaseError, logSupabaseData } from "../../../supabase/pql";
+import {
+  createProfile,
+  createSearchProfilesResult,
+} from "../../../supabase/pql/profiles";
 import { createTeam } from "../../../supabase/pql/teams";
 
 export const profileQueryResolvers: QueryResolvers = {
@@ -12,6 +18,23 @@ export const profileQueryResolvers: QueryResolvers = {
       .match({ id: user.id })
       .then(handleSupabaseError)
       .then(({ data }) => createProfile(data[0]));
+  },
+  searchProfiles(parent, { input }) {
+    let filter: string[] = [];
+    if (input.uid !== undefined) filter.push(`uid.ilike.%${input.uid}%`);
+    if (input.name !== undefined) filter.push(`name.ilike.%${input.name}%`);
+
+    let postgrestFilterBuilder = supabase
+      .from("profiles")
+      .select("*", { count: "exact" });
+    if (input.limit) postgrestFilterBuilder.limit(input.limit);
+    return postgrestFilterBuilder
+      .or(filter.join(","))
+      .then(handleSupabaseError)
+      .then(logSupabaseData)
+      .then(({ data, count }) =>
+        createSearchProfilesResult(data, count)
+      ) as Promise<SearchProfilesResult>;
   },
 };
 
