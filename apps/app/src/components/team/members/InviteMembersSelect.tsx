@@ -1,4 +1,7 @@
-import { useSearchProfilesLazyQuery } from "../../../generated/graphql";
+import {
+  Profile,
+  useSearchProfilesLazyQuery,
+} from "../../../generated/graphql";
 import {
   Avatar,
   Box,
@@ -10,7 +13,6 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
-  VStack,
   Wrap,
 } from "@chakra-ui/react";
 import debounce from "lodash/debounce";
@@ -19,11 +21,13 @@ import { FiSearch } from "react-icons/fi";
 
 const SEARCH_RESULT_LIMIT = 5;
 
+type SearchProfileResultFields = Pick<Profile, "id" | "name" | "avatar">;
+
 export const InviteMembersSelect = (): JSX.Element => {
   const [search, { loading, data }] = useSearchProfilesLazyQuery();
 
   const [focusedInput, setFocusedInput] = useState(false);
-  const [selected, setSelected] = useState<any[]>([]);
+  const [selected, setSelected] = useState<SearchProfileResultFields[]>([]);
   const [input, setInput] = useState("");
 
   const debouncedValidation = useRef(
@@ -84,25 +88,14 @@ export const InviteMembersSelect = (): JSX.Element => {
                   (profile) => !selected.some((s) => s.id === profile.id)
                 )
                 ?.map((profile) => (
-                  <Tag
+                  <ProfileTag
                     key={profile.id}
-                    size="lg"
-                    borderRadius="full"
-                    variant={"subtle"}
-                    _hover={{ cursor: "pointer" }}
+                    profile={profile}
                     onClick={() => {
                       setFocusedInput(false);
                       setSelected([...selected, profile]);
                     }}
-                  >
-                    <Avatar
-                      size="xs"
-                      src={profile.avatar?.url ?? undefined}
-                      ml={-2}
-                      mr={2}
-                    />
-                    <TagLabel>{profile.name}</TagLabel>
-                  </Tag>
+                  />
                 ))}
             {tooManySearchResults && (
               <Tag size="lg" borderRadius="full" variant="outline">
@@ -114,33 +107,19 @@ export const InviteMembersSelect = (): JSX.Element => {
       )}
       <Wrap w="100%" py="4">
         {selected?.map((profile, index) => (
-          <Tag
+          <ProfileTag
             key={profile.id}
-            size="lg"
-            borderRadius="full"
-            variant={"subtle"}
-            _hover={{ cursor: "pointer" }}
-            onClick={() => {
+            profile={profile}
+            onCloseClick={() => {
               const newSelection = [...selected];
               newSelection.splice(index, 1);
               setSelected(newSelection);
             }}
-          >
-            <Avatar
-              size="xs"
-              src={profile.avatar?.url ?? undefined}
-              ml={-2}
-              mr={2}
-            />
-            <TagLabel>{profile.name}</TagLabel>
-            <TagCloseButton />
-          </Tag>
+          />
         ))}
       </Wrap>
 
-      <VStack alignItems="stretch">
-        <Button isFullWidth>Confirm Invites</Button>
-      </VStack>
+      <Button isFullWidth>Confirm Invites</Button>
     </Box>
   );
 };
@@ -159,6 +138,30 @@ function SearchTagSkeletons() {
         </Tag>
       </Skeleton>
     </>
+  );
+}
+
+function ProfileTag({
+  profile,
+  onClick,
+  onCloseClick,
+}: {
+  profile: SearchProfileResultFields;
+  onClick?: () => void;
+  onCloseClick?: () => void;
+}) {
+  return (
+    <Tag
+      size="lg"
+      borderRadius="full"
+      variant={"subtle"}
+      _hover={{ cursor: "pointer" }}
+      onClick={onClick}
+    >
+      <Avatar size="xs" src={profile.avatar?.url ?? undefined} ml={-2} mr={2} />
+      <TagLabel>{profile.name}</TagLabel>
+      {onCloseClick && <TagCloseButton onClick={onCloseClick} />}
+    </Tag>
   );
 }
 
