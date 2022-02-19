@@ -210,11 +210,11 @@ INSERT INTO public.teams (id, tid, name, created_at)
 VALUES ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'blu', 'Builders League United', '2022-01-31 21:35:23.703197 +00:00');
 
 INSERT INTO public.members (team_id, user_id, permission_level)
-VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', '298b3b78-12b9-446c-b2a9-47bfe1a452ac', 'owner');
+VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', '298b3b78-12b9-446c-b2a9-47bfe1a452ac', 'OWNER');
 INSERT INTO public.members (team_id, user_id, permission_level)
-VALUES ('ac5cc79f-a28f-40c3-8a70-518be34d178e', '298b3b78-12b9-446c-b2a9-47bfe1a452ac', 'owner');
+VALUES ('ac5cc79f-a28f-40c3-8a70-518be34d178e', '298b3b78-12b9-446c-b2a9-47bfe1a452ac', 'OWNER');
 INSERT INTO public.members (team_id, user_id, permission_level)
-VALUES ('37879e23-b61d-4b9a-865b-45ad1c916d4f', '09cbcd88-c3ee-4d85-95e5-51b490c1b3cb', 'owner');
+VALUES ('37879e23-b61d-4b9a-865b-45ad1c916d4f', '09cbcd88-c3ee-4d85-95e5-51b490c1b3cb', 'OWNER');
 
 
 -- Set up Avatar Storage
