@@ -1,7 +1,10 @@
 import {
   Profile,
+  useGetTeamByTidQuery,
+  useInviteToTeamMutation,
   useSearchProfilesLazyQuery,
 } from "../../../generated/graphql";
+import { useTid } from "../dashboard/TeamNavigationContext";
 import {
   Avatar,
   Box,
@@ -23,8 +26,16 @@ const SEARCH_RESULT_LIMIT = 5;
 
 type SearchProfileResultFields = Pick<Profile, "id" | "name" | "avatar">;
 
-export const InviteMembersSelect = (): JSX.Element => {
+export const InviteMembersSelect = ({
+  onClose,
+}: {
+  onClose: () => void;
+}): JSX.Element => {
+  const { data: teamData } = useGetTeamByTidQuery({
+    variables: { tid: useTid() },
+  });
   const [search, { loading, data }] = useSearchProfilesLazyQuery();
+  const [mutate] = useInviteToTeamMutation();
 
   const [focusedInput, setFocusedInput] = useState(false);
   const [selected, setSelected] = useState<SearchProfileResultFields[]>([]);
@@ -119,7 +130,21 @@ export const InviteMembersSelect = (): JSX.Element => {
         ))}
       </Wrap>
 
-      <Button isFullWidth>Confirm Invites</Button>
+      <Button
+        isFullWidth
+        onClick={() => {
+          mutate({
+            variables: {
+              input: {
+                profileIds: selected.map((p) => p.id),
+                teamId: teamData?.getTeam?.id!,
+              },
+            },
+          }).then(onClose);
+        }}
+      >
+        Confirm Invites
+      </Button>
     </Box>
   );
 };

@@ -33,3 +33,17 @@ query SearchProfiles($input: SearchProfilesInput!) {
         count
     }
 }
+
+mutation InviteToTeam($input: InviteProfileInput!) {
+    inviteProfiles(input: $input) {
+        id
+        members {
+            profile {
+                id
+            }
+            permission {
+                permissionLevel
+            }
+        }
+    }
+}

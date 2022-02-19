@@ -10,6 +10,8 @@ type Mutation {
     createUserProfile (input: CreateUserProfileInput!): Profile
     updateUserProfile(input: UpdateProfileInput!): Profile
 
+    inviteProfiles(input: InviteProfileInput!): Team
+
     createTeam (input: CreateTeamInput!): Team
 }
 
@@ -50,7 +52,7 @@ type TeamPermission {
 }
 
 enum PermissionLevel {
-    OWNER, MEMBER
+    OWNER, MEMBER, INVITED
 }
 
 type Member {
@@ -67,6 +69,11 @@ input UpdateProfileInput {
     uid: String
     name: String
     avatar: AvatarInput
+}
+
+input InviteProfileInput {
+    teamId: ID!
+    profileIds: [ID!]!
 }
 
 input AvatarInput {

@@ -5,8 +5,9 @@ import { SimpleGrid } from "@chakra-ui/react";
 import React from "react";
 
 export const MemberList = () => {
-  const tid = useTid();
-  const { loading, data } = useGetTeamByTidQuery({ variables: { tid } });
+  const { loading, data } = useGetTeamByTidQuery({
+    variables: { tid: useTid() },
+  });
 
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>

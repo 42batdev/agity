@@ -27,10 +27,6 @@ export const InviteMembersModal = () => {
     onClose: () => {},
   });
 
-  const onSave = () => {
-    onClose();
-  };
-
   return (
     <>
       <Button leftIcon={<FiPlus />} onClick={onOpen}>
@@ -57,7 +53,7 @@ export const InviteMembersModal = () => {
 
               <DividerWithText>or</DividerWithText>
 
-              <InviteMembersSelect />
+              <InviteMembersSelect onClose={onClose} />
             </ModalBody>
           </ModalContent>
         </Modal>
