@@ -1,4 +1,6 @@
 import {
+  GetTeamByTidQuery,
+  SearchProfilesQuery,
   useGetTeamByTidQuery,
   useInviteToTeamMutation,
   useSearchProfilesLazyQuery,
@@ -59,26 +61,6 @@ export const InviteMembersSelect = ({
     debouncedValidation.current(input, selected.length);
   }, [debouncedValidation, input, selected]);
 
-  const searchResults =
-    searchData?.searchProfiles.profiles
-      .filter(
-        (profile) =>
-          !selected.some((s) => s.id === profile.id) &&
-          !teamData?.getTeam?.members.some((m) => m.profile.id === profile.id)
-      )
-      .slice(0, SEARCH_RESULT_LIMIT)
-      .map((profile) => (
-        <ProfileTag
-          key={profile.id}
-          profile={profile}
-          onClick={() => {
-            setSelected([...selected, profile]);
-            setFocusedInput(false);
-            setInput("");
-          }}
-        />
-      )) ?? [];
-
   return (
     <Box position="relative" width="100%" pb="2">
       <InputGroup
@@ -104,19 +86,12 @@ export const InviteMembersSelect = ({
       {focusedInput && (
         <Wrap w="100%" rounded="4px" p="4" zIndex="100" bg="gray.600">
           {loading && !searchData && <ProfileTagSkeletons />}
-          {searchResults.length === 0 && (
-            <Tag size="lg" borderRadius="full" variant="outline">
-              No Matches Found
-            </Tag>
-          )}
-          {searchResults}
           {!loading &&
-            (searchData?.searchProfiles?.count ?? 0) >
-              SEARCH_RESULT_LIMIT + selected.length && (
-              <Tag size="lg" borderRadius="full" variant="outline">
-                ...
-              </Tag>
-            )}
+            renderSearchResults(searchData, selected, teamData, (profile) => {
+              setSelected([...selected, profile]);
+              setFocusedInput(false);
+              setInput("");
+            })}
         </Wrap>
       )}
       {renderSelectedProfilesComponent(selected, (profile) => {
@@ -143,6 +118,47 @@ export const InviteMembersSelect = ({
 };
 
 export default InviteMembersSelect;
+
+function renderSearchResults(
+  searchData: SearchProfilesQuery | undefined,
+  selected: ProfileTagFields[],
+  teamData: GetTeamByTidQuery | undefined,
+  onClick: (profile: ProfileTagFields) => void
+) {
+  const searchResults =
+    searchData?.searchProfiles.profiles
+      .filter(
+        (profile) =>
+          !selected.some((s) => s.id === profile.id) &&
+          !teamData?.getTeam?.members.some((m) => m.profile.id === profile.id)
+      )
+      .slice(0, SEARCH_RESULT_LIMIT)
+      .map((profile) => (
+        <ProfileTag
+          key={profile.id}
+          profile={profile}
+          onClick={() => onClick(profile)}
+        />
+      )) ?? [];
+
+  if (searchResults.length === 0) {
+    return (
+      <Tag size="lg" borderRadius="full" variant="outline">
+        No Matches Found
+      </Tag>
+    );
+  } else if (
+    (searchData?.searchProfiles?.count ?? 0) >
+    SEARCH_RESULT_LIMIT + selected.length
+  ) {
+    searchResults.push(
+      <Tag size="lg" borderRadius="full" variant="outline">
+        ...
+      </Tag>
+    );
+  }
+  return searchResults;
+}
 
 function renderSelectedProfilesComponent(
   selected: ProfileTagFields[],
