@@ -18,11 +18,10 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import debounce from "lodash/debounce";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 
-const SEARCH_RESULT_CLIENT_LIMIT = 5;
-const SEARCH_RESULT_SERVER_LIMIT = 10;
+const SEARCH_RESULT_LIMIT = 5;
 
 export const InviteMembersSelect = ({
   onClose,
@@ -32,83 +31,90 @@ export const InviteMembersSelect = ({
   const { data: teamData } = useGetTeamByTidQuery({
     variables: { tid: useTid() },
   });
-  const [
-    search,
-    { loading, data: searchData, fetchMore: fetchMoreSearchData },
-  ] = useSearchProfilesLazyQuery();
+  const [search, { loading, data: searchData }] = useSearchProfilesLazyQuery({
+    fetchPolicy: "cache-first",
+  });
   const [mutate] = useInviteToTeamMutation();
 
+  const [focusedInput, setFocusedInput] = useState(false);
   const [selected, setSelected] = useState<ProfileTagFields[]>([]);
   const [input, setInput] = useState("");
 
   const debouncedValidation = useRef(
-    debounce((value: string) => {
+    debounce((value: string, addToLimit = 0) => {
       search({
         variables: {
           input: {
             uid: value,
             name: value,
-            limit: SEARCH_RESULT_SERVER_LIMIT,
+            limit: SEARCH_RESULT_LIMIT + addToLimit,
           },
         },
       });
     }, 300)
   );
 
-  const noSearchResults =
-    !searchData || searchData?.searchProfiles?.count === 0;
-  const tooManySearchResults =
-    !loading &&
-    (searchData?.searchProfiles?.count ?? 0) > SEARCH_RESULT_CLIENT_LIMIT;
+  useEffect(() => {
+    debouncedValidation.current.cancel();
+    debouncedValidation.current(input, selected.length);
+  }, [debouncedValidation, input, selected]);
+
+  const searchResults =
+    searchData?.searchProfiles.profiles
+      .filter((profile) => !selected.some((s) => s.id === profile.id))
+      .slice(0, SEARCH_RESULT_LIMIT)
+      .map((profile) => (
+        <ProfileTag
+          key={profile.id}
+          profile={profile}
+          onClick={() => {
+            setSelected([...selected, profile]);
+            setFocusedInput(false);
+            setInput("");
+          }}
+        />
+      )) ?? [];
 
   return (
     <Box position="relative" width="100%" pb="2">
-      <InputGroup>
+      <InputGroup
+        onFocus={() => setFocusedInput(true)}
+        onBlur={() => {
+          setTimeout(() => {
+            setFocusedInput(false);
+          }, 150);
+        }}
+      >
         <Input
           width="100%"
           placeholder="Search ..."
           value={input}
           onChange={(e) => {
             setInput(e.target.value);
-            debouncedValidation.current.cancel();
-            debouncedValidation.current(e.target.value);
           }}
         />
         <InputRightElement>
           <FiSearch />
         </InputRightElement>
       </InputGroup>
-      <Wrap w="100%" rounded="4px" p="4" zIndex="100" bg="gray.600">
-        {loading && <ProfileTagSkeletons />}
-        {!loading && noSearchResults && (
-          <Tag size="lg" borderRadius="full" variant="outline">
-            No Matches Found
-          </Tag>
-        )}
-        {!loading &&
-          teamData?.getTeam?.members &&
-          searchData?.searchProfiles.profiles
-            .filter((profile) => !selected.some((s) => s.id === profile.id))
-            .slice(0, SEARCH_RESULT_CLIENT_LIMIT)
-            .map((profile) => (
-              <ProfileTag
-                key={profile.id}
-                profile={profile}
-                onClick={() => {
-                  setSelected([...selected, profile]);
-                  if (selected.length > SEARCH_RESULT_CLIENT_LIMIT) {
-                    debouncedValidation.current(input);
-                  }
-                }}
-              />
-            ))}
-        {tooManySearchResults && (
-          <Tag size="lg" borderRadius="full" variant="outline">
-            ...
-          </Tag>
-        )}
-      </Wrap>
-
+      {focusedInput && (
+        <Wrap w="100%" rounded="4px" p="4" zIndex="100" bg="gray.600">
+          {loading && !searchData && <ProfileTagSkeletons />}
+          {searchResults.length === 0 && (
+            <Tag size="lg" borderRadius="full" variant="outline">
+              No Matches Found
+            </Tag>
+          )}
+          {searchResults}
+          {!loading &&
+            (searchData?.searchProfiles?.count ?? 0) >
+              SEARCH_RESULT_LIMIT + selected.length && (
+              <Tag size="lg" borderRadius="full" variant="outline">
+                ...
+              </Tag>
+            )}
+        </Wrap>
+      )}
       {renderSelectedProfilesComponent(selected, (profile) => {
         setSelected(selected.filter((s) => s.id !== profile.id));
       })}
