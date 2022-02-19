@@ -61,7 +61,11 @@ export const InviteMembersSelect = ({
 
   const searchResults =
     searchData?.searchProfiles.profiles
-      .filter((profile) => !selected.some((s) => s.id === profile.id))
+      .filter(
+        (profile) =>
+          !selected.some((s) => s.id === profile.id) &&
+          !teamData?.getTeam?.members.some((m) => m.profile.id === profile.id)
+      )
       .slice(0, SEARCH_RESULT_LIMIT)
       .map((profile) => (
         <ProfileTag
