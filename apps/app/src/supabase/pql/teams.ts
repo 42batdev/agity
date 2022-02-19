@@ -23,6 +23,7 @@ export function createTeam(data: any): Team {
     myPermissions: {
       permissionLevel: "" as PermissionLevel,
     },
+    members: [],
   };
 }
 
