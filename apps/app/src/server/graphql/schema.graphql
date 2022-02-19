@@ -30,7 +30,7 @@ input SearchProfilesInput {
 }
 
 type SearchProfilesResult {
-    profiles: [Profile!]
+    profiles: [Profile!]!
     count: Int!
 }
 
@@ -44,7 +44,7 @@ type Team {
     tid: String!
     name: String!
     myPermissions: TeamPermission!
-    members: [Member!]
+    members: [Member!]!
 }
 
 type TeamPermission {

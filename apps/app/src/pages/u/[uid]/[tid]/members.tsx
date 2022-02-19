@@ -6,8 +6,8 @@ import {
 } from "../../../../components/layout";
 import { TeamNavigationContextProvider } from "../../../../components/team/dashboard/TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
-import { InviteMembersModal } from "../../../../components/team/members/InviteMembersModal";
 import { MemberList } from "../../../../components/team/members/MemberList";
+import { InviteMembersModal } from "../../../../components/team/members/invite/InviteMembersModal";
 import {
   AppServerSideProps,
   initAppProps,

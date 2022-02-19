@@ -8,6 +8,7 @@ query GetTeamByTid($tid: String!) {
         }
         members {
             profile {
+                id
                 uid
                 name
                 avatar {
