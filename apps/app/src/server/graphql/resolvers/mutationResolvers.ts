@@ -68,7 +68,7 @@ export const teamMutationResolvers: MutationResolvers = {
       {
         team_id: newTeamUUID,
         user_id: user.id,
-        permission_level: "owner",
+        permission_level: "OWNER",
       },
       { returning: "minimal" }
     );
