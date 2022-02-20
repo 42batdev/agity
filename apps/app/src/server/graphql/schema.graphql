@@ -52,7 +52,7 @@ type TeamPermission {
 }
 
 enum PermissionLevel {
-    OWNER, MEMBER, INVITED
+    OWNER, ADMIN, MEMBER, INVITED
 }
 
 type Member {

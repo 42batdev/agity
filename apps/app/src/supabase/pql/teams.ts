@@ -35,16 +35,7 @@ export function createMember(data: any): Member {
 }
 
 export function createTeamPermission(data: any): TeamPermission {
-  let permissionLevel;
-  switch (data.permission_level) {
-    case "owner":
-      permissionLevel = PermissionLevel.OWNER;
-      break;
-    case "member":
-    default:
-      permissionLevel = PermissionLevel.MEMBER;
-  }
   return {
-    permissionLevel,
+    permissionLevel: PermissionLevel[data.permission_level],
   };
 }
