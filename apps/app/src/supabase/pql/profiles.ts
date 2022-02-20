@@ -14,7 +14,7 @@ export function checkUidExists(uid: string) {
   return supabase
     .from("profiles")
     .select("id", { count: "exact", head: true })
-    .match({ uid: uid.toLowerCase() })
+    .match({ uid: uid })
     .then((result) => result.count ?? 0 > 0) as Promise<boolean>;
 }
 

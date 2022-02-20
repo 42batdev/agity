@@ -11,7 +11,7 @@ export function checkTidExists(tid: string) {
   return supabase
     .from("teams")
     .select("id", { count: "exact", head: true })
-    .match({ tid: tid.toLowerCase() })
+    .match({ tid: tid })
     .then((result) => result.count ?? 0 > 0) as Promise<boolean>;
 }
 
