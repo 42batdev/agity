@@ -17,6 +17,7 @@ export const MemberList = () => {
           <MemberCard
             key={member.profile.uid}
             name={member.profile.name}
+            role={member.permission.permissionLevel}
             avatarURL={member.profile.avatar?.url ?? undefined}
           />
         ))}
