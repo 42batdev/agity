@@ -1,19 +1,11 @@
-import { CreateTeamModal } from "../../../../components/dashboard/teams/CreateTeamModal";
-import { TeamManager } from "../../../../components/dashboard/teams/TeamManager";
 import {
   Page,
   PageContent,
   PageHeader,
-  PageHeaderLink,
   PageSubHeader,
 } from "../../../../components/layout";
-import {
-  TeamNavigationContextProvider,
-  useTid,
-  useUid,
-} from "../../../../components/team/dashboard/TeamNavigationContext";
+import { TeamNavigationContextProvider } from "../../../../components/team/dashboard/TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
-import { useUserProfileQuery } from "../../../../generated/graphql";
 import {
   AppServerSideProps,
   initAppProps,
@@ -22,7 +14,6 @@ import {
 } from "../../../../server/ssr/props";
 import { AuthContextProvider } from "../../../../supabase/AuthContext";
 import { mergeProps } from "next-merge-props";
-import { AppInitialProps } from "next/dist/pages/_app";
 import React from "react";
 
 export const getServerSideProps = mergeProps<

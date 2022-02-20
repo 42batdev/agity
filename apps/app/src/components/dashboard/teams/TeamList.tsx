@@ -15,7 +15,7 @@ import {
 import { useRouter } from "next/router";
 import { FiUsers } from "react-icons/fi";
 
-export const TeamManager = () => {
+export const TeamList = () => {
   const router = useRouter();
 
   const { data: userData } = useUserProfileQuery();
