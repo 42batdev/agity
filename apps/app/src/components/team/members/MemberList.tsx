@@ -16,9 +16,8 @@ export const MemberList = () => {
         data.getTeam?.members?.map((member) => (
           <MemberCard
             key={member.profile.uid}
-            name={member.profile.name}
-            role={member.permission.permissionLevel}
-            avatarURL={member.profile.avatar?.url ?? undefined}
+            profile={member.profile}
+            permission={member.permission}
           />
         ))}
     </SimpleGrid>

@@ -1,24 +1,43 @@
 import {
+  PermissionLevel,
+  Profile,
+  TeamPermission,
+} from "../../../generated/graphql";
+import {
   Avatar,
   Box,
+  Button,
   Center,
+  CloseButton,
   Flex,
   Heading,
   Image,
   Stack,
   Text,
   useColorModeValue,
+  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
+import { FiMenu } from "react-icons/fi";
 
 export interface MemberCardProps {
-  name: string;
-  role?: string;
-  avatarURL?: string;
+  profile: Pick<Profile, "name" | "avatar">;
+  permission: Pick<TeamPermission, "permissionLevel">;
 }
 
-export default function MemberCard({ name, role, avatarURL }: MemberCardProps) {
+export default function MemberCard({ profile, permission }: MemberCardProps) {
+  const {
+    isOpen: isHover,
+    onOpen: onMouseEnter,
+    onClose: onMouseLeave,
+  } = useDisclosure();
+  const { isOpen: isMenuOpen, onToggle: onToggleMenu } = useDisclosure();
+
+  const demoteToMember = () => {};
+  const promoteToAdmin = () => {};
+
   return (
-    <Center py={6}>
+    <Center py={6} position="relative">
       <Box
         maxW={"270px"}
         w={"full"}
@@ -26,6 +45,8 @@ export default function MemberCard({ name, role, avatarURL }: MemberCardProps) {
         boxShadow={"2xl"}
         rounded={"md"}
         overflow={"hidden"}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
         <Image
           h="120px"
@@ -38,22 +59,47 @@ export default function MemberCard({ name, role, avatarURL }: MemberCardProps) {
         <Flex justify="center" mt="-12">
           <Avatar
             size="xl"
-            src={avatarURL}
-            css={{
-              border: "2px solid white",
-            }}
+            src={profile.avatar?.url ?? undefined}
+            onClick={onToggleMenu}
+            icon={isHover ? <FiMenu /> : undefined}
+            cursor="pointer"
+            color="gray.100"
+            border="2px solid white"
+            _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
           />
         </Flex>
 
         <Box p={6}>
           <Stack spacing={0} align={"center"} mb={5}>
             <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
-              {name}
+              {profile.name}
             </Heading>
-            {role && <Text color={"gray.500"}>{role}</Text>}
+            <Text color={"gray.500"}>{permission.permissionLevel}</Text>
           </Stack>
         </Box>
       </Box>
+      {isMenuOpen && (
+        <VStack
+          position="absolute"
+          w="100%"
+          h="100%"
+          bg="blackAlpha.800"
+          justifyContent={"center"}
+        >
+          {permission.permissionLevel === PermissionLevel.MEMBER && (
+            <Button variant={"solid"} onClick={promoteToAdmin}>
+              Promote to Admin
+            </Button>
+          )}
+          {permission.permissionLevel === PermissionLevel.ADMIN && (
+            <Button variant={"solid"} onClick={demoteToMember}>
+              Demote to Member
+            </Button>
+          )}
+
+          <CloseButton onClick={onToggleMenu} />
+        </VStack>
+      )}
     </Center>
   );
 }
