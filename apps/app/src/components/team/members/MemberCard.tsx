@@ -1,7 +1,9 @@
 import {
   PermissionLevel,
   Profile,
+  Team,
   TeamPermission,
+  useUpdateMemberPermissionMutation,
 } from "../../../generated/graphql";
 import {
   Avatar,
@@ -21,11 +23,16 @@ import {
 import { FiMenu } from "react-icons/fi";
 
 export interface MemberCardProps {
-  profile: Pick<Profile, "name" | "avatar">;
+  team: Pick<Team, "id">;
+  profile: Pick<Profile, "id" | "name" | "avatar">;
   permission: Pick<TeamPermission, "permissionLevel">;
 }
 
-export default function MemberCard({ profile, permission }: MemberCardProps) {
+export default function MemberCard({
+  team,
+  profile,
+  permission,
+}: MemberCardProps) {
   const {
     isOpen: isHover,
     onOpen: onMouseEnter,
@@ -33,8 +40,30 @@ export default function MemberCard({ profile, permission }: MemberCardProps) {
   } = useDisclosure();
   const { isOpen: isMenuOpen, onToggle: onToggleMenu } = useDisclosure();
 
-  const demoteToMember = () => {};
-  const promoteToAdmin = () => {};
+  const [mutate] = useUpdateMemberPermissionMutation();
+
+  const demoteToMember = () => {
+    mutate({
+      variables: {
+        input: {
+          teamId: team.id,
+          profileId: profile.id,
+          permissionLevel: PermissionLevel.MEMBER,
+        },
+      },
+    }).then(onToggleMenu);
+  };
+  const promoteToAdmin = () => {
+    mutate({
+      variables: {
+        input: {
+          teamId: team.id,
+          profileId: profile.id,
+          permissionLevel: PermissionLevel.ADMIN,
+        },
+      },
+    }).then(onToggleMenu);
+  };
 
   return (
     <Center py={6} position="relative">
