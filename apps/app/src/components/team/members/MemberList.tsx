@@ -1,6 +1,6 @@
 import { useGetTeamByTidQuery } from "../../../generated/graphql";
 import { useTid } from "../dashboard/TeamNavigationContext";
-import MemberCard from "./MemberCard";
+import MemberCard from "./card/MemberCard";
 import { SimpleGrid } from "@chakra-ui/react";
 import React from "react";
 
@@ -19,7 +19,7 @@ export const MemberList = () => {
             key={member.profile.uid}
             team={data.getTeam!}
             profile={member.profile}
-            permission={member.permission}
+            permissions={member.permission}
           />
         ))}
     </SimpleGrid>
