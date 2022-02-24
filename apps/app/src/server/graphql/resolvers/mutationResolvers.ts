@@ -97,6 +97,21 @@ export const teamMutationResolvers: MutationResolvers = {
       .then(handleSupabaseError)
       .then(({ data }) => createTeam(data[0]));
   },
+  removeMember: async (parent, { input }) => {
+    console.log(input);
+    await supabase
+      .from("members")
+      .delete({ returning: "minimal" })
+      .match({ user_id: input.profileId, team_id: input.teamId })
+      .then(handleSupabaseError);
+
+    return await supabase
+      .from("teams")
+      .select("*")
+      .match({ id: input.teamId })
+      .then(handleSupabaseError)
+      .then(({ data }) => createTeam(data[0]));
+  },
   updateMemberPermission: async (parent, { input }) => {
     await supabase
       .from("members")

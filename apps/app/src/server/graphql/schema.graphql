@@ -10,7 +10,8 @@ type Mutation {
     createUserProfile (input: CreateUserProfileInput!): Profile
     updateUserProfile(input: UpdateProfileInput!): Profile
 
-    inviteMembers(input: InviteMemberInput!): Team
+    inviteMembers(input: InviteMembersInput!): Team
+    removeMember(input: RemoveMemberInput!): Team
     updateMemberPermission(input: UpdateMemberPermissionInput!) : Team
 
     createTeam (input: CreateTeamInput!): Team
@@ -72,9 +73,15 @@ input UpdateProfileInput {
     avatar: AvatarInput
 }
 
-input InviteMemberInput {
+input InviteMembersInput {
     teamId: ID!
     profileIds: [ID!]!
+}
+
+
+input RemoveMemberInput {
+    teamId: ID!
+    profileId: ID!
 }
 
 input UpdateMemberPermissionInput {
