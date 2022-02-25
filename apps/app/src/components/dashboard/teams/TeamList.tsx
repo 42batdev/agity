@@ -3,19 +3,10 @@ import {
   useUserProfileQuery,
 } from "../../../generated/graphql";
 import TeamCard, { TeamCardSkeleton } from "./TeamCard";
-import {
-  Box,
-  Flex,
-  SimpleGrid,
-  Stat,
-  StatLabel,
-  StatNumber,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FiUsers } from "react-icons/fi";
 
-export const TeamManager = () => {
+export const TeamList = () => {
   const router = useRouter();
 
   const { data: userData } = useUserProfileQuery();
