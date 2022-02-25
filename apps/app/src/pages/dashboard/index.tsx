@@ -1,5 +1,5 @@
 import { CreateTeamModal } from "../../components/dashboard/teams/CreateTeamModal";
-import { TeamManager } from "../../components/dashboard/teams/TeamManager";
+import { TeamList } from "../../components/dashboard/teams/TeamList";
 import {
   Page,
   PageContent,
@@ -44,7 +44,7 @@ const DashboardContent = () => {
           subTitle={"The Teams you have access to"}
           actions={<CreateTeamModal />}
         />
-        <TeamManager />
+        <TeamList />
       </PageContent>
     </Page>
   );

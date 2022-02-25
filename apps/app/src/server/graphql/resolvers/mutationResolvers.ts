@@ -75,7 +75,7 @@ export const teamMutationResolvers: MutationResolvers = {
 
     return team;
   },
-  inviteProfiles: async (parent, { input }) => {
+  inviteMembers: async (parent, { input }) => {
     const insert: any[] = [];
     input.profileIds?.forEach((id) =>
       insert.push({
@@ -85,7 +85,24 @@ export const teamMutationResolvers: MutationResolvers = {
       })
     );
 
-    await supabase.from("members").insert(insert, { returning: "minimal" });
+    await supabase
+      .from("members")
+      .insert(insert, { returning: "minimal" })
+      .then(handleSupabaseError);
+
+    return await supabase
+      .from("teams")
+      .select("*")
+      .match({ id: input.teamId })
+      .then(handleSupabaseError)
+      .then(({ data }) => createTeam(data[0]));
+  },
+  updateMemberPermission: async (parent, { input }) => {
+    await supabase
+      .from("members")
+      .update({ permission_level: input.permissionLevel })
+      .match({ team_id: input.teamId, user_id: input.profileId })
+      .then(handleSupabaseError);
 
     return await supabase
       .from("teams")

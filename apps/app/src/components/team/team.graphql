@@ -35,8 +35,22 @@ query SearchProfiles($input: SearchProfilesInput!) {
     }
 }
 
-mutation InviteToTeam($input: InviteProfileInput!) {
-    inviteProfiles(input: $input) {
+mutation InviteToTeam($input: InviteMemberInput!) {
+    inviteMembers(input: $input) {
+        id
+        members {
+            profile {
+                id
+            }
+            permission {
+                permissionLevel
+            }
+        }
+    }
+}
+
+mutation UpdateMemberPermission($input: UpdateMemberPermissionInput!) {
+    updateMemberPermission(input: $input) {
         id
         members {
             profile {
