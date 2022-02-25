@@ -14,14 +14,18 @@ export const MemberList = () => {
       {!loading &&
         data &&
         data.getTeam &&
-        data.getTeam?.members?.map((member) => (
-          <MemberCard
-            key={member.profile.uid}
-            team={data.getTeam!}
-            profile={member.profile}
-            permissions={member.permission}
-          />
-        ))}
+        data.getTeam.members.map((member) => {
+          if (data.getTeam) {
+            return (
+              <MemberCard
+                key={member.profile.uid}
+                team={data.getTeam}
+                profile={member.profile}
+                permissions={member.permission}
+              />
+            );
+          }
+        })}
     </SimpleGrid>
   );
 };
