@@ -3,7 +3,7 @@ import {
   useRemoveFromTeamMutation,
   useUpdateMemberPermissionMutation,
 } from "../../../../generated/graphql";
-import { useUser } from "../../../../supabase/AuthContext";
+import { useAlertDialog } from "../../../layout/PageContext";
 import { MemberCardProps } from "./MemberCard";
 import { Button, CloseButton, VStack } from "@chakra-ui/react";
 
@@ -17,10 +17,10 @@ export function MemberCardMenu({
   profile,
   onClose,
 }: MemberCardMenuProps) {
-  const user = useUser();
-
   const [mutateUpdateMemberPermission] = useUpdateMemberPermissionMutation();
   const [mutateRemoveFromTeam] = useRemoveFromTeamMutation();
+
+  const openAlertDialog = useAlertDialog();
 
   return (
     <VStack
@@ -71,14 +71,19 @@ export function MemberCardMenu({
         <Button
           variant={"solid"}
           onClick={() => {
-            mutateRemoveFromTeam({
-              variables: {
-                input: {
-                  teamId: team.id,
-                  profileId: profile.id,
-                },
-              },
-            }).then(onClose);
+            openAlertDialog({
+              title: "",
+              onConfirm: () =>
+                mutateRemoveFromTeam({
+                  variables: {
+                    input: {
+                      teamId: team.id,
+                      profileId: profile.id,
+                    },
+                  },
+                }).then(onClose),
+              onCancel: onClose,
+            });
           }}
         >
           Remove from Team
