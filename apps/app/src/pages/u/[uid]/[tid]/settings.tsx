@@ -8,6 +8,11 @@ import {
 import { TeamNavigationContextProvider } from "../../../../components/team/dashboard/TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
 import {
+  TeamDeleteSettingsSection,
+  TeamIdSettingsSection,
+  TeamNameSettingsSection,
+} from "../../../../components/team/settings/GeneralTeamSettingsSections";
+import {
   AppServerSideProps,
   initAppProps,
   initUProps,
@@ -49,14 +54,14 @@ const SettingsContent = () => {
         <Tabs orientation="vertical" id="settings-tabs" isLazy>
           <TabList w="30%">
             <Tab justifyContent={"flex-start"}>General</Tab>
-            <Tab justifyContent={"flex-start"}>Danger Zone</Tab>
           </TabList>
           <TabPanels>
             <TabPanel p="2">
-              <SectionContainerGroup>1</SectionContainerGroup>
-            </TabPanel>
-            <TabPanel p="2">
-              <SectionContainerGroup>2</SectionContainerGroup>
+              <SectionContainerGroup>
+                <TeamNameSettingsSection />
+                <TeamIdSettingsSection />
+                <TeamDeleteSettingsSection />
+              </SectionContainerGroup>
             </TabPanel>
           </TabPanels>
         </Tabs>
