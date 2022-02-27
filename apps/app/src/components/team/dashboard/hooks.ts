@@ -15,6 +15,10 @@ export function useTeamPageHeaderLinks() {
       title: "Members",
       href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}/members`,
     },
+    {
+      title: "Settings",
+      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}/settings`,
+    },
   ];
 
   const breadcrumbs: Array<PageHeaderLink> = [
