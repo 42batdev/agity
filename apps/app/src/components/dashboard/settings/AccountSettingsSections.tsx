@@ -5,8 +5,8 @@ import {
 import { validIDPattern } from "../../../server/graphql/errors";
 import { useUser } from "../../../supabase/AuthContext";
 import { checkUidExists } from "../../../supabase/pql/profiles";
-import ValidatedInput from "../../utils/ValidateInput";
-import { SectionContainer } from "./SectionContainer";
+import ValidatedInput from "../../common/ValidateInput";
+import { SectionContainer } from "../../common/SectionContainer";
 import {
   Button,
   Input,

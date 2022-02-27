@@ -6,7 +6,7 @@ import {
   PageHeader,
   PageHeaderLink,
   PageSubHeader,
-} from "../../components/layout";
+} from "../../components/common/layout/page";
 import { useUserProfileQuery } from "../../generated/graphql";
 import { AppServerSideProps, initAppProps } from "../../server/ssr/props";
 import { AuthContextProvider } from "../../supabase/AuthContext";

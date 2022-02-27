@@ -3,7 +3,7 @@ import {
   useRemoveFromTeamMutation,
   useUpdateMemberPermissionMutation,
 } from "../../../../generated/graphql";
-import { useAlertDialog } from "../../../layout/PageContext";
+import { useAlertDialog } from "../../../common/layout/page/PageContext";
 import { MemberCardProps } from "./MemberCard";
 import { Button, CloseButton, VStack } from "@chakra-ui/react";
 

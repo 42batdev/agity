@@ -1,5 +1,5 @@
-import { useUserProfileQuery } from "../../generated/graphql";
-import { useSignOut } from "../../supabase/AuthContext";
+import { useUserProfileQuery } from "../../../../generated/graphql";
+import { useSignOut } from "../../../../supabase/AuthContext";
 import {
   Avatar,
   HStack,

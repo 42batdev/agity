@@ -3,7 +3,7 @@ import {
   PageContent,
   PageHeader,
   PageSubHeader,
-} from "../../../../components/layout";
+} from "../../../../components/common/layout/page";
 import { TeamNavigationContextProvider } from "../../../../components/team/dashboard/TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
 import {

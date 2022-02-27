@@ -1,5 +1,5 @@
 import { useUserProfileQuery } from "../../../generated/graphql";
-import { PageHeaderLink } from "../../layout";
+import { PageHeaderLink } from "../../common/layout/page";
 import { useTeam } from "../hooks/useTeam";
 
 export function useTeamPageHeaderLinks() {
