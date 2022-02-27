@@ -95,10 +95,15 @@ export const teamMutationResolvers: MutationResolvers = {
       .select("*")
       .match({ id: input.teamId })
       .then(handleSupabaseError)
-      .then(({ data }) => createTeam(data[0]));
+      .then(({ data }) => {
+        if (data.length > 0) {
+          return createTeam(data[0]);
+        } else {
+          return null;
+        }
+      });
   },
-  removeMember: async (parent, { input }) => {
-    console.log(input);
+  removeMember: async (parent, { input }, { user }) => {
     await supabase
       .from("members")
       .delete({ returning: "minimal" })
@@ -110,7 +115,13 @@ export const teamMutationResolvers: MutationResolvers = {
       .select("*")
       .match({ id: input.teamId })
       .then(handleSupabaseError)
-      .then(({ data }) => createTeam(data[0]));
+      .then(({ data }) => {
+        if (data.length > 0) {
+          return createTeam(data[0]);
+        } else {
+          return null;
+        }
+      });
   },
   updateMemberPermission: async (parent, { input }) => {
     await supabase
