@@ -43,7 +43,7 @@ export function AppAlertDialog({
               onClick={() => onConfirm && onConfirm()}
               ml={3}
             >
-              Delete
+              Proceed
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
