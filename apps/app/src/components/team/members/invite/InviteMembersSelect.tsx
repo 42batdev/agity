@@ -1,11 +1,10 @@
 import {
   GetTeamByTidQuery,
   SearchProfilesQuery,
-  useGetTeamByTidQuery,
   useInviteToTeamMutation,
   useSearchProfilesLazyQuery,
 } from "../../../../generated/graphql";
-import { useTid } from "../../dashboard/TeamNavigationContext";
+import { useTeam } from "../../hooks/useTeam";
 import ProfileTag, {
   ProfileTagFields,
   ProfileTagSkeletons,
@@ -30,9 +29,8 @@ export const InviteMembersSelect = ({
 }: {
   onClose: () => void;
 }): JSX.Element => {
-  const { data: teamData } = useGetTeamByTidQuery({
-    variables: { tid: useTid() },
-  });
+  const { data: teamData } = useTeam();
+
   const [search, { loading, data: searchData }] = useSearchProfilesLazyQuery({
     fetchPolicy: "cache-first",
   });

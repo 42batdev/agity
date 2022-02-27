@@ -1,13 +1,10 @@
-import { useGetTeamByTidQuery } from "../../../generated/graphql";
-import { useTid } from "../dashboard/TeamNavigationContext";
+import { useTeam } from "../hooks/useTeam";
 import MemberCard from "./card/MemberCard";
 import { SimpleGrid } from "@chakra-ui/react";
 import React from "react";
 
 export const MemberList = () => {
-  const { loading, data } = useGetTeamByTidQuery({
-    variables: { tid: useTid() },
-  });
+  const { loading, data } = useTeam();
 
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
