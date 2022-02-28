@@ -1,9 +1,12 @@
+import { useUpdateTeamMutation } from "../../../generated/graphql";
 import { validateId } from "../../../server/graphql/errors";
 import { checkTidExists } from "../../../supabase/pql/teams";
 import { SectionContainer } from "../../common/SectionContainer";
 import ValidatedInput from "../../common/ValidateInput";
+import { useUid } from "../dashboard/TeamNavigationContext";
 import { useTeam } from "../hooks/useTeam";
 import { Button, Input, Skeleton } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import React, { useLayoutEffect, useState } from "react";
 
 export function TeamNameSettingsSection() {
@@ -14,12 +17,21 @@ export function TeamNameSettingsSection() {
     setName(data?.getTeam?.name ?? "");
   }, [data]);
 
+  const [mutate] = useUpdateTeamMutation();
+
   return (
     <SectionContainer
       title="Display Name"
       subTitle="The team name is visible for all team members."
       actions={
-        <Button isDisabled={name.length === 0} onClick={() => console.log()}>
+        <Button
+          isDisabled={name.length === 0}
+          onClick={() => {
+            if (data?.getTeam) {
+              mutate({ variables: { input: { id: data?.getTeam.id, name } } });
+            }
+          }}
+        >
           Save
         </Button>
       }
@@ -38,13 +50,19 @@ export function TeamNameSettingsSection() {
 }
 
 export function TeamIdSettingsSection() {
+  const uid = useUid();
+  const router = useRouter();
+
   const [tid, setTid] = useState("");
   const [tidValid, setTidValid] = useState(true);
 
   const { loading, data } = useTeam();
   useLayoutEffect(() => {
     setTid(data?.getTeam?.tid ?? "");
+    setTidValid(false);
   }, [data]);
+
+  const [mutate] = useUpdateTeamMutation();
 
   return (
     <SectionContainer
@@ -53,7 +71,15 @@ export function TeamIdSettingsSection() {
       actions={
         <Button
           isDisabled={!tidValid || tid.length === 0}
-          onClick={() => console.log()}
+          onClick={() => {
+            if (data?.getTeam && tidValid) {
+              mutate({
+                variables: { input: { id: data?.getTeam.id, tid } },
+              }).then(() => {
+                router.push(`/u/${uid}/${tid}/settings`);
+              });
+            }
+          }}
         >
           Save
         </Button>

@@ -2,6 +2,7 @@ import {
   MutationResolvers,
   PermissionLevel,
   Profile,
+  Team,
 } from "../../../generated/graphql";
 import supabase, { supabaseServiceRole } from "../../../supabase";
 import { handleSupabaseError } from "../../../supabase/pql";
@@ -74,6 +75,21 @@ export const teamMutationResolvers: MutationResolvers = {
     );
 
     return team;
+  },
+  updateTeam: (parent, { input }) => {
+    let update = {};
+    if (input.tid !== undefined) {
+      validateId(input.tid);
+      update = { ...update, tid: input.tid };
+    }
+    if (input.name !== undefined) update = { ...update, name: input.name };
+
+    return supabase
+      .from("teams")
+      .update({ ...update })
+      .match({ id: input.id })
+      .then(handleSupabaseError)
+      .then(({ data }) => createTeam(data[0])) as Promise<Team>;
   },
   inviteMembers: async (parent, { input }) => {
     const insert: any[] = [];
