@@ -15,6 +15,7 @@ type Mutation {
     updateMemberPermission(input: UpdateMemberPermissionInput!) : Team
 
     createTeam (input: CreateTeamInput!): Team
+    updateTeam (input: UpdateTeamInput!): Team
 }
 
 type Profile {
@@ -96,5 +97,11 @@ input AvatarInput {
 
 input CreateTeamInput {
     tid: String!
+    name: String
+}
+
+input UpdateTeamInput {
+    id: ID!
+    tid: String
     name: String
 }

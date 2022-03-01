@@ -1,5 +1,5 @@
 import { useUserProfileQuery } from "../../../generated/graphql";
-import { PageHeaderLink } from "../../layout";
+import { PageHeaderLink } from "../../common/layout/page";
 import { useTeam } from "../hooks/useTeam";
 
 export function useTeamPageHeaderLinks() {
@@ -14,6 +14,10 @@ export function useTeamPageHeaderLinks() {
     {
       title: "Members",
       href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}/members`,
+    },
+    {
+      title: "Settings",
+      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}/settings`,
     },
   ];
 
