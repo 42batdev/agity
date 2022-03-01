@@ -2,7 +2,7 @@ import { Box, Center, useColorModeValue } from "@chakra-ui/react";
 
 export interface MemberCardContentProps {
   disabled: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   children: React.ReactNode;
 }
 
@@ -21,13 +21,14 @@ export default function MemberCardContent({
     <Center py={6} position="relative">
       <Box
         maxW="270px"
+        h="240px"
         w="full"
         bg={useColorModeValue("white", "gray.800")}
         boxShadow="2xl"
         rounded="md"
         overflow="hidden"
         _hover={!disabled ? hover : {}}
-        onClick={() => !disabled && onClick()}
+        onClick={() => !disabled && onClick && onClick()}
         position="relative"
       >
         {children}

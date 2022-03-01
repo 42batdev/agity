@@ -6,9 +6,8 @@ import { MemberCardMenu } from "./MemberCardMenu";
 import {
   Avatar,
   Box,
-  Flex,
   Heading,
-  Image,
+  Skeleton,
   Stack,
   Text,
   useDisclosure,
@@ -31,26 +30,15 @@ export default function MemberCard({
 
   return (
     <MemberCardContent disabled={isDisabled} onClick={onToggleMenu}>
-      <Image
-        h="120px"
-        w="full"
-        src={
-          "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-        }
-        objectFit="cover"
-      />
-      <Flex justify="center" mt="-12">
-        <Avatar
-          size="xl"
-          src={profile.avatar?.url ?? undefined}
-          color="gray.100"
-          border="2px solid white"
-        />
-      </Flex>
-
       <Box p={6}>
         <Stack spacing={0} align={"center"} mb={5}>
-          <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
+          <Avatar
+            size="xl"
+            src={profile.avatar?.url ?? undefined}
+            color="gray.100"
+            border="2px solid white"
+          />
+          <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"} pt="8">
             {profile.name}
           </Heading>
           <Text color={"gray.500"}>{permissions.permissionLevel}</Text>
@@ -65,5 +53,15 @@ export default function MemberCard({
         />
       )}
     </MemberCardContent>
+  );
+}
+
+export function MemberCardSkeleton() {
+  return (
+    <Skeleton>
+      <MemberCardContent disabled>
+        <p>LOADING</p>
+      </MemberCardContent>
+    </Skeleton>
   );
 }

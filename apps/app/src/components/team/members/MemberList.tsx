@@ -1,5 +1,5 @@
 import { useTeam } from "../hooks/useTeam";
-import MemberCard from "./card/MemberCard";
+import MemberCard, { MemberCardSkeleton } from "./card/MemberCard";
 import { SimpleGrid } from "@chakra-ui/react";
 import React from "react";
 
@@ -8,6 +8,14 @@ export const MemberList = () => {
 
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
+      {loading && (
+        <>
+          <MemberCardSkeleton />
+          <MemberCardSkeleton />
+          <MemberCardSkeleton />
+          <MemberCardSkeleton />
+        </>
+      )}
       {!loading &&
         data &&
         data.getTeam &&
