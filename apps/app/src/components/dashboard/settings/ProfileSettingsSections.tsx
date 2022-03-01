@@ -9,7 +9,7 @@ import {
   uploadAvatarToStorage,
 } from "../../../supabase/storage/avatar";
 import ProfileSettingsAvatarEditor from "./ProfileSettingsAvatarEditor";
-import { SectionContainer } from "./SectionContainer";
+import { SectionContainer } from "../../common/SectionContainer";
 import { Button, Input, Skeleton } from "@chakra-ui/react";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";

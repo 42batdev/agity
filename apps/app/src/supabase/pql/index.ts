@@ -1,6 +1,7 @@
-export function handleSupabaseError({ error, ...rest }) {
+export function handleSupabaseError(result) {
+  const { error, ...rest } = result;
   if (error) {
-    console.log(error);
+    console.error("A graphql error occurred.", result);
     throw error;
   }
   return rest;

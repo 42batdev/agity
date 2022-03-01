@@ -1,25 +1,32 @@
-import {
-  useGetTeamByTidQuery,
-  useUserProfileQuery,
-} from "../../../generated/graphql";
-import { PageHeaderLink } from "../../layout";
-import { useTid, useUid } from "./TeamNavigationContext";
+import { useUserProfileQuery } from "../../../generated/graphql";
+import { PageHeaderLink } from "../../common/layout/page";
+import { useTeam } from "../hooks/useTeam";
 
 export function useTeamPageHeaderLinks() {
-  const uid = useUid();
-  const tid = useTid();
-
   const { data: profileData } = useUserProfileQuery();
-  const { data: teamData } = useGetTeamByTidQuery({ variables: { tid } });
+  const { data: teamData } = useTeam();
 
   const links: Array<PageHeaderLink> = [
-    { title: "Overview", href: `/u/${uid}/${tid}` },
-    { title: "Members", href: `/u/${uid}/${tid}/members` },
+    {
+      title: "Overview",
+      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}`,
+    },
+    {
+      title: "Members",
+      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}/members`,
+    },
+    {
+      title: "Settings",
+      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}/settings`,
+    },
   ];
 
   const breadcrumbs: Array<PageHeaderLink> = [
     { title: profileData?.getUserProfile?.name ?? "", href: `/dashboard` },
-    { title: teamData?.getTeam?.name ?? "", href: `/u/${uid}/${tid}` },
+    {
+      title: teamData?.getTeam?.name ?? "",
+      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}`,
+    },
   ];
 
   return { links, breadcrumbs };

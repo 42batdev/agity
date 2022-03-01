@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, HStack, Text } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 export interface AppHeaderProps {
@@ -14,7 +14,7 @@ export const PageSubHeader = ({ title, subTitle, actions }: AppHeaderProps) => {
         <Heading as="h3" size="lg">
           {title}
         </Heading>
-        {actions}
+        <HStack>{actions}</HStack>
       </Flex>
       {subTitle && <Text>{subTitle}</Text>}
     </Box>

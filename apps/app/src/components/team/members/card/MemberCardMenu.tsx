@@ -1,7 +1,9 @@
 import {
   PermissionLevel,
+  useRemoveFromTeamMutation,
   useUpdateMemberPermissionMutation,
 } from "../../../../generated/graphql";
+import { useAlertDialog } from "../../../common/layout/page/PageContext";
 import { MemberCardProps } from "./MemberCard";
 import { Button, CloseButton, VStack } from "@chakra-ui/react";
 
@@ -15,30 +17,10 @@ export function MemberCardMenu({
   profile,
   onClose,
 }: MemberCardMenuProps) {
-  const [mutate] = useUpdateMemberPermissionMutation();
+  const [mutateUpdateMemberPermission] = useUpdateMemberPermissionMutation();
+  const [mutateRemoveFromTeam] = useRemoveFromTeamMutation();
 
-  const demoteToMember = () => {
-    mutate({
-      variables: {
-        input: {
-          teamId: team.id,
-          profileId: profile.id,
-          permissionLevel: PermissionLevel.MEMBER,
-        },
-      },
-    }).then(onClose);
-  };
-  const promoteToAdmin = () => {
-    mutate({
-      variables: {
-        input: {
-          teamId: team.id,
-          profileId: profile.id,
-          permissionLevel: PermissionLevel.ADMIN,
-        },
-      },
-    }).then(onClose);
-  };
+  const openAlertDialog = useAlertDialog();
 
   return (
     <VStack
@@ -50,13 +32,61 @@ export function MemberCardMenu({
       justifyContent={"center"}
     >
       {permissions.permissionLevel === PermissionLevel.MEMBER && (
-        <Button variant={"solid"} onClick={promoteToAdmin}>
+        <Button
+          variant={"solid"}
+          onClick={() => {
+            mutateUpdateMemberPermission({
+              variables: {
+                input: {
+                  teamId: team.id,
+                  profileId: profile.id,
+                  permissionLevel: PermissionLevel.ADMIN,
+                },
+              },
+            }).then(onClose);
+          }}
+        >
           Promote to Admin
         </Button>
       )}
       {permissions.permissionLevel === PermissionLevel.ADMIN && (
-        <Button variant={"solid"} onClick={demoteToMember}>
+        <Button
+          variant={"solid"}
+          onClick={() => {
+            mutateUpdateMemberPermission({
+              variables: {
+                input: {
+                  teamId: team.id,
+                  profileId: profile.id,
+                  permissionLevel: PermissionLevel.MEMBER,
+                },
+              },
+            }).then(onClose);
+          }}
+        >
           Demote to Member
+        </Button>
+      )}
+      {permissions.permissionLevel !== PermissionLevel.OWNER && (
+        <Button
+          variant={"solid"}
+          onClick={() => {
+            openAlertDialog({
+              title: "",
+              onConfirm: () =>
+                mutateRemoveFromTeam({
+                  variables: {
+                    input: {
+                      teamId: team.id,
+                      profileId: profile.id,
+                    },
+                  },
+                }).then(onClose),
+              onCancel: onClose,
+            });
+          }}
+        >
+          Remove from Team
         </Button>
       )}
 

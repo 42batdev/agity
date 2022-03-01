@@ -3,9 +3,10 @@ import {
   PageContent,
   PageHeader,
   PageSubHeader,
-} from "../../../../components/layout";
+} from "../../../../components/common/layout/page";
 import { TeamNavigationContextProvider } from "../../../../components/team/dashboard/TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
+import LeaveTeamButton from "../../../../components/team/members/LeaveTeamButton";
 import { MemberList } from "../../../../components/team/members/MemberList";
 import { InviteMembersModal } from "../../../../components/team/members/invite/InviteMembersModal";
 import {
@@ -44,7 +45,12 @@ const TeamMembersContent = () => {
         <PageSubHeader
           title={`Team Members`}
           subTitle={"View and manage the team members"}
-          actions={<InviteMembersModal />}
+          actions={
+            <>
+              <InviteMembersModal />
+              <LeaveTeamButton />
+            </>
+          }
         />
         <MemberList />
       </PageContent>

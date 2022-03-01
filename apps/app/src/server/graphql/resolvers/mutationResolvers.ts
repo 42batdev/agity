@@ -2,6 +2,7 @@ import {
   MutationResolvers,
   PermissionLevel,
   Profile,
+  Team,
 } from "../../../generated/graphql";
 import supabase, { supabaseServiceRole } from "../../../supabase";
 import { handleSupabaseError } from "../../../supabase/pql";
@@ -75,6 +76,21 @@ export const teamMutationResolvers: MutationResolvers = {
 
     return team;
   },
+  updateTeam: (parent, { input }) => {
+    let update = {};
+    if (input.tid !== undefined) {
+      validateId(input.tid);
+      update = { ...update, tid: input.tid };
+    }
+    if (input.name !== undefined) update = { ...update, name: input.name };
+
+    return supabase
+      .from("teams")
+      .update({ ...update })
+      .match({ id: input.id })
+      .then(handleSupabaseError)
+      .then(({ data }) => createTeam(data[0])) as Promise<Team>;
+  },
   inviteMembers: async (parent, { input }) => {
     const insert: any[] = [];
     input.profileIds?.forEach((id) =>
@@ -95,7 +111,33 @@ export const teamMutationResolvers: MutationResolvers = {
       .select("*")
       .match({ id: input.teamId })
       .then(handleSupabaseError)
-      .then(({ data }) => createTeam(data[0]));
+      .then(({ data }) => {
+        if (data.length > 0) {
+          return createTeam(data[0]);
+        } else {
+          return null;
+        }
+      });
+  },
+  removeMember: async (parent, { input }, { user }) => {
+    await supabase
+      .from("members")
+      .delete({ returning: "minimal" })
+      .match({ user_id: input.profileId, team_id: input.teamId })
+      .then(handleSupabaseError);
+
+    return await supabase
+      .from("teams")
+      .select("*")
+      .match({ id: input.teamId })
+      .then(handleSupabaseError)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          return createTeam(data[0]);
+        } else {
+          return null;
+        }
+      });
   },
   updateMemberPermission: async (parent, { input }) => {
     await supabase

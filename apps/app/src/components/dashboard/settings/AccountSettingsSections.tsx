@@ -2,11 +2,11 @@ import {
   useUpdateUserProfileMutation,
   useUserProfileQuery,
 } from "../../../generated/graphql";
-import { validIDPattern } from "../../../server/graphql/errors";
+import { validateId } from "../../../server/graphql/errors";
 import { useUser } from "../../../supabase/AuthContext";
 import { checkUidExists } from "../../../supabase/pql/profiles";
-import ValidatedInput from "../../utils/ValidateInput";
-import { SectionContainer } from "./SectionContainer";
+import { SectionContainer } from "../../common/SectionContainer";
+import ValidatedInput from "../../common/ValidateInput";
 import {
   Button,
   Input,
@@ -52,7 +52,7 @@ export function AccountUsernameSettingsSection() {
           onChange={(value) => setUid(value)}
           onValidate={(value) => {
             return checkUidExists(value).then((exists) => {
-              const valid = validIDPattern.test(value);
+              const valid = validateId(value);
               setUidValid(valid && !exists);
               return !valid || exists;
             });
@@ -75,7 +75,7 @@ export function AccountIdSettingsSection() {
   return (
     <SectionContainer
       title="Your Agity ID"
-      subTitle="This is your internal agity id.."
+      subTitle="This is your internal agity id."
     >
       <InputGroup size="md">
         <Input pr="4.5rem" value={user?.id} readOnly />

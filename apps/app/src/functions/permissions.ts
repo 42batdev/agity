@@ -6,3 +6,7 @@ export function canEditTeam(permissions: TeamPermission) {
     permissions.permissionLevel === PermissionLevel.ADMIN
   );
 }
+
+export function canLeaveTeam(permissions?: TeamPermission) {
+  return permissions && permissions.permissionLevel !== PermissionLevel.OWNER;
+}

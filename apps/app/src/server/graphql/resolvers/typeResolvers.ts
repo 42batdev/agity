@@ -8,7 +8,7 @@ import {
   TeamResolvers,
 } from "../../../generated/graphql";
 import supabase from "../../../supabase";
-import { handleSupabaseError, logSupabaseData } from "../../../supabase/pql";
+import { handleSupabaseError } from "../../../supabase/pql";
 import { createProfile } from "../../../supabase/pql/profiles";
 import {
   createMember,

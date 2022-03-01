@@ -1,3 +1,4 @@
+import { PageContextProvider } from "./PageContext";
 import {
   Icon,
   IconProps,
@@ -8,16 +9,22 @@ import * as React from "react";
 
 export const Page = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SimpleGrid minH="100%" templateRows="auto 1fr" templateColumns="auto 1fr">
-      <Blur
-        position={"absolute"}
-        zIndex={100}
-        top={-10}
-        left={-10}
-        style={{ filter: "blur(70px)" }}
-      />
-      {children}
-    </SimpleGrid>
+    <PageContextProvider>
+      <SimpleGrid
+        minH="100%"
+        templateRows="auto 1fr"
+        templateColumns="auto 1fr"
+      >
+        <Blur
+          position={"absolute"}
+          zIndex={100}
+          top={-10}
+          left={-10}
+          style={{ filter: "blur(70px)" }}
+        />
+        {children}
+      </SimpleGrid>
+    </PageContextProvider>
   );
 };
 

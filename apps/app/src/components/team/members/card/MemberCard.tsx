@@ -1,5 +1,6 @@
 import { canEditTeam } from "../../../../functions/permissions";
 import { Profile, Team, TeamPermission } from "../../../../generated/graphql";
+import { useUser } from "../../../../supabase/AuthContext";
 import MemberCardContent from "./MemberCardContent";
 import { MemberCardMenu } from "./MemberCardMenu";
 import {
@@ -24,13 +25,12 @@ export default function MemberCard({
   profile,
   permissions,
 }: MemberCardProps) {
+  const user = useUser();
   const { isOpen: isMenuOpen, onToggle: onToggleMenu } = useDisclosure();
+  const isDisabled = !canEditTeam(team.myPermissions) || profile.id === user.id;
 
   return (
-    <MemberCardContent
-      disabled={!canEditTeam(team.myPermissions)}
-      onClick={onToggleMenu}
-    >
+    <MemberCardContent disabled={isDisabled} onClick={onToggleMenu}>
       <Image
         h="120px"
         w="full"
