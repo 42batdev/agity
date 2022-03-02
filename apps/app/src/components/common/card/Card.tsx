@@ -1,25 +1,18 @@
 import {
-  Box,
-  Flex,
   Skeleton,
   Stat,
   StatLabel,
   StatNumber,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FiUsers } from "react-icons/fi";
 
-export interface TeamCardProps {
-  name: string;
-  permissionLevel?: string;
+export interface CardProps {
+  title: string;
+  description?: string;
   onClick?: () => void;
 }
 
-export default function TeamCard({
-  permissionLevel,
-  name,
-  onClick,
-}: TeamCardProps) {
+export default function Card({ title, description, onClick }: CardProps) {
   return (
     <Stat
       px={{ base: 2, md: 4 }}
@@ -36,17 +29,17 @@ export default function TeamCard({
       onClick={onClick}
     >
       <StatLabel fontWeight={"medium"} isTruncated>
-        {permissionLevel}&nbsp;
+        {description}&nbsp;
       </StatLabel>
-      <StatNumber isTruncated>{name}</StatNumber>
+      <StatNumber isTruncated>{title}</StatNumber>
     </Stat>
   );
 }
 
-export function TeamCardSkeleton() {
+export function CardSkeleton() {
   return (
     <Skeleton>
-      <TeamCard name="Loading" />
+      <Card title="Loading" />
     </Skeleton>
   );
 }

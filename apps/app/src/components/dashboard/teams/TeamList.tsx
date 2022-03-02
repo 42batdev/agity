@@ -2,8 +2,8 @@ import {
   useGetUserTeamsQuery,
   useUserProfileQuery,
 } from "../../../generated/graphql";
-import TeamCard, { TeamCardSkeleton } from "./TeamCard";
-import { SimpleGrid } from "@chakra-ui/react";
+import Card from "../../common/card/Card";
+import { CardGrid } from "../../common/card/CardGrid";
 import { useRouter } from "next/router";
 
 export const TeamList = () => {
@@ -13,25 +13,18 @@ export const TeamList = () => {
   const { data: teamsData, loading } = useGetUserTeamsQuery();
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-      {loading && (
-        <>
-          <TeamCardSkeleton />
-          <TeamCardSkeleton />
-        </>
-      )}
-      {!loading &&
-        teamsData &&
+    <CardGrid loading={loading}>
+      {teamsData &&
         teamsData.getUserProfile?.teams?.map((team) => (
-          <TeamCard
+          <Card
             key={team.id}
-            name={team.name}
-            permissionLevel={team.myPermissions.permissionLevel}
+            title={team.name}
+            description={team.myPermissions.permissionLevel}
             onClick={() => {
               router.push(`/u/${userData?.getUserProfile?.uid}/${team.tid}`);
             }}
           />
         ))}
-    </SimpleGrid>
+    </CardGrid>
   );
 };
