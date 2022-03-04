@@ -1,28 +1,33 @@
+import { canEditTeam } from "../../../functions/permissions";
+import { useUser } from "../../../supabase/AuthContext";
+import { CardGrid } from "../../common/card/CardGrid";
 import { useTeam } from "../hooks/useTeam";
-import MemberCard from "./card/MemberCard";
-import { SimpleGrid } from "@chakra-ui/react";
+import { MemberCard } from "./card/MemberCard";
 import React from "react";
 
 export const MemberList = () => {
+  const user = useUser();
   const { loading, data } = useTeam();
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-      {!loading &&
-        data &&
+    <CardGrid loading={loading}>
+      {data &&
         data.getTeam &&
         data.getTeam.members.map((member) => {
           if (data.getTeam) {
             return (
               <MemberCard
-                key={member.profile.uid}
+                key={member.profile.id}
                 team={data.getTeam}
-                profile={member.profile}
-                permissions={member.permission}
+                member={member}
+                disabled={
+                  !canEditTeam(data.getTeam.myPermissions) ||
+                  member.profile.id === user.id
+                }
               />
             );
           }
         })}
-    </SimpleGrid>
+    </CardGrid>
   );
 };
