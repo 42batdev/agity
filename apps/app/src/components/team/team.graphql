@@ -1,5 +1,5 @@
-query GetTeamByTid($tid: String!) {
-    getTeam(tid: $tid) {
+query GetTeamByTid($id: ID!) {
+    getTeam(id: $id) {
         id
         tid
         name

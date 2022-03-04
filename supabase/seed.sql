@@ -154,15 +154,19 @@ VALUES ('e916e17d-0e09-44bc-95ed-ea738ed776dc', 'developer', 'Developer', null, 
      , ('06f695c1-baf5-4ba9-9ff2-8b3e24db95da', 'spy', 'The Spy', null, null);
 
 -- Set up Teams and Members
-INSERT INTO public.teams (id, tid, name, created_at)
-VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', 'spectator', 'Spectator', '2022-01-31 21:34:25.366942 +00:00'),
-       ('ac5cc79f-a28f-40c3-8a70-518be34d178e', 'red', 'Reliable Excavation Demolition',
+INSERT INTO public.teams (id, uid, tid, name, created_at)
+VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', 'developer', 'spectator', 'Spectator',
+        '2022-01-31 21:34:25.366942 +00:00'),
+       ('ac5cc79f-a28f-40c3-8a70-518be34d178e', 'player_one', 'red', 'Reliable Excavation Demolition',
         '2022-01-31 21:34:40.423653 +00:00'),
-       ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'blu', 'Builders League United', '2022-01-31 21:35:23.703197 +00:00')
+       ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'player_two', 'blu', 'Builders League United',
+        '2022-01-31 21:35:23.703197 +00:00')
         ,
-       ('39b3cfd2-26ed-45b2-8390-fc9a9313c4aa', 'ylw', 'Yard Logistics Workers', '2022-02-20 19:55:40.251868 +00:00')
+       ('39b3cfd2-26ed-45b2-8390-fc9a9313c4aa', 'developer', 'ylw', 'Yard Logistics Workers',
+        '2022-02-20 19:55:40.251868 +00:00')
         ,
-       ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', 'grn', 'Global Radio Network', '2022-02-20 19:55:40.251868 +00:00');
+       ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', 'developer', 'grn', 'Global Radio Network',
+        '2022-02-20 19:55:40.251868 +00:00');
 
 INSERT INTO public.members (team_id, user_id, permission_level)
 VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'OWNER')  -- spectator
@@ -173,10 +177,11 @@ VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', 'e916e17d-0e09-44bc-95ed-ea738ed
      , ('ac5cc79f-a28f-40c3-8a70-518be34d178e', '91382ad1-a715-49b7-868c-cb56c24f979d', 'MEMBER') -- red
      , ('ac5cc79f-a28f-40c3-8a70-518be34d178e', '24626771-de5a-4149-81ab-bc582ec4a208', 'MEMBER') -- red
      , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', '09cbcd88-c3ee-4d85-95e5-51b490c1b3cb', 'OWNER')  -- blu
-     , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'MEMBER')  -- blu
+     , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'MEMBER') -- blu
      , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', '46ba81be-e17e-48e7-b41e-d825084400e7', 'MEMBER') -- blu
-     , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'd284c9ce-167c-465a-b158-2d592b97fdd0', 'MEMBER'); -- blu
--- blu
+     , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'd284c9ce-167c-465a-b158-2d592b97fdd0', 'MEMBER') -- blu
+     , ('39b3cfd2-26ed-45b2-8390-fc9a9313c4aa', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'OWNER')  -- ylw
+     , ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'OWNER'); -- grn
 
 -- Set up Avatar Storage
 insert into storage.buckets (id, name, public)

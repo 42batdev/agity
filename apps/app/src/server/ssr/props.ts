@@ -9,12 +9,12 @@ export interface AppServerSideProps {
 export const initAppProps = async (
   context
 ): Promise<GetServerSidePropsResult<AppServerSideProps>> => {
-  const authResult = await supabase.auth.api.getUserByCookie(context.req);
+  const session = await initSupabaseSSRSession(context);
 
-  if (!authResult || !authResult.user || authResult.error) {
+  if (!session || !session.user || session.error) {
     console.log(
       "Authorization error or no auth user redirecting to login page",
-      authResult.error
+      session.error
     );
     return {
       redirect: {
@@ -25,11 +25,12 @@ export const initAppProps = async (
   }
 
   return {
-    props: { user: authResult.user },
+    props: { user: session.user },
   };
 };
 
 export interface TeamServerSideProps {
+  id: string;
   uid: string;
   tid: string;
 }
@@ -37,20 +38,44 @@ export interface TeamServerSideProps {
 export const initUProps = async (
   context
 ): Promise<GetServerSidePropsResult<TeamServerSideProps>> => {
+  await initSupabaseSSRSession(context);
+
   const { uid, tid } = context.query;
-  if (!uid || !tid) {
-    return {
-      redirect: {
-        destination: `/`,
-        permanent: false,
-      },
-    };
+
+  if (uid && tid) {
+    const exists = await supabase
+      .from("teams")
+      .select("id", { count: "exact" })
+      .match({ tid, uid });
+
+    if ((exists.count ?? 0 > 0) && exists.data) {
+      return {
+        props: {
+          id: exists.data[0].id,
+          uid,
+          tid,
+        },
+      };
+    }
   }
 
   return {
-    props: {
-      uid,
-      tid,
+    redirect: {
+      destination: `/`,
+      permanent: false,
     },
   };
 };
+
+async function initSupabaseSSRSession(context) {
+  const session = await supabase.auth.api.getUserByCookie(
+    context.req,
+    context.res
+  );
+  if (session.token) {
+    supabase.auth.setAuth(session.token);
+    return session;
+  } else {
+    throw Error;
+  }
+}
