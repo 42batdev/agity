@@ -5,33 +5,21 @@ import {
 } from "../../../../generated/graphql";
 import { useAlertDialog } from "../../../common/layout/page/PageContext";
 import { MemberCardProps } from "./MemberCard";
-import { Button, CloseButton, VStack } from "@chakra-ui/react";
+import { Button, VStack } from "@chakra-ui/react";
 
 export interface MemberCardMenuProps extends MemberCardProps {
   onClose: () => void;
 }
 
-export function MemberCardMenu({
-  permissions,
-  team,
-  profile,
-  onClose,
-}: MemberCardMenuProps) {
+export function MemberCardMenu({ member, team, onClose }: MemberCardMenuProps) {
   const [mutateUpdateMemberPermission] = useUpdateMemberPermissionMutation();
   const [mutateRemoveFromTeam] = useRemoveFromTeamMutation();
 
   const openAlertDialog = useAlertDialog();
 
   return (
-    <VStack
-      position="absolute"
-      top="0"
-      w="100%"
-      h="100%"
-      bg="blackAlpha.800"
-      justifyContent={"center"}
-    >
-      {permissions.permissionLevel === PermissionLevel.MEMBER && (
+    <VStack justifyContent={"center"}>
+      {member.permission.permissionLevel === PermissionLevel.MEMBER && (
         <Button
           variant={"solid"}
           onClick={() => {
@@ -39,17 +27,18 @@ export function MemberCardMenu({
               variables: {
                 input: {
                   teamId: team.id,
-                  profileId: profile.id,
+                  profileId: member.profile.id,
                   permissionLevel: PermissionLevel.ADMIN,
                 },
               },
             }).then(onClose);
           }}
+          isFullWidth
         >
           Promote to Admin
         </Button>
       )}
-      {permissions.permissionLevel === PermissionLevel.ADMIN && (
+      {member.permission.permissionLevel === PermissionLevel.ADMIN && (
         <Button
           variant={"solid"}
           onClick={() => {
@@ -57,17 +46,18 @@ export function MemberCardMenu({
               variables: {
                 input: {
                   teamId: team.id,
-                  profileId: profile.id,
+                  profileId: member.profile.id,
                   permissionLevel: PermissionLevel.MEMBER,
                 },
               },
             }).then(onClose);
           }}
+          isFullWidth
         >
           Demote to Member
         </Button>
       )}
-      {permissions.permissionLevel !== PermissionLevel.OWNER && (
+      {member.permission.permissionLevel !== PermissionLevel.OWNER && (
         <Button
           variant={"solid"}
           onClick={() => {
@@ -78,19 +68,18 @@ export function MemberCardMenu({
                   variables: {
                     input: {
                       teamId: team.id,
-                      profileId: profile.id,
+                      profileId: member.profile.id,
                     },
                   },
                 }).then(onClose),
               onCancel: onClose,
             });
           }}
+          isFullWidth
         >
           Remove from Team
         </Button>
       )}
-
-      <CloseButton onClick={onClose} />
     </VStack>
   );
 }

@@ -1,67 +1,57 @@
-import { canEditTeam } from "../../../../functions/permissions";
-import { Profile, Team, TeamPermission } from "../../../../generated/graphql";
-import { useUser } from "../../../../supabase/AuthContext";
-import MemberCardContent from "./MemberCardContent";
+import { Member, Team } from "../../../../generated/graphql";
+import Card from "../../../common/card/Card";
 import { MemberCardMenu } from "./MemberCardMenu";
 import {
-  Avatar,
   Box,
-  Heading,
-  Skeleton,
-  Stack,
-  Text,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   useDisclosure,
 } from "@chakra-ui/react";
+import React from "react";
 
 export interface MemberCardProps {
   team: Pick<Team, "id" | "myPermissions">;
-  profile: Pick<Profile, "id" | "name" | "avatar">;
-  permissions: Pick<TeamPermission, "permissionLevel">;
+  member: Pick<Member, "profile" | "permission">;
+  disabled: boolean;
 }
 
-export default function MemberCard({
-  team,
-  profile,
-  permissions,
-}: MemberCardProps) {
-  const user = useUser();
-  const { isOpen: isMenuOpen, onToggle: onToggleMenu } = useDisclosure();
-  const isDisabled = !canEditTeam(team.myPermissions) || profile.id === user.id;
+export function MemberCard(props: MemberCardProps) {
+  const { member, disabled } = props;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <MemberCardContent disabled={isDisabled} onClick={onToggleMenu}>
-      <Box p={6}>
-        <Stack spacing={0} align={"center"} mb={5}>
-          <Avatar
-            size="xl"
-            src={profile.avatar?.url ?? undefined}
-            color="gray.100"
-            border="2px solid white"
+    <Popover
+      onOpen={() => !disabled && onOpen()}
+      onClose={onClose}
+      isOpen={isOpen}
+      closeOnBlur
+      closeOnEsc
+    >
+      <PopoverTrigger>
+        <Box>
+          <Card
+            title={member.profile.name}
+            description={member.permission.permissionLevel}
+            avatarProps={{
+              src: member.profile.avatar?.url ?? undefined,
+            }}
+            onClick={disabled ? undefined : () => {}}
           />
-          <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"} pt="8">
-            {profile.name}
-          </Heading>
-          <Text color={"gray.500"}>{permissions.permissionLevel}</Text>
-        </Stack>
-      </Box>
-      {isMenuOpen && (
-        <MemberCardMenu
-          onClose={onToggleMenu}
-          permissions={permissions}
-          team={team}
-          profile={profile}
-        />
-      )}
-    </MemberCardContent>
-  );
-}
-
-export function MemberCardSkeleton() {
-  return (
-    <Skeleton>
-      <MemberCardContent disabled>
-        <p>LOADING</p>
-      </MemberCardContent>
-    </Skeleton>
+        </Box>
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader fontWeight="semibold">Edit Team Member</PopoverHeader>
+        <PopoverArrow />
+        <PopoverCloseButton onClick={onClose} />
+        <PopoverBody>
+          <MemberCardMenu {...props} onClose={onClose} />
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
   );
 }
