@@ -40,7 +40,6 @@ export function TeamCard(props: TeamCardProps) {
       <PopoverTrigger>
         <Box>
           <Card
-            key={team.id}
             title={team.name}
             description={team.myPermissions.permissionLevel}
             onClick={() => {

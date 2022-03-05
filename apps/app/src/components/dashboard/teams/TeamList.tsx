@@ -9,7 +9,7 @@ export const TeamList = () => {
     <CardGrid loading={loading}>
       {teamsData &&
         teamsData.getUserProfile?.teams?.map((team) => (
-          <TeamCard team={team} />
+          <TeamCard key={team.id} team={team} />
         ))}
     </CardGrid>
   );
