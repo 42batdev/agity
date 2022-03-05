@@ -1,3 +1,10 @@
+import {
+  GetUserTeamsDocument,
+  PermissionLevel,
+  useRemoveFromTeamMutation,
+  useUpdateMemberPermissionMutation,
+} from "../../../../generated/graphql";
+import { useUser } from "../../../../supabase/AuthContext";
 import { TeamCardProps } from "./TeamCard";
 import { Button, HStack } from "@chakra-ui/react";
 
@@ -14,17 +21,44 @@ export function TeamCardMenu(props: TeamCardMenuProps) {
   );
 }
 
-function AcceptButton({ team }: TeamCardMenuProps) {
+function AcceptButton({ team, onClose }: TeamCardMenuProps) {
+  const user = useUser();
+  const [mutate] = useUpdateMemberPermissionMutation({
+    variables: {
+      input: {
+        teamId: team.id,
+        profileId: user.id,
+        permissionLevel: PermissionLevel.MEMBER,
+      },
+    },
+  });
   return (
-    <Button variant={"solid"} onClick={() => {}} isFullWidth>
+    <Button
+      variant={"solid"}
+      onClick={() => {
+        mutate().then(onClose);
+      }}
+      isFullWidth
+    >
       Accept
     </Button>
   );
 }
 
-function DeclineButton({ team }: TeamCardMenuProps) {
+function DeclineButton({ team, onClose }: TeamCardMenuProps) {
+  const user = useUser();
+  const [mutate] = useRemoveFromTeamMutation({
+    variables: { input: { teamId: team.id, profileId: user.id } },
+    refetchQueries: [GetUserTeamsDocument],
+  });
   return (
-    <Button variant={"solid"} onClick={() => {}} isFullWidth>
+    <Button
+      variant={"solid"}
+      onClick={() => {
+        mutate().then(onClose);
+      }}
+      isFullWidth
+    >
       Decline
     </Button>
   );

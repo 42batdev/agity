@@ -1,0 +1,31 @@
+
+mutation RemoveFromTeam($input: RemoveMemberInput!) {
+    removeMember(input: $input) {
+        id
+        members {
+            profile {
+                id
+            }
+            permission {
+                permissionLevel
+            }
+        }
+    }
+}
+
+mutation UpdateMemberPermission($input: UpdateMemberPermissionInput!) {
+    updateMemberPermission(input: $input) {
+        id
+        myPermissions {
+            permissionLevel
+        }
+        members {
+            profile {
+                id
+            }
+            permission {
+                permissionLevel
+            }
+        }
+    }
+}

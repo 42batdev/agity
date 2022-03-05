@@ -49,31 +49,3 @@ mutation InviteToTeam($input: InviteMembersInput!) {
         }
     }
 }
-
-mutation RemoveFromTeam($input: RemoveMemberInput!) {
-    removeMember(input: $input) {
-        id
-        members {
-            profile {
-                id
-            }
-            permission {
-                permissionLevel
-            }
-        }
-    }
-}
-
-mutation UpdateMemberPermission($input: UpdateMemberPermissionInput!) {
-    updateMemberPermission(input: $input) {
-        id
-        members {
-            profile {
-                id
-            }
-            permission {
-                permissionLevel
-            }
-        }
-    }
-}
