@@ -14,7 +14,7 @@ export const initSupabaseProps = async (
   if (!session || !session.user || session.error) {
     console.log(
       "Authorization error or no auth user redirecting to login page",
-      session.error
+      session?.error
     );
     return {
       redirect: {
@@ -37,9 +37,9 @@ async function initSupabaseSSRSession(context) {
   if (session.token) {
     supabase.auth.setAuth(session.token);
     return session;
-  } else {
-    throw Error;
   }
+
+  return undefined;
 }
 
 export interface TeamServerSideProps {
@@ -52,8 +52,6 @@ export const initTeamProps = async (
   context
 ): Promise<GetServerSidePropsResult<TeamServerSideProps>> => {
   const { uid, tid } = context.query;
-
-  console.log(context.query);
 
   if (uid && tid) {
     const queryResult = await supabase
