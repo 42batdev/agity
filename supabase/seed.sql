@@ -186,8 +186,8 @@ VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', 'e916e17d-0e09-44bc-95ed-ea738ed
      , ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'INVITED'); -- grn
 
 -- Set up Avatar Storage
-insert into storage.buckets (id, name, public)
-values ('avatars', 'avatars', true);
+insert into storage.buckets (id, name)
+values ('avatars', 'avatars');
 
 create policy "Avatar images are publicly accessible."
     on storage.objects for select

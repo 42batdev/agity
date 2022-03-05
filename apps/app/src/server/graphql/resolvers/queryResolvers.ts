@@ -1,7 +1,4 @@
-import {
-  QueryResolvers,
-  SearchProfilesResult,
-} from "../../../generated/graphql";
+import { QueryResolvers } from "../../../generated/graphql";
 import supabaseSSR, { handleSupabaseError } from "../../ssr/supabase";
 import {
   createProfile,
@@ -18,23 +15,21 @@ export const profileQueryResolvers: QueryResolvers = {
       .then(handleSupabaseError)
       .then(({ data }) => createProfile(data[0]));
   },
-  searchProfiles(parent, { input }) {
+  async searchProfiles(parent, { input }) {
     let filter: string[] = [];
     if (input.uid) filter.push(`uid.ilike.%${input.uid}%`);
     if (input.name) filter.push(`name.ilike.%${input.name}%`);
 
-    if (filter.length === 0) return createSearchProfilesResult([], 0);
+    if (filter.length === 0) return await createSearchProfilesResult([], 0);
 
     let postgrestFilterBuilder = supabaseSSR
       .from("profiles")
       .select("*", { count: "exact" });
     if (input.limit) postgrestFilterBuilder.limit(input.limit);
-    return postgrestFilterBuilder
+    return await postgrestFilterBuilder
       .or(filter.join(","))
       .then(handleSupabaseError)
-      .then(({ data, count }) =>
-        createSearchProfilesResult(data, count)
-      ) as Promise<SearchProfilesResult>;
+      .then(({ data, count }) => createSearchProfilesResult(data, count));
   },
 };
 

@@ -1,14 +1,16 @@
 import { Profile } from "../../../../generated/graphql";
-import supabase from "../../../../supabase";
+import supabaseSSR from "../../../ssr/supabase";
 
-export function createProfile(data: any) {
+export async function createProfile(data: any) {
   let filename = data.avatar_url;
   const profile: Profile = {
     id: data.id,
     uid: data.uid,
     name: data.name,
     avatar: filename && {
-      url: supabase.storage.from("avatars").getPublicUrl(filename).publicURL,
+      url: (
+        await supabaseSSR.storage.from("avatars").createSignedUrl(filename, 60)
+      ).signedURL,
       filename,
     },
     teams: [],
@@ -17,9 +19,9 @@ export function createProfile(data: any) {
   return profile;
 }
 
-export function createSearchProfilesResult(data: any[], count: number) {
+export async function createSearchProfilesResult(data: any[], count: number) {
   return {
-    profiles: data.map((aData) => createProfile(aData)),
+    profiles: await Promise.all(data.map((aData) => createProfile(aData))),
     count,
   };
 }
