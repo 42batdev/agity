@@ -1,5 +1,3 @@
-import { CreateTeamModal } from "../../components/dashboard/teams/CreateTeamModal";
-import { TeamList } from "../../components/dashboard/teams/TeamList";
 import {
   Page,
   PageContent,
@@ -7,12 +5,14 @@ import {
   PageHeaderLink,
   PageSubHeader,
 } from "../../components/common/layout/page";
+import { CreateTeamModal } from "../../components/dashboard/teams/CreateTeamModal";
+import { TeamList } from "../../components/dashboard/teams/TeamList";
 import { useUserProfileQuery } from "../../generated/graphql";
-import { AppServerSideProps, initAppProps } from "../../server/ssr/props";
+import { AppServerSideProps, initSupabaseProps } from "../../server/ssr/props";
 import { AuthContextProvider } from "../../supabase/AuthContext";
 import React from "react";
 
-export const getServerSideProps = initAppProps;
+export const getServerSideProps = initSupabaseProps;
 
 export default function Dashboard({ user }: AppServerSideProps) {
   return (

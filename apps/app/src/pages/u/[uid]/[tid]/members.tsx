@@ -11,8 +11,8 @@ import { MemberList } from "../../../../components/team/members/MemberList";
 import { InviteMembersModal } from "../../../../components/team/members/invite/InviteMembersModal";
 import {
   AppServerSideProps,
-  initAppProps,
-  initUProps,
+  initSupabaseProps,
+  initTeamProps,
   TeamServerSideProps,
 } from "../../../../server/ssr/props";
 import { AuthContextProvider } from "../../../../supabase/AuthContext";
@@ -21,7 +21,7 @@ import React from "react";
 
 export const getServerSideProps = mergeProps<
   AppServerSideProps & TeamServerSideProps
->(initAppProps, initUProps);
+>(initSupabaseProps, initTeamProps);
 
 export default function TeamMembers(
   props: AppServerSideProps & TeamServerSideProps

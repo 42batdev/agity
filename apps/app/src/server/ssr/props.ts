@@ -6,7 +6,7 @@ export interface AppServerSideProps {
   user: User;
 }
 
-export const initAppProps = async (
+export const initSupabaseProps = async (
   context
 ): Promise<GetServerSidePropsResult<AppServerSideProps>> => {
   const session = await initSupabaseSSRSession(context);
@@ -29,29 +29,40 @@ export const initAppProps = async (
   };
 };
 
+async function initSupabaseSSRSession(context) {
+  const session = await supabase.auth.api.getUserByCookie(
+    context.req,
+    context.res
+  );
+  if (session.token) {
+    supabase.auth.setAuth(session.token);
+    return session;
+  } else {
+    throw Error;
+  }
+}
+
 export interface TeamServerSideProps {
   id: string;
   uid: string;
   tid: string;
 }
 
-export const initUProps = async (
+export const initTeamProps = async (
   context
 ): Promise<GetServerSidePropsResult<TeamServerSideProps>> => {
-  await initSupabaseSSRSession(context);
-
   const { uid, tid } = context.query;
 
   if (uid && tid) {
-    const exists = await supabase
+    const queryResult = await supabase
       .from("teams")
       .select("id", { count: "exact" })
       .match({ tid, uid });
 
-    if ((exists.count ?? 0 > 0) && exists.data) {
+    if ((queryResult.count ?? 0 > 0) && queryResult.data) {
       return {
         props: {
-          id: exists.data[0].id,
+          id: queryResult.data[0].id,
           uid,
           tid,
         },
@@ -66,16 +77,3 @@ export const initUProps = async (
     },
   };
 };
-
-async function initSupabaseSSRSession(context) {
-  const session = await supabase.auth.api.getUserByCookie(
-    context.req,
-    context.res
-  );
-  if (session.token) {
-    supabase.auth.setAuth(session.token);
-    return session;
-  } else {
-    throw Error;
-  }
-}

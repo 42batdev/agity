@@ -180,8 +180,10 @@ VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', 'e916e17d-0e09-44bc-95ed-ea738ed
      , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'MEMBER') -- blu
      , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', '46ba81be-e17e-48e7-b41e-d825084400e7', 'MEMBER') -- blu
      , ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'd284c9ce-167c-465a-b158-2d592b97fdd0', 'MEMBER') -- blu
-     , ('39b3cfd2-26ed-45b2-8390-fc9a9313c4aa', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'OWNER')  -- ylw
-     , ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'OWNER'); -- grn
+     , ('39b3cfd2-26ed-45b2-8390-fc9a9313c4aa', '298b3b78-12b9-446c-b2a9-47bfe1a452ac', 'OWNER')  -- ylw
+     , ('39b3cfd2-26ed-45b2-8390-fc9a9313c4aa', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'INVITED')  -- ylw
+     , ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', '09cbcd88-c3ee-4d85-95e5-51b490c1b3cb', 'OWNER') -- grn
+     , ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', 'e916e17d-0e09-44bc-95ed-ea738ed776dc', 'INVITED'); -- grn
 
 -- Set up Avatar Storage
 insert into storage.buckets (id, name, public)
