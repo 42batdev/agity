@@ -1,8 +1,7 @@
 import { LoginAvatarGroup } from "../components/login/LoginAvatarGroup";
 import { LoginForm } from "../components/login/LoginForm";
 import supabase from "../supabase";
-import { useUser } from "../supabase/AuthContext";
-import { checkUserProfileExists } from "../supabase/pql/profiles";
+import { checkUserProfileExists } from "../supabase/utils";
 import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";

@@ -1,33 +1,50 @@
+import {
+  getTeamDashboardLink,
+  getTeamMembersLink,
+  getTeamSettingsLink,
+} from "../../../functions/links";
 import { useUserProfileQuery } from "../../../generated/graphql";
-import { PageHeaderLink } from "../../common/layout/page";
 import { useTeam } from "../hooks/useTeam";
 
 export function useTeamPageHeaderLinks() {
-  const { data: profileData } = useUserProfileQuery();
-  const { data: teamData } = useTeam();
+  const { data: profileData, loading: profileLoading } = useUserProfileQuery();
+  const { data: teamData, loading: teamLoading } = useTeam();
 
-  const links: Array<PageHeaderLink> = [
-    {
-      title: "Overview",
-      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}`,
-    },
-    {
-      title: "Members",
-      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}/members`,
-    },
-    {
-      title: "Settings",
-      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}/settings`,
-    },
-  ];
+  if (
+    !teamLoading &&
+    teamData &&
+    teamData.getTeam &&
+    !profileLoading &&
+    profileData &&
+    profileData.getUserProfile
+  ) {
+    return {
+      links: [
+        {
+          title: "Overview",
+          href: getTeamDashboardLink(teamData.getTeam),
+        },
+        {
+          title: "Members",
+          href: getTeamMembersLink(teamData.getTeam),
+        },
+        {
+          title: "Settings",
+          href: getTeamSettingsLink(teamData.getTeam),
+        },
+      ],
+      breadcrumbs: [
+        {
+          title: profileData.getUserProfile.name,
+          href: `/dashboard`,
+        },
+        {
+          title: teamData.getTeam.name,
+          href: getTeamDashboardLink(teamData.getTeam),
+        },
+      ],
+    };
+  }
 
-  const breadcrumbs: Array<PageHeaderLink> = [
-    { title: profileData?.getUserProfile?.name ?? "", href: `/dashboard` },
-    {
-      title: teamData?.getTeam?.name ?? "",
-      href: `/u/${profileData?.getUserProfile?.uid}/${teamData?.getTeam?.tid}`,
-    },
-  ];
-
-  return { links, breadcrumbs };
+  return { links: [], breadcrumbs: [] };
 }

@@ -7,18 +7,17 @@ import {
   TeamPermission,
   TeamResolvers,
 } from "../../../generated/graphql";
-import supabase from "../../../supabase";
-import { handleSupabaseError } from "../../../supabase/pql";
-import { createProfile } from "../../../supabase/pql/profiles";
+import supabaseSSR, { handleSupabaseError } from "../../ssr/supabase";
+import { createProfile } from "./factories/profiles";
 import {
   createMember,
   createTeam,
   createTeamPermission,
-} from "../../../supabase/pql/teams";
+} from "./factories/teams";
 
 export const profileResolvers: ProfileResolvers = {
   teams() {
-    return supabase
+    return supabaseSSR
       .from("teams")
       .select("*")
       .then(handleSupabaseError)
@@ -30,7 +29,7 @@ export const profileResolvers: ProfileResolvers = {
 
 export const teamResolvers: TeamResolvers = {
   myPermissions(team, _, { user }) {
-    return supabase
+    return supabaseSSR
       .from("members")
       .select("permission_level")
       .match({ team_id: team.id, user_id: user.id })
@@ -40,7 +39,7 @@ export const teamResolvers: TeamResolvers = {
       ) as Promise<TeamPermission>;
   },
   members(team, _) {
-    return supabase
+    return supabaseSSR
       .from("members")
       .select("*")
       .match({ team_id: team.id })
@@ -53,7 +52,7 @@ export const teamResolvers: TeamResolvers = {
 
 export const memberResolvers: MemberResolvers = {
   profile(member) {
-    return supabase
+    return supabaseSSR
       .from("profiles")
       .select("*")
       .match({ id: member.profile.id })

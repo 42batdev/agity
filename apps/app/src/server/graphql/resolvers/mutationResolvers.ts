@@ -4,11 +4,13 @@ import {
   Profile,
   Team,
 } from "../../../generated/graphql";
-import supabase, { supabaseServiceRole } from "../../../supabase";
-import { handleSupabaseError } from "../../../supabase/pql";
-import { createProfile } from "../../../supabase/pql/profiles";
-import { createTeam } from "../../../supabase/pql/teams";
+import supabaseSSR, {
+  handleSupabaseError,
+  supabaseSSRServiceRole,
+} from "../../ssr/supabase";
 import { validateId } from "../errors";
+import { createProfile } from "./factories/profiles";
+import { createTeam } from "./factories/teams";
 import { randomUUID } from "crypto";
 
 export const profileMutationResolvers: MutationResolvers = {
@@ -21,7 +23,7 @@ export const profileMutationResolvers: MutationResolvers = {
       name: input.name ?? "Anonymous",
     };
 
-    return supabase
+    return supabaseSSR
       .from("profiles")
       .insert({ ...create })
       .then(handleSupabaseError)
@@ -39,7 +41,7 @@ export const profileMutationResolvers: MutationResolvers = {
       update = { ...update, avatar_url };
     }
 
-    return supabase
+    return supabaseSSR
       .from("profiles")
       .update({ ...update })
       .match({ id: user.id })
@@ -59,13 +61,13 @@ export const teamMutationResolvers: MutationResolvers = {
     if (input.name !== undefined)
       teamInsertValues = { ...teamInsertValues, name: input.name };
 
-    const team = await supabaseServiceRole
+    const team = await supabaseSSRServiceRole
       .from("teams")
       .insert({ ...teamInsertValues })
       .then(handleSupabaseError)
       .then(({ data }) => createTeam(data[0]));
 
-    await supabaseServiceRole.from("members").insert(
+    await supabaseSSRServiceRole.from("members").insert(
       {
         team_id: newTeamUUID,
         user_id: user.id,
@@ -84,7 +86,7 @@ export const teamMutationResolvers: MutationResolvers = {
     }
     if (input.name !== undefined) update = { ...update, name: input.name };
 
-    return supabase
+    return supabaseSSR
       .from("teams")
       .update({ ...update })
       .match({ id: input.id })
@@ -101,12 +103,12 @@ export const teamMutationResolvers: MutationResolvers = {
       })
     );
 
-    await supabase
+    await supabaseSSR
       .from("members")
       .insert(insert, { returning: "minimal" })
       .then(handleSupabaseError);
 
-    return await supabase
+    return await supabaseSSR
       .from("teams")
       .select("*")
       .match({ id: input.teamId })
@@ -120,13 +122,13 @@ export const teamMutationResolvers: MutationResolvers = {
       });
   },
   removeMember: async (parent, { input }, { user }) => {
-    await supabase
+    await supabaseSSR
       .from("members")
       .delete({ returning: "minimal" })
       .match({ user_id: input.profileId, team_id: input.teamId })
       .then(handleSupabaseError);
 
-    return await supabase
+    return await supabaseSSR
       .from("teams")
       .select("*")
       .match({ id: input.teamId })
@@ -140,13 +142,13 @@ export const teamMutationResolvers: MutationResolvers = {
       });
   },
   updateMemberPermission: async (parent, { input }) => {
-    await supabase
+    await supabaseSSR
       .from("members")
       .update({ permission_level: input.permissionLevel })
       .match({ team_id: input.teamId, user_id: input.profileId })
       .then(handleSupabaseError);
 
-    return await supabase
+    return await supabaseSSR
       .from("teams")
       .select("*")
       .match({ id: input.teamId })

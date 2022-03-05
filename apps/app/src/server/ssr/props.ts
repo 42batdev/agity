@@ -53,6 +53,8 @@ export const initTeamProps = async (
 ): Promise<GetServerSidePropsResult<TeamServerSideProps>> => {
   const { uid, tid } = context.query;
 
+  console.log(context.query);
+
   if (uid && tid) {
     const queryResult = await supabase
       .from("teams")

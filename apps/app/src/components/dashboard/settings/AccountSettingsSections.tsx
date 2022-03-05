@@ -4,7 +4,7 @@ import {
 } from "../../../generated/graphql";
 import { validateId } from "../../../server/graphql/errors";
 import { useUser } from "../../../supabase/AuthContext";
-import { checkUidExists } from "../../../supabase/pql/profiles";
+import { checkUidExists } from "../../../supabase/utils";
 import { SectionContainer } from "../../common/SectionContainer";
 import ValidatedInput from "../../common/ValidateInput";
 import {

@@ -4,21 +4,13 @@ import {
   Profile,
   Team,
   TeamPermission,
-} from "../../generated/graphql";
-import supabase from "../index";
-
-export function checkTidExists(tid: string) {
-  return supabase
-    .from("teams")
-    .select("id", { count: "exact", head: true })
-    .match({ tid: tid })
-    .then((result) => result.count ?? 0 > 0) as Promise<boolean>;
-}
+} from "../../../../generated/graphql";
 
 export function createTeam(data: any): Team {
   return {
     id: data.id,
     tid: data.tid,
+    uid: data.uid,
     name: data.name,
     myPermissions: {
       permissionLevel: "" as PermissionLevel,

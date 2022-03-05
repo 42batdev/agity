@@ -1,7 +1,6 @@
 import { useCreateUserProfileMutation } from "../../../generated/graphql";
 import { validIDPattern } from "../../../server/graphql/errors";
-import supabase from "../../../supabase";
-import { checkUidExists } from "../../../supabase/pql/profiles";
+import { checkUidExists } from "../../../supabase/utils";
 import ValidatedInput from "../../common/ValidateInput";
 import {
   Box,
@@ -10,21 +9,13 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
-  SkeletonCircle,
   Stack,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import debounce from "lodash/debounce";
 import { useRouter } from "next/router";
-import { ChangeEvent, useRef, useState } from "react";
-import {
-  FiCheckCircle,
-  FiHelpCircle,
-  FiSearch,
-  FiXCircle,
-} from "react-icons/fi";
+import { useState } from "react";
+import { FiHelpCircle } from "react-icons/fi";
 
 export const OnboardingForm = () => {
   const router = useRouter();

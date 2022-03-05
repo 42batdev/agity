@@ -1,6 +1,6 @@
 import { useUpdateTeamMutation } from "../../../generated/graphql";
 import { validateId } from "../../../server/graphql/errors";
-import { checkTidExists } from "../../../supabase/pql/teams";
+import { checkTidExists } from "../../../supabase/utils";
 import { SectionContainer } from "../../common/SectionContainer";
 import ValidatedInput from "../../common/ValidateInput";
 import { useUid } from "../dashboard/TeamNavigationContext";

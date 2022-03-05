@@ -45,6 +45,7 @@ type Avatar {
 type Team {
     id: ID!
     tid: String!
+    uid: String!
     name: String!
     myPermissions: TeamPermission!
     members: [Member!]!

@@ -17,6 +17,7 @@ mutation CreateTeam($input: CreateTeamInput!) {
 
 fragment TeamFields on Team {
     id
+    uid
     tid
     name
 }

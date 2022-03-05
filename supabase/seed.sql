@@ -162,10 +162,10 @@ VALUES ('341aba12-11fb-40eb-8321-02f131b7b078', 'developer', 'spectator', 'Spect
        ('37879e23-b61d-4b9a-865b-45ad1c916d4f', 'player_two', 'blu', 'Builders League United',
         '2022-01-31 21:35:23.703197 +00:00')
         ,
-       ('39b3cfd2-26ed-45b2-8390-fc9a9313c4aa', 'developer', 'ylw', 'Yard Logistics Workers',
+       ('39b3cfd2-26ed-45b2-8390-fc9a9313c4aa', 'player_one', 'ylw', 'Yard Logistics Workers',
         '2022-02-20 19:55:40.251868 +00:00')
         ,
-       ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', 'developer', 'grn', 'Global Radio Network',
+       ('986b4b6f-d2cc-4234-bd6f-c5fbe5693e69', 'player_two', 'grn', 'Global Radio Network',
         '2022-02-20 19:55:40.251868 +00:00');
 
 INSERT INTO public.members (team_id, user_id, permission_level)

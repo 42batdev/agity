@@ -2,17 +2,16 @@ import {
   QueryResolvers,
   SearchProfilesResult,
 } from "../../../generated/graphql";
-import supabase from "../../../supabase";
-import { handleSupabaseError } from "../../../supabase/pql";
+import supabaseSSR, { handleSupabaseError } from "../../ssr/supabase";
 import {
   createProfile,
   createSearchProfilesResult,
-} from "../../../supabase/pql/profiles";
-import { createTeam } from "../../../supabase/pql/teams";
+} from "./factories/profiles";
+import { createTeam } from "./factories/teams";
 
 export const profileQueryResolvers: QueryResolvers = {
   async getUserProfile(parent, args, { user }) {
-    return await supabase
+    return await supabaseSSR
       .from("profiles")
       .select("*")
       .match({ id: user.id })
@@ -26,7 +25,7 @@ export const profileQueryResolvers: QueryResolvers = {
 
     if (filter.length === 0) return createSearchProfilesResult([], 0);
 
-    let postgrestFilterBuilder = supabase
+    let postgrestFilterBuilder = supabaseSSR
       .from("profiles")
       .select("*", { count: "exact" });
     if (input.limit) postgrestFilterBuilder.limit(input.limit);
@@ -41,7 +40,7 @@ export const profileQueryResolvers: QueryResolvers = {
 
 export const teamQueryResolvers: QueryResolvers = {
   async getTeam(parent, { id }) {
-    return await supabase
+    return await supabaseSSR
       .from("teams")
       .select("*")
       .match({ id })

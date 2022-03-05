@@ -1,6 +1,6 @@
 import { resolvers } from "../../server/graphql/resolvers";
 import * as typeDefs from "../../server/graphql/schema.graphql";
-import supabase, { supabaseServiceRole } from "../../supabase";
+import supabaseSSR from "../../server/ssr/supabase";
 import { ApolloServer } from "apollo-server-micro";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -8,9 +8,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await supabase.auth.api.getUserByCookie(req, res);
+  const session = await supabaseSSR.auth.api.getUserByCookie(req, res);
   if (session.token) {
-    supabase.auth.setAuth(session.token);
+    supabaseSSR.auth.setAuth(session.token);
   } else {
     throw Error;
   }

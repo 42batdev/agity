@@ -3,8 +3,7 @@ import {
   useCreateTeamMutation,
 } from "../../../generated/graphql";
 import { validIDPattern } from "../../../server/graphql/errors";
-import { checkUidExists } from "../../../supabase/pql/profiles";
-import { checkTidExists } from "../../../supabase/pql/teams";
+import { checkTidExists } from "../../../supabase/utils";
 import ValidatedInput from "../../common/ValidateInput";
 import {
   Button,
