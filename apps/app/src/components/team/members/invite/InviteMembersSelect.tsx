@@ -4,7 +4,7 @@ import {
   useInviteToTeamMutation,
   useSearchProfilesLazyQuery,
 } from "../../../../generated/graphql";
-import { useTeam } from "../../hooks/useTeam";
+import { useTeam } from "../../useTeam";
 import ProfileTag, {
   ProfileTagFields,
   ProfileTagSkeletons,

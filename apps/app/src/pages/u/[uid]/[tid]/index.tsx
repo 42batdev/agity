@@ -4,8 +4,8 @@ import {
   PageHeader,
   PageSubHeader,
 } from "../../../../components/common/layout/page";
-import { TeamNavigationContextProvider } from "../../../../components/team/dashboard/TeamNavigationContext";
-import { useTeamPageHeaderLinks } from "../../../../components/team/dashboard/hooks";
+import { TeamNavigationContextProvider } from "../../../../components/team/TeamNavigationContext";
+import { useTeamPageHeaderLinks } from "../../../../components/team/useTeamPageHeaderLinks";
 import {
   AppServerSideProps,
   initSupabaseProps,

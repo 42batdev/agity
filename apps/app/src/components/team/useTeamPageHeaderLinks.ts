@@ -2,9 +2,9 @@ import {
   getTeamDashboardLink,
   getTeamMembersLink,
   getTeamSettingsLink,
-} from "../../../functions/links";
-import { useUserProfileQuery } from "../../../generated/graphql";
-import { useTeam } from "../hooks/useTeam";
+} from "../../functions/links";
+import { useUserProfileQuery } from "../../generated/graphql";
+import { useTeam } from "./useTeam";
 
 export function useTeamPageHeaderLinks() {
   const { data: profileData, loading: profileLoading } = useUserProfileQuery();

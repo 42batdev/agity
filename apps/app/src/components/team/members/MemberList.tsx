@@ -1,6 +1,6 @@
 import { canEditTeam } from "../../../functions/permissions";
 import { CardGrid } from "../../common/card/CardGrid";
-import { useTeam } from "../hooks/useTeam";
+import { useTeam } from "../useTeam";
 import { MemberCard } from "./card/MemberCard";
 import React from "react";
 

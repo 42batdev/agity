@@ -2,7 +2,7 @@ import { canLeaveTeam } from "../../../functions/permissions";
 import { useRemoveFromTeamMutation } from "../../../generated/graphql";
 import { useUser } from "../../../supabase/AuthContext";
 import { useAlertDialog } from "../../common/layout/page/PageContext";
-import { useTeam } from "../hooks/useTeam";
+import { useTeam } from "../useTeam";
 import { IconButton, Tooltip } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
