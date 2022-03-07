@@ -1,4 +1,4 @@
-import { getTeamDashboardLink } from "../../../../functions/links";
+import { useAgityRouter } from "../../../../functions/links";
 import { PermissionLevel, Team } from "../../../../generated/graphql";
 import Card from "../../../common/card/Card";
 import { TeamCardMenu } from "./TeamCardMenu";
@@ -13,7 +13,6 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import React from "react";
 
 export interface TeamCardProps {
@@ -23,7 +22,7 @@ export interface TeamCardProps {
 export function TeamCard(props: TeamCardProps) {
   const { team } = props;
 
-  const router = useRouter();
+  const router = useAgityRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -43,7 +42,7 @@ export function TeamCard(props: TeamCardProps) {
             title={team.name}
             description={team.myPermissions.permissionLevel}
             onClick={() => {
-              if (!isInvited) router.push(getTeamDashboardLink(team));
+              if (!isInvited) router.openTeamDashboard(team);
             }}
           />
         </Box>

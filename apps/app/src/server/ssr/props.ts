@@ -51,18 +51,22 @@ export interface TeamServerSideProps {
 export const initTeamProps = async (
   context
 ): Promise<GetServerSidePropsResult<TeamServerSideProps>> => {
-  const { uid, tid } = context.query;
+  const { uid, tid, id } = context.query;
 
-  if (uid && tid) {
+  if (uid && tid && id) {
     const queryResult = await supabase
       .from("teams")
       .select("id", { count: "exact" })
       .match({ tid, uid });
 
-    if ((queryResult.count ?? 0 > 0) && queryResult.data) {
+    if (
+      (queryResult.count ?? 0 > 0) &&
+      queryResult.data &&
+      id === queryResult.data[0].id
+    ) {
       return {
         props: {
-          id: queryResult.data[0].id,
+          id,
           uid,
           tid,
         },

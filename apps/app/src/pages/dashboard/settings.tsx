@@ -3,7 +3,6 @@ import {
   Page,
   PageContent,
   PageHeader,
-  PageHeaderLink,
   PageSubHeader,
 } from "../../components/common/layout/page";
 import {
@@ -16,7 +15,7 @@ import {
   DisplayNameSettingsSection,
   EmailSettingsSection,
 } from "../../components/dashboard/settings/ProfileSettingsSections";
-import { useUserProfileQuery } from "../../generated/graphql";
+import { useUserPageHeaderLinks } from "../../components/dashboard/useDashboardPageHeaderLinks";
 import { AppServerSideProps, initSupabaseProps } from "../../server/ssr/props";
 import { AuthContextProvider } from "../../supabase/AuthContext";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
@@ -33,17 +32,7 @@ export default function Settings({ user }: AppServerSideProps) {
 }
 
 const SettingsContent = () => {
-  const { data } = useUserProfileQuery();
-
-  const links: Array<PageHeaderLink> = [
-    { title: "Overview", href: `/dashboard` },
-    { title: "Settings", href: `/dashboard/settings` },
-  ];
-
-  const breadcrumbs: Array<PageHeaderLink> =
-    data && data.getUserProfile
-      ? [{ title: data.getUserProfile.name, href: `/dashboard` }]
-      : [];
+  const { links, breadcrumbs } = useUserPageHeaderLinks();
 
   return (
     <Page>

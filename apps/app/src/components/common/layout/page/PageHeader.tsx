@@ -8,13 +8,13 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { ReactNode } from "react";
 
 export type PageHeaderLink = {
   title: string;
-  href: string;
+  active: boolean;
+  onNavigate: () => void;
 };
 
 interface PageHeaderProps {
@@ -43,12 +43,10 @@ export const PageHeader = ({ breadcrumbs, links }: PageHeaderProps) => {
                 <AppBarLogo height="32px" />
               </Link>
             </NextLink>
-            {breadcrumbs.map(({ href, title }) => (
-              <HStack key={href}>
+            {breadcrumbs.map(({ onNavigate, title }) => (
+              <HStack key={title}>
                 <AppBarSlash height="32px" />
-                <NextLink href={href} passHref>
-                  {title}
-                </NextLink>
+                <Link onClick={onNavigate}>{title}</Link>
               </HStack>
             ))}
           </HStack>
@@ -57,7 +55,7 @@ export const PageHeader = ({ breadcrumbs, links }: PageHeaderProps) => {
         <Flex ml="-2" alignItems={"center"} justifyContent={"space-between"}>
           <HStack as={"nav"} spacing="6">
             {links.map((link) => (
-              <NavigationLink key={link.href} href={link.href}>
+              <NavigationLink key={link.title} {...link}>
                 {link.title}
               </NavigationLink>
             ))}
@@ -68,27 +66,23 @@ export const PageHeader = ({ breadcrumbs, links }: PageHeaderProps) => {
   );
 };
 
-interface NavigationLinkProps {
-  href: string;
-  children: ReactNode;
-}
-
-const NavigationLink = ({ href, children }: NavigationLinkProps) => {
-  const router = useRouter();
-  const isActiveLink = router.asPath === href;
+const NavigationLink = ({
+  onNavigate,
+  active,
+  children,
+}: PageHeaderLink & { children: ReactNode }) => {
   const borderColor = useColorModeValue("#333", "#FFF");
 
   return (
-    <NextLink href={href} passHref>
-      <Link
-        p="2"
-        borderBottom={`1px solid ${isActiveLink ? borderColor : "transparent"}`}
-        _hover={{
-          borderBottom: `1px solid ${borderColor}`,
-        }}
-      >
-        {children}
-      </Link>
-    </NextLink>
+    <Link
+      p="2"
+      borderBottom={`1px solid ${active ? borderColor : "transparent"}`}
+      _hover={{
+        borderBottom: `1px solid ${borderColor}`,
+      }}
+      onClick={onNavigate}
+    >
+      {children}
+    </Link>
   );
 };

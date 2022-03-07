@@ -2,11 +2,15 @@ import {
   getTeamDashboardLink,
   getTeamMembersLink,
   getTeamSettingsLink,
+  getUserDashboardLink,
+  useAgityRouter,
 } from "../../functions/links";
 import { useUserProfileQuery } from "../../generated/graphql";
 import { useTeam } from "./useTeam";
 
 export function useTeamPageHeaderLinks() {
+  const router = useAgityRouter();
+
   const { data: profileData, loading: profileLoading } = useUserProfileQuery();
   const { data: teamData, loading: teamLoading } = useTeam();
 
@@ -18,29 +22,35 @@ export function useTeamPageHeaderLinks() {
     profileData &&
     profileData.getUserProfile
   ) {
+    const team = teamData.getTeam;
     return {
       links: [
         {
           title: "Overview",
-          href: getTeamDashboardLink(teamData.getTeam),
+          active: router.asPath === getTeamDashboardLink(team),
+          onNavigate: () => router.openTeamDashboard(team),
         },
         {
           title: "Members",
-          href: getTeamMembersLink(teamData.getTeam),
+          active: router.asPath === getTeamMembersLink(team),
+          onNavigate: () => router.openTeamMembers(team),
         },
         {
           title: "Settings",
-          href: getTeamSettingsLink(teamData.getTeam),
+          active: router.asPath === getTeamSettingsLink(team),
+          onNavigate: () => router.openTeamSettings(team),
         },
       ],
       breadcrumbs: [
         {
           title: profileData.getUserProfile.name,
-          href: `/dashboard`,
+          active: router.asPath === getUserDashboardLink(),
+          onNavigate: () => router.openUserDashboard(),
         },
         {
           title: teamData.getTeam.name,
-          href: getTeamDashboardLink(teamData.getTeam),
+          active: router.asPath === getTeamDashboardLink(team),
+          onNavigate: () => router.openTeamDashboard(team),
         },
       ],
     };
