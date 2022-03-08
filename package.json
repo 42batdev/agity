@@ -13,10 +13,12 @@
     "build:web": "yarn turbo run build --scope=web",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "migrate": "flyway -c supabase/migrations/conf/flyway.js migrate"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+    "node-flywaydb": "^3.0.7",
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
