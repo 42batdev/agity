@@ -52,3 +52,5 @@ out/
 **/supabase/.branches
 **/supabase/.temp
 **/supabase/.env
+
+supabase/migrations/conf/config.js
