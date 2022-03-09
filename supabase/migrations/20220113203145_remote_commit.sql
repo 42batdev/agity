@@ -3,7 +3,7 @@
 -- and may require manual changes to the script to ensure changes are applied in the correct order.
 -- Please report an issue for any failure with the reproduction steps.
 
-DROP TABLE public.profiles;
+DROP TABLE IF EXISTS public.profiles;
 
 CREATE TABLE IF NOT EXISTS public.profiles
 (
