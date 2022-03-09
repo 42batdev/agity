@@ -14,7 +14,7 @@
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "migrate": "flyway -c supabase/migrations/conf/flyway.js migrate"
+    "migrate": "flyway -c supabase/flyway/flyway.js migrate"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",

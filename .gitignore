@@ -53,4 +53,4 @@ out/
 **/supabase/.temp
 **/supabase/.env
 
-supabase/migrations/conf/config.js
+supabase/flyway/config.js
