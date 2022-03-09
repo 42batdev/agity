@@ -3,7 +3,8 @@
 -- and may require manual changes to the script to ensure changes are applied in the correct order.
 -- Please report an issue for any failure with the reproduction steps.
 
-DROP TABLE IF EXISTS profiles;
+SET client_min_messages = warning;
+DROP TABLE IF EXISTS public.profiles;
 
 CREATE TABLE IF NOT EXISTS public.profiles
 (
