@@ -22,30 +22,3 @@ query GetTeamByTid($id: ID!) {
         }
     }
 }
-
-query SearchProfiles($input: SearchProfilesInput!) {
-    searchProfiles(input: $input) {
-        profiles {
-            id
-            name
-            avatar {
-                url
-            }
-        }
-        count
-    }
-}
-
-mutation InviteToTeam($input: InviteMembersInput!) {
-    inviteMembers(input: $input) {
-        id
-        members {
-            profile {
-                id
-            }
-            permission {
-                permissionLevel
-            }
-        }
-    }
-}

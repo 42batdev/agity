@@ -1,4 +1,4 @@
-import { Team } from "../../generated/graphql";
+import { Meeting, Team } from "../../generated/graphql";
 import { NextRouter, useRouter } from "next/router";
 import { useMemo } from "react";
 
@@ -8,6 +8,10 @@ export interface AgityRouter extends NextRouter {
   openTeamDashboard: (team: Pick<Team, "id" | "uid" | "tid">) => void;
   openTeamSettings: (team: Pick<Team, "id" | "uid" | "tid">) => void;
   openTeamMembers: (team: Pick<Team, "id" | "uid" | "tid">) => void;
+  openTeamMeeting: (
+    team: Pick<Team, "id" | "uid" | "tid">,
+    meeting: Pick<Meeting, "id">
+  ) => void;
 }
 
 export function useAgityRouter(): AgityRouter {
@@ -52,6 +56,16 @@ export function useAgityRouter(): AgityRouter {
           pathname
         );
       },
+      openTeamMeeting: (team, meeting) => {
+        const pathname = getTeamMeetingLink(team);
+        router.push(
+          {
+            pathname,
+            query: { id: team.id, meetingId: meeting.id },
+          },
+          pathname
+        );
+      },
     };
   }, [router]);
 }
@@ -69,9 +83,13 @@ export function getTeamDashboardLink(team: Pick<Team, "uid" | "tid">) {
 }
 
 export function getTeamMembersLink(team: Pick<Team, "uid" | "tid">) {
-  return `/u/${team.uid}/${team.tid}/members`;
+  return `${getTeamDashboardLink(team)}/members`;
 }
 
 export function getTeamSettingsLink(team: Pick<Team, "uid" | "tid">) {
-  return `/u/${team.uid}/${team.tid}/settings`;
+  return `${getTeamDashboardLink(team)}/settings`;
+}
+
+export function getTeamMeetingLink(team: Pick<Team, "uid" | "tid">) {
+  return `${getTeamDashboardLink(team)}/meeting`;
 }

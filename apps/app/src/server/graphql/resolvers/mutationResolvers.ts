@@ -1,4 +1,6 @@
 import {
+  Meeting,
+  MeetingState,
   MutationResolvers,
   PermissionLevel,
   Profile,
@@ -9,6 +11,7 @@ import supabaseSSR, {
   supabaseSSRServiceRole,
 } from "../../ssr/supabase";
 import { validateId } from "../errors";
+import { createMeeting } from "./factories/meetings";
 import { createProfile } from "./factories/profiles";
 import { createTeam } from "./factories/teams";
 import { randomUUID } from "crypto";
@@ -154,5 +157,21 @@ export const teamMutationResolvers: MutationResolvers = {
       .match({ id: input.teamId })
       .then(handleSupabaseError)
       .then(({ data }) => createTeam(data[0]));
+  },
+};
+
+export const meetingMutationResolvers: MutationResolvers = {
+  createMeeting: async (parent, { input }) => {
+    let create: any = {
+      name: input.name,
+      team_id: input.teamId,
+      state: MeetingState.NEW,
+    };
+
+    return supabaseSSR
+      .from("meetings")
+      .insert({ ...create })
+      .then(handleSupabaseError)
+      .then(({ data }) => createMeeting(data[0])) as Promise<Meeting>;
   },
 };

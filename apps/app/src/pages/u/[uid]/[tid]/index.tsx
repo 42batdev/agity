@@ -5,6 +5,7 @@ import {
   PageSubHeader,
 } from "../../../../components/common/layout/page";
 import { TeamNavigationContextProvider } from "../../../../components/team/TeamNavigationContext";
+import { CreateMeetingModal } from "../../../../components/team/dashboard/CreateMeetingModal";
 import { useTeamPageHeaderLinks } from "../../../../components/team/useTeamPageHeaderLinks";
 import {
   AppServerSideProps,
@@ -41,7 +42,8 @@ const TeamDashboardContent = () => {
       <PageContent>
         <PageSubHeader
           title={`Team Dashboard`}
-          subTitle={"The Teams you have access to"}
+          subTitle={"Team activity and history"}
+          actions={<CreateMeetingModal />}
         />
         This is a team Dashboard!
       </PageContent>
