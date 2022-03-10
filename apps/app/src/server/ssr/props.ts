@@ -1,6 +1,6 @@
+import {User} from "@supabase/supabase-js";
+import {GetServerSidePropsResult} from "next";
 import supabase from "../../supabase";
-import { User } from "@supabase/supabase-js";
-import { GetServerSidePropsResult } from "next";
 
 export interface AppServerSideProps {
   user: User;
@@ -16,6 +16,8 @@ export const initSupabaseProps = async (
       "Authorization error or no auth user redirecting to login page",
       session?.error
     );
+
+    console.log("PROBLEM0");
     return {
       redirect: {
         destination: `/`,
@@ -72,6 +74,32 @@ export const initTeamProps = async (
         },
       };
     }
+  }
+
+  console.log("PROBLEM1");
+  return {
+    redirect: {
+      destination: `/`,
+      permanent: false,
+    },
+  };
+};
+
+export interface MeetingServerSideProps {
+  meetingId: string;
+}
+
+export const initMeetingProps = async (
+  context
+): Promise<GetServerSidePropsResult<MeetingServerSideProps>> => {
+  const { meetingId } = context.query;
+  if (meetingId) {
+    console.log(context.query);
+    return {
+      props: {
+        meetingId,
+      },
+    };
   }
 
   return {

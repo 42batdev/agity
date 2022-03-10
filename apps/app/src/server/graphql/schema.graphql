@@ -16,6 +16,8 @@ type Mutation {
 
     createTeam (input: CreateTeamInput!): Team
     updateTeam (input: UpdateTeamInput!): Team
+
+    createMeeting (input: CreateMeetingInput!): Meeting
 }
 
 type Profile {
@@ -24,6 +26,21 @@ type Profile {
     name: String!
     avatar: Avatar
     teams: [Team!]
+}
+
+input CreateUserProfileInput {
+    uid: String!
+    name: String
+}
+
+input UpdateProfileInput {
+    uid: String
+    name: String
+    avatar: AvatarInput
+}
+
+input AvatarInput {
+    filename: String
 }
 
 input SearchProfilesInput {
@@ -59,27 +76,26 @@ enum PermissionLevel {
     OWNER, ADMIN, MEMBER, INVITED
 }
 
+input CreateTeamInput {
+    tid: String!
+    name: String
+}
+
+input UpdateTeamInput {
+    id: ID!
+    tid: String
+    name: String
+}
+
 type Member {
     profile: Profile!
     permission: TeamPermission!
-}
-
-input CreateUserProfileInput {
-    uid: String!
-    name: String
-}
-
-input UpdateProfileInput {
-    uid: String
-    name: String
-    avatar: AvatarInput
 }
 
 input InviteMembersInput {
     teamId: ID!
     profileIds: [ID!]!
 }
-
 
 input RemoveMemberInput {
     teamId: ID!
@@ -92,17 +108,17 @@ input UpdateMemberPermissionInput {
     permissionLevel: PermissionLevel!
 }
 
-input AvatarInput {
-    filename: String
-}
-
-input CreateTeamInput {
-    tid: String!
-    name: String
-}
-
-input UpdateTeamInput {
+type Meeting {
     id: ID!
-    tid: String
-    name: String
+    name: String!
+    state: MeetingState!
+}
+
+enum MeetingState {
+    NEW, ACTIVE, CONCLUDED
+}
+
+input CreateMeetingInput {
+    teamId: ID!
+    name: String!
 }
