@@ -1,10 +1,10 @@
 {
   "projectId": "agity",
   "ports": {
-    "api": 54321,
-    "db": 54322,
-    "studio": 54323,
-    "inbucket": 54324
+    "api": 42001,
+    "db": 42002,
+    "studio": 42003,
+    "inbucket": 42004
   },
   "dbVersion": "140001"
 }

@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import {createClient} from "@supabase/supabase-js";
 
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
   throw new Error(
@@ -12,9 +12,9 @@ if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
   );
 }
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_SERVICE_KEY) {
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
   throw new Error(
-    "Please define the NEXT_PUBLIC_SUPABASE_SERVICE_KEY environment variable inside .env.local"
+    "Please define the SUPABASE_SERVICE_ROLE_KEY environment variable inside .env.local"
   );
 }
 
@@ -27,7 +27,7 @@ export default supabaseSSR;
 
 export const supabaseSSRServiceRole = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_SERVICE_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
 export function handleSupabaseError(result) {
