@@ -1,10 +1,10 @@
-import { OnboardingForm } from "../../components/dashboard/onboarding/OnboardingForm";
-import { LoginAvatarYou } from "../../components/login/LoginAvatarGroup";
-import { AppServerSideProps, initSupabaseProps } from "../../server/ssr/props";
-import { AuthContextProvider } from "../../supabase/AuthContext";
-import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import {Container, Heading, SimpleGrid, Stack, Text} from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
+import {OnboardingForm} from "../../../components/dashboard/onboarding/OnboardingForm";
+import {LoginAvatarYou} from "../../../components/login/LoginAvatarGroup";
+import {AppServerSideProps, initSupabaseProps} from "../../../server/ssr/props";
+import {AuthContextProvider} from "../../../supabase/AuthContext";
 
 export const getServerSideProps = initSupabaseProps;
 

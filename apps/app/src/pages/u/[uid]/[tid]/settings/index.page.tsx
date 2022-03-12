@@ -1,27 +1,22 @@
-import { SectionContainerGroup } from "../../../../components/common/SectionContainer";
-import {
-  Page,
-  PageContent,
-  PageHeader,
-  PageSubHeader,
-} from "../../../../components/common/layout/page";
-import { TeamNavigationContextProvider } from "../../../../components/team/TeamNavigationContext";
+import {Tab, TabList, TabPanel, TabPanels, Tabs} from "@chakra-ui/react";
+import {mergeProps} from "next-merge-props";
+import React from "react";
+import {Page, PageContent, PageHeader, PageSubHeader,} from "../../../../../components/common/layout/page";
+import {SectionContainerGroup} from "../../../../../components/common/SectionContainer";
 import {
   TeamDeleteSettingsSection,
   TeamIdSettingsSection,
   TeamNameSettingsSection,
-} from "../../../../components/team/settings/GeneralTeamSettingsSections";
-import { useTeamPageHeaderLinks } from "../../../../components/team/useTeamPageHeaderLinks";
+} from "../../../../../components/team/settings/GeneralTeamSettingsSections";
+import {TeamNavigationContextProvider} from "../../../../../components/team/TeamNavigationContext";
+import {useTeamPageHeaderLinks} from "../../../../../components/team/useTeamPageHeaderLinks";
 import {
   AppServerSideProps,
   initSupabaseProps,
   initTeamProps,
   TeamServerSideProps,
-} from "../../../../server/ssr/props";
-import { AuthContextProvider } from "../../../../supabase/AuthContext";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { mergeProps } from "next-merge-props";
-import React from "react";
+} from "../../../../../server/ssr/props";
+import {AuthContextProvider} from "../../../../../supabase/AuthContext";
 
 export const getServerSideProps = mergeProps<
   AppServerSideProps & TeamServerSideProps

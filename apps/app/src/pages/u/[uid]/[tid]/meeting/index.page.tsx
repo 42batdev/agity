@@ -1,8 +1,8 @@
 import {mergeProps} from "next-merge-props";
 import React from "react";
-import {Page, PageContent, PageHeader, PageSubHeader,} from "../../../../components/common/layout/page";
-import {TeamNavigationContextProvider} from "../../../../components/team/TeamNavigationContext";
-import {useTeamPageHeaderLinks} from "../../../../components/team/useTeamPageHeaderLinks";
+import {Page, PageContent, PageHeader, PageSubHeader,} from "../../../../../components/common/layout/page";
+import {TeamNavigationContextProvider} from "../../../../../components/team/TeamNavigationContext";
+import {useTeamPageHeaderLinks} from "../../../../../components/team/useTeamPageHeaderLinks";
 import {
   AppServerSideProps,
   initMeetingProps,
@@ -10,8 +10,8 @@ import {
   initTeamProps,
   MeetingServerSideProps,
   TeamServerSideProps,
-} from "../../../../server/ssr/props";
-import {AuthContextProvider} from "../../../../supabase/AuthContext";
+} from "../../../../../server/ssr/props";
+import {AuthContextProvider} from "../../../../../supabase/AuthContext";
 
 export const getServerSideProps = mergeProps<
   AppServerSideProps & TeamServerSideProps

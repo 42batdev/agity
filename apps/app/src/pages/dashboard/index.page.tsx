@@ -1,15 +1,10 @@
-import {
-  Page,
-  PageContent,
-  PageHeader,
-  PageSubHeader,
-} from "../../components/common/layout/page";
-import { CreateTeamModal } from "../../components/dashboard/teams/CreateTeamModal";
-import { TeamList } from "../../components/dashboard/teams/TeamList";
-import { useUserPageHeaderLinks } from "../../components/dashboard/useDashboardPageHeaderLinks";
-import { AppServerSideProps, initSupabaseProps } from "../../server/ssr/props";
-import { AuthContextProvider } from "../../supabase/AuthContext";
 import React from "react";
+import {Page, PageContent, PageHeader, PageSubHeader,} from "../../components/common/layout/page";
+import {CreateTeamModal} from "../../components/dashboard/teams/CreateTeamModal";
+import {TeamList} from "../../components/dashboard/teams/TeamList";
+import {useUserPageHeaderLinks} from "../../components/dashboard/useDashboardPageHeaderLinks";
+import {AppServerSideProps, initSupabaseProps} from "../../server/ssr/props";
+import {AuthContextProvider} from "../../supabase/AuthContext";
 
 export const getServerSideProps = initSupabaseProps;
 
