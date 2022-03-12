@@ -1,5 +1,5 @@
-import { QueryResolvers } from "../../../generated/graphql";
-import { handleSupabaseError } from "../../ssr/supabase";
+import { QueryResolvers } from "../../../../generated/graphql";
+import { handleSupabaseError } from "../../supabase";
 import {
   createProfile,
   createSearchProfilesResult,

@@ -1,4 +1,4 @@
-import { Meeting } from "../../../../generated/graphql";
+import { Meeting } from "../../../../../generated/graphql";
 
 export function createMeeting(data: any): Meeting {
   return {

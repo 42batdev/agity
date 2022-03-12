@@ -5,11 +5,8 @@ import {
   PermissionLevel,
   Profile,
   Team,
-} from "../../../generated/graphql";
-import {
-  handleSupabaseError,
-  supabaseSSRServiceRole,
-} from "../../ssr/supabase";
+} from "../../../../generated/graphql";
+import { handleSupabaseError, supabaseSuperClient } from "../../supabase";
 import { validateId } from "../errors";
 import { createMeeting } from "./factories/meetings";
 import { createProfile } from "./factories/profiles";
@@ -64,13 +61,13 @@ export const teamMutationResolvers: MutationResolvers = {
     if (input.name !== undefined)
       teamInsertValues = { ...teamInsertValues, name: input.name };
 
-    const team = await supabaseSSRServiceRole
+    const team = await supabaseSuperClient
       .from("teams")
       .insert({ ...teamInsertValues })
       .then(handleSupabaseError)
       .then(({ data }) => createTeam(data[0]));
 
-    await supabaseSSRServiceRole.from("members").insert(
+    await supabaseSuperClient.from("members").insert(
       {
         team_id: newTeamUUID,
         user_id: user.id,

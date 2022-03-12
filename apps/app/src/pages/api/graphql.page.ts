@@ -1,5 +1,5 @@
-import { resolvers } from "../../server/graphql/resolvers";
-import * as typeDefs from "../../server/graphql/schema.graphql";
+import { resolvers } from "./graphql/resolvers";
+import * as typeDefs from "./graphql/schema.graphql";
 import {
   getUser,
   supabaseServerClient,

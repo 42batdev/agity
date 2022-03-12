@@ -4,9 +4,9 @@ import {
   useUpdateUserProfileMutation,
   useUserProfileQuery,
 } from "../../../../generated/graphql";
-import { validateId } from "../../../../server/graphql/errors";
 import { useUser } from "../../../../supabase/AuthContext";
 import { checkUidExists } from "../../../../supabase/utils";
+import { validateId } from "../../../api/graphql/errors";
 import {
   Button,
   Input,

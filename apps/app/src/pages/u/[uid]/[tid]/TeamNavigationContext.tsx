@@ -1,4 +1,4 @@
-import { TeamServerSideProps } from "../../../../server/ssr/props";
+import { TeamServerSideProps } from "../../../ssrprops";
 import { createContext, ReactNode, useContext } from "react";
 
 interface TeamNavigationContextProps extends TeamServerSideProps {

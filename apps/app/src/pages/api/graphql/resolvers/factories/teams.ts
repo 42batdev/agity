@@ -4,7 +4,7 @@ import {
   Profile,
   Team,
   TeamPermission,
-} from "../../../../generated/graphql";
+} from "../../../../../generated/graphql";
 
 export function createTeam(data: any): Team {
   return {

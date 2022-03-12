@@ -1,7 +1,7 @@
 import ValidatedInput from "../../../../components/ValidateInput";
 import { useCreateUserProfileMutation } from "../../../../generated/graphql";
-import { validIDPattern } from "../../../../server/graphql/errors";
 import { checkUidExists } from "../../../../supabase/utils";
+import { validIDPattern } from "../../../api/graphql/errors";
 import {
   Box,
   Button,

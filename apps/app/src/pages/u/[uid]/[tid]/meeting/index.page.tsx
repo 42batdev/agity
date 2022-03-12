@@ -5,13 +5,13 @@ import {
   PageSubHeader,
 } from "../../../../../components/layout/page";
 import { getLoginLink } from "../../../../../functions/AgityRouter";
+import { AuthContextProvider } from "../../../../../supabase/AuthContext";
 import {
   initMeetingProps,
   initTeamProps,
   MeetingServerSideProps,
   TeamServerSideProps,
-} from "../../../../../server/ssr/props";
-import { AuthContextProvider } from "../../../../../supabase/AuthContext";
+} from "../../../../ssrprops";
 import { TeamNavigationContextProvider } from "../TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../useTeamPageHeaderLinks";
 import { withAuthRequired } from "@supabase/supabase-auth-helpers/nextjs";

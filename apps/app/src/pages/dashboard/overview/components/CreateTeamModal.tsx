@@ -3,8 +3,8 @@ import {
   GetUserTeamsDocument,
   useCreateTeamMutation,
 } from "../../../../generated/graphql";
-import { validIDPattern } from "../../../../server/graphql/errors";
 import { checkTidExists } from "../../../../supabase/utils";
+import { validIDPattern } from "../../../api/graphql/errors";
 import {
   Button,
   FormControl,

@@ -1,4 +1,4 @@
-import { Profile } from "../../../../generated/graphql";
+import { Profile } from "../../../../../generated/graphql";
 import { supabaseServerClient } from "@supabase/supabase-auth-helpers/nextjs";
 import { SupabaseClient } from "@supabase/supabase-js";
 

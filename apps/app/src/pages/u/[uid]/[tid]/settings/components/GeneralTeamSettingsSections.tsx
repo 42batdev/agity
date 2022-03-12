@@ -1,8 +1,8 @@
 import { SectionContainer } from "../../../../../../components/SectionContainer";
 import ValidatedInput from "../../../../../../components/ValidateInput";
 import { useUpdateTeamMutation } from "../../../../../../generated/graphql";
-import { validateId } from "../../../../../../server/graphql/errors";
 import { checkTidExists } from "../../../../../../supabase/utils";
+import { validateId } from "../../../../../api/graphql/errors";
 import { useUid } from "../../TeamNavigationContext";
 import { useTeam } from "../../useTeam";
 import { Button, Input, Skeleton } from "@chakra-ui/react";

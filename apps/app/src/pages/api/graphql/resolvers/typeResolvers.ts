@@ -6,8 +6,8 @@ import {
   Team,
   TeamPermission,
   TeamResolvers,
-} from "../../../generated/graphql";
-import { handleSupabaseError } from "../../ssr/supabase";
+} from "../../../../generated/graphql";
+import { handleSupabaseError } from "../../supabase";
 import { createProfile } from "./factories/profiles";
 import {
   createMember,

@@ -5,11 +5,8 @@ import {
   PageSubHeader,
 } from "../../../../../components/layout/page";
 import { getLoginLink } from "../../../../../functions/AgityRouter";
-import {
-  initTeamProps,
-  TeamServerSideProps,
-} from "../../../../../server/ssr/props";
 import { AuthContextProvider } from "../../../../../supabase/AuthContext";
+import { initTeamProps, TeamServerSideProps } from "../../../../ssrprops";
 import { TeamNavigationContextProvider } from "../TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../useTeamPageHeaderLinks";
 import { CreateMeetingModal } from "./components/CreateMeetingModal";
