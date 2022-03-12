@@ -1,4 +1,4 @@
-import supabase from "../../supabase";
+import { getUserDashboardLink } from "../../../functions/AgityRouter";
 import { OAuth } from "./OAuth";
 import {
   Alert,
@@ -13,6 +13,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -25,7 +26,10 @@ enum SignInState {
 
 export const LoginForm = () => {
   const router = useRouter();
-  const signIn = (credentials) => supabase.auth.signIn(credentials);
+  const signIn = (credentials) =>
+    supabaseClient.auth.signIn(credentials, {
+      redirectTo: getUserDashboardLink(),
+    });
 
   const [email, setEmail] = useState("");
   const [signInState, setSignInState] = useState<SignInState>(SignInState.NONE);

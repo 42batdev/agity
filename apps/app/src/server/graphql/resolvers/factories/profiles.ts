@@ -1,7 +1,8 @@
 import { Profile } from "../../../../generated/graphql";
-import supabaseSSR from "../../../ssr/supabase";
+import { supabaseServerClient } from "@supabase/supabase-auth-helpers/nextjs";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function createProfile(data: any) {
+export async function createProfile(supabase: SupabaseClient, data: any) {
   let filename = data.avatar_url;
   const profile: Profile = {
     id: data.id,
@@ -9,7 +10,7 @@ export async function createProfile(data: any) {
     name: data.name,
     avatar: filename && {
       url: (
-        await supabaseSSR.storage.from("avatars").createSignedUrl(filename, 60)
+        await supabase.storage.from("avatars").createSignedUrl(filename, 60)
       ).signedURL,
       filename,
     },
@@ -19,9 +20,15 @@ export async function createProfile(data: any) {
   return profile;
 }
 
-export async function createSearchProfilesResult(data: any[], count: number) {
+export async function createSearchProfilesResult(
+  supabase: SupabaseClient,
+  data: any[],
+  count: number
+) {
   return {
-    profiles: await Promise.all(data.map((aData) => createProfile(aData))),
+    profiles: await Promise.all(
+      data.map((aData) => createProfile(supabase, aData))
+    ),
     count,
   };
 }

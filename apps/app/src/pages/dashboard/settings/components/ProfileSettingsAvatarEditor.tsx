@@ -1,5 +1,5 @@
 import { useUserProfileQuery } from "../../../../generated/graphql";
-import supabase from "../../../../supabase";
+import { useSupabase } from "../../../../supabase/AuthContext";
 import {
   Box,
   Button,
@@ -24,6 +24,8 @@ export interface ProfileSettingsAvatarEditorProps {
 export default function ProfileSettingsAvatarEditor({
   editorRef,
 }: ProfileSettingsAvatarEditorProps) {
+  const supabase = useSupabase();
+
   const { data } = useUserProfileQuery();
 
   const [image, setImage] = useState<File | null>(null);

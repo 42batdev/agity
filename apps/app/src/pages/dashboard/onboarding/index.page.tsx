@@ -1,19 +1,19 @@
-import {
-  AppServerSideProps,
-  initSupabaseProps,
-} from "../../../server/ssr/props";
+import { getLoginLink } from "../../../functions/AgityRouter";
 import { AuthContextProvider } from "../../../supabase/AuthContext";
-import { LoginAvatarYou } from "../../components/LoginAvatarGroup";
+import { LoginAvatarYou } from "../../login/components/LoginAvatarGroup";
 import { OnboardingForm } from "./components/OnboardingForm";
 import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { withAuthRequired } from "@supabase/supabase-auth-helpers/nextjs";
 import Head from "next/head";
 import React from "react";
 
-export const getServerSideProps = initSupabaseProps;
+export const getServerSideProps = withAuthRequired({
+  redirectTo: getLoginLink(),
+});
 
-export default function Onboarding({ user }: AppServerSideProps) {
+export default function Onboarding(props) {
   return (
-    <AuthContextProvider sessionUser={user}>
+    <AuthContextProvider sessionUser={props.user}>
       <OnboardingContent />
     </AuthContextProvider>
   );

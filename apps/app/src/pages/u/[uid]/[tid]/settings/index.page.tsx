@@ -5,9 +5,8 @@ import {
   PageHeader,
   PageSubHeader,
 } from "../../../../../components/layout/page";
+import { getLoginLink } from "../../../../../functions/AgityRouter";
 import {
-  AppServerSideProps,
-  initSupabaseProps,
   initTeamProps,
   TeamServerSideProps,
 } from "../../../../../server/ssr/props";
@@ -20,16 +19,16 @@ import {
   TeamNameSettingsSection,
 } from "./components/GeneralTeamSettingsSections";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { withAuthRequired } from "@supabase/supabase-auth-helpers/nextjs";
 import { mergeProps } from "next-merge-props";
 import React from "react";
 
-export const getServerSideProps = mergeProps<
-  AppServerSideProps & TeamServerSideProps
->(initSupabaseProps, initTeamProps);
+export const getServerSideProps = withAuthRequired({
+  redirectTo: getLoginLink(),
+  getServerSideProps: mergeProps<TeamServerSideProps>(initTeamProps),
+});
 
-export default function TeamMembers(
-  props: AppServerSideProps & TeamServerSideProps
-) {
+export default function TeamMembers(props) {
   return (
     <AuthContextProvider sessionUser={props.user}>
       <TeamNavigationContextProvider {...props}>

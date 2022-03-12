@@ -3,6 +3,7 @@ import { NextRouter, useRouter } from "next/router";
 import { useMemo } from "react";
 
 export interface AgityRouter extends NextRouter {
+  openLogin: () => void;
   openUserOnboarding: () => void;
   openUserDashboard: () => void;
   openUserSettings: () => void;
@@ -21,6 +22,9 @@ export function useAgityRouter(): AgityRouter {
   return useMemo(() => {
     return {
       ...router,
+      openLogin: () => {
+        router.push(getLoginLink());
+      },
       openUserOnboarding: () => {
         router.push(getUserOnboardingLink());
       },
@@ -72,6 +76,10 @@ export function useAgityRouter(): AgityRouter {
       },
     };
   }, [router]);
+}
+
+export function getLoginLink() {
+  return `/`;
 }
 
 export function getUserOnboardingLink() {

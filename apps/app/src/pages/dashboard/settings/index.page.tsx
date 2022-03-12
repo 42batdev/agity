@@ -5,10 +5,7 @@ import {
   PageHeader,
   PageSubHeader,
 } from "../../../components/layout/page";
-import {
-  AppServerSideProps,
-  initSupabaseProps,
-} from "../../../server/ssr/props";
+import { getLoginLink } from "../../../functions/AgityRouter";
 import { AuthContextProvider } from "../../../supabase/AuthContext";
 import { useUserPageHeaderLinks } from "../useDashboardPageHeaderLinks";
 import {
@@ -22,13 +19,16 @@ import {
   EmailSettingsSection,
 } from "./components/ProfileSettingsSections";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { withAuthRequired } from "@supabase/supabase-auth-helpers/nextjs";
 import React from "react";
 
-export const getServerSideProps = initSupabaseProps;
+export const getServerSideProps = withAuthRequired({
+  redirectTo: getLoginLink(),
+});
 
-export default function Settings({ user }: AppServerSideProps) {
+export default function Settings(props) {
   return (
-    <AuthContextProvider sessionUser={user}>
+    <AuthContextProvider sessionUser={props.user}>
       <SettingsContent />
     </AuthContextProvider>
   );

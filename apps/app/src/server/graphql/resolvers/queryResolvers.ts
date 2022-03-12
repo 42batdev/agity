@@ -1,5 +1,5 @@
 import { QueryResolvers } from "../../../generated/graphql";
-import supabaseSSR, { handleSupabaseError } from "../../ssr/supabase";
+import { handleSupabaseError } from "../../ssr/supabase";
 import {
   createProfile,
   createSearchProfilesResult,
@@ -7,35 +7,38 @@ import {
 import { createTeam } from "./factories/teams";
 
 export const profileQueryResolvers: QueryResolvers = {
-  async getUserProfile(parent, args, { user }) {
-    return await supabaseSSR
+  async getUserProfile(parent, args, { supabase, user }) {
+    return await supabase
       .from("profiles")
       .select("*")
       .match({ id: user.id })
       .then(handleSupabaseError)
-      .then(({ data }) => createProfile(data[0]));
+      .then(({ data }) => createProfile(supabase, data[0]));
   },
-  async searchProfiles(parent, { input }) {
+  async searchProfiles(parent, { input }, { supabase }) {
     let filter: string[] = [];
     if (input.uid) filter.push(`uid.ilike.%${input.uid}%`);
     if (input.name) filter.push(`name.ilike.%${input.name}%`);
 
-    if (filter.length === 0) return await createSearchProfilesResult([], 0);
+    if (filter.length === 0)
+      return await createSearchProfilesResult(supabase, [], 0);
 
-    let postgrestFilterBuilder = supabaseSSR
+    let postgrestFilterBuilder = supabase
       .from("profiles")
       .select("*", { count: "exact" });
     if (input.limit) postgrestFilterBuilder.limit(input.limit);
     return await postgrestFilterBuilder
       .or(filter.join(","))
       .then(handleSupabaseError)
-      .then(({ data, count }) => createSearchProfilesResult(data, count));
+      .then(({ data, count }) =>
+        createSearchProfilesResult(supabase, data, count)
+      );
   },
 };
 
 export const teamQueryResolvers: QueryResolvers = {
-  async getTeam(parent, { id }) {
-    return await supabaseSSR
+  async getTeam(parent, { id }, { supabase }) {
+    return await supabase
       .from("teams")
       .select("*")
       .match({ id })

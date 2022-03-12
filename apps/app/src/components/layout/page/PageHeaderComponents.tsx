@@ -1,3 +1,4 @@
+import { useAgityRouter } from "../../../functions/AgityRouter";
 import { useUserProfileQuery } from "../../../generated/graphql";
 import { useSignOut } from "../../../supabase/AuthContext";
 import {
@@ -73,8 +74,10 @@ export const AppBarSlash = (props) => {
 };
 
 export const AppBarUser = () => {
-  const { loading, data } = useUserProfileQuery();
+  const router = useAgityRouter();
   const signOut = useSignOut();
+
+  const { loading, data } = useUserProfileQuery();
 
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -110,7 +113,7 @@ export const AppBarUser = () => {
             variant={"ghost"}
             aria-label="Logout"
             icon={<FiLogOut />}
-            onClick={() => signOut()}
+            onClick={() => signOut().then(() => router.openLogin())}
           />
         </HStack>
       </MenuList>

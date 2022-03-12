@@ -1,4 +1,4 @@
-import supabase from "../../supabase";
+import { getUserDashboardLink } from "../../../functions/AgityRouter";
 import {
   Box,
   Button,
@@ -10,11 +10,15 @@ import {
   Tooltip,
   VisuallyHidden,
 } from "@chakra-ui/react";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 import * as React from "react";
 import { FaBitbucket, FaGithub, FaGitlab, FaGoogle } from "react-icons/fa";
 
 export const OAuth = () => {
-  const signIn = (credentials) => supabase.auth.signIn(credentials);
+  const signIn = (credentials) =>
+    supabaseClient.auth.signIn(credentials, {
+      redirectTo: getUserDashboardLink(),
+    });
 
   return (
     <>

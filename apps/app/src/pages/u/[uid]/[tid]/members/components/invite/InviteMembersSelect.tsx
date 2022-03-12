@@ -1,5 +1,5 @@
 import {
-  GetTeamByTidQuery,
+  GetTeamQuery,
   SearchProfilesQuery,
   useInviteToTeamMutation,
   useSearchProfilesLazyQuery,
@@ -120,7 +120,7 @@ export default InviteMembersSelect;
 function renderSearchResults(
   searchData: SearchProfilesQuery | undefined,
   selected: ProfileTagFields[],
-  teamData: GetTeamByTidQuery | undefined,
+  teamData: GetTeamQuery | undefined,
   onClick: (profile: ProfileTagFields) => void
 ) {
   const searchResults =

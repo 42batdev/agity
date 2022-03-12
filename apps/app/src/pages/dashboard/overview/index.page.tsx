@@ -4,21 +4,21 @@ import {
   PageHeader,
   PageSubHeader,
 } from "../../../components/layout/page";
-import {
-  AppServerSideProps,
-  initSupabaseProps,
-} from "../../../server/ssr/props";
+import { getLoginLink } from "../../../functions/AgityRouter";
 import { AuthContextProvider } from "../../../supabase/AuthContext";
 import { useUserPageHeaderLinks } from "../useDashboardPageHeaderLinks";
 import { CreateTeamModal } from "./components/CreateTeamModal";
 import { TeamList } from "./components/TeamList";
+import { withAuthRequired } from "@supabase/supabase-auth-helpers/nextjs";
 import React from "react";
 
-export const getServerSideProps = initSupabaseProps;
+export const getServerSideProps = withAuthRequired({
+  redirectTo: getLoginLink(),
+});
 
-export default function Dashboard({ user }: AppServerSideProps) {
+export default function Dashboard(props: any) {
   return (
-    <AuthContextProvider sessionUser={user}>
+    <AuthContextProvider sessionUser={props.user}>
       <DashboardContent />
     </AuthContextProvider>
   );

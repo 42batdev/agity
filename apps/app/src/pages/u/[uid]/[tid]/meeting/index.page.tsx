@@ -4,10 +4,9 @@ import {
   PageHeader,
   PageSubHeader,
 } from "../../../../../components/layout/page";
+import { getLoginLink } from "../../../../../functions/AgityRouter";
 import {
-  AppServerSideProps,
   initMeetingProps,
-  initSupabaseProps,
   initTeamProps,
   MeetingServerSideProps,
   TeamServerSideProps,
@@ -15,16 +14,18 @@ import {
 import { AuthContextProvider } from "../../../../../supabase/AuthContext";
 import { TeamNavigationContextProvider } from "../TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../useTeamPageHeaderLinks";
+import { withAuthRequired } from "@supabase/supabase-auth-helpers/nextjs";
 import { mergeProps } from "next-merge-props";
 import React from "react";
 
-export const getServerSideProps = mergeProps<
-  AppServerSideProps & TeamServerSideProps
->(initSupabaseProps, initTeamProps, initMeetingProps);
-
-export default function TeamMeeting(
-  props: AppServerSideProps & TeamServerSideProps & MeetingServerSideProps
-) {
+export const getServerSideProps = withAuthRequired({
+  redirectTo: getLoginLink(),
+  getServerSideProps: mergeProps<TeamServerSideProps & MeetingServerSideProps>(
+    initTeamProps,
+    initMeetingProps
+  ),
+});
+export default function TeamMeeting(props) {
   return (
     <AuthContextProvider sessionUser={props.user}>
       <TeamNavigationContextProvider {...props}>

@@ -6,7 +6,7 @@ import {
   Profile,
   Team,
 } from "../../../generated/graphql";
-import supabaseSSR, {
+import {
   handleSupabaseError,
   supabaseSSRServiceRole,
 } from "../../ssr/supabase";
@@ -17,7 +17,7 @@ import { createTeam } from "./factories/teams";
 import { randomUUID } from "crypto";
 
 export const profileMutationResolvers: MutationResolvers = {
-  createUserProfile: (parent, { input }, { user }) => {
+  createUserProfile: (parent, { input }, { supabase, user }) => {
     validateId(input.uid);
 
     let create: any = {
@@ -26,13 +26,13 @@ export const profileMutationResolvers: MutationResolvers = {
       name: input.name ?? "Anonymous",
     };
 
-    return supabaseSSR
+    return supabase
       .from("profiles")
       .insert({ ...create })
       .then(handleSupabaseError)
-      .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
+      .then(({ data }) => createProfile(supabase, data[0])) as Promise<Profile>;
   },
-  updateUserProfile: (parent, { input }, { user }) => {
+  updateUserProfile: (parent, { input }, { supabase, user }) => {
     let update = {};
     if (input.uid !== undefined) {
       validateId(input.uid);
@@ -44,12 +44,12 @@ export const profileMutationResolvers: MutationResolvers = {
       update = { ...update, avatar_url };
     }
 
-    return supabaseSSR
+    return supabase
       .from("profiles")
       .update({ ...update })
       .match({ id: user.id })
       .then(handleSupabaseError)
-      .then(({ data }) => createProfile(data[0])) as Promise<Profile>;
+      .then(({ data }) => createProfile(supabase, data[0])) as Promise<Profile>;
   },
 };
 
@@ -81,7 +81,7 @@ export const teamMutationResolvers: MutationResolvers = {
 
     return team;
   },
-  updateTeam: (parent, { input }) => {
+  updateTeam: (parent, { input }, { supabase }) => {
     let update = {};
     if (input.tid !== undefined) {
       validateId(input.tid);
@@ -89,14 +89,14 @@ export const teamMutationResolvers: MutationResolvers = {
     }
     if (input.name !== undefined) update = { ...update, name: input.name };
 
-    return supabaseSSR
+    return supabase
       .from("teams")
       .update({ ...update })
       .match({ id: input.id })
       .then(handleSupabaseError)
       .then(({ data }) => createTeam(data[0])) as Promise<Team>;
   },
-  inviteMembers: async (parent, { input }) => {
+  inviteMembers: async (parent, { input }, { supabase }) => {
     const insert: any[] = [];
     input.profileIds?.forEach((id) =>
       insert.push({
@@ -106,12 +106,12 @@ export const teamMutationResolvers: MutationResolvers = {
       })
     );
 
-    await supabaseSSR
+    await supabase
       .from("members")
       .insert(insert, { returning: "minimal" })
       .then(handleSupabaseError);
 
-    return await supabaseSSR
+    return await supabase
       .from("teams")
       .select("*")
       .match({ id: input.teamId })
@@ -124,14 +124,14 @@ export const teamMutationResolvers: MutationResolvers = {
         }
       });
   },
-  removeMember: async (parent, { input }, { user }) => {
-    await supabaseSSR
+  removeMember: async (parent, { input }, { supabase }) => {
+    await supabase
       .from("members")
       .delete({ returning: "minimal" })
       .match({ user_id: input.profileId, team_id: input.teamId })
       .then(handleSupabaseError);
 
-    return await supabaseSSR
+    return await supabase
       .from("teams")
       .select("*")
       .match({ id: input.teamId })
@@ -144,14 +144,14 @@ export const teamMutationResolvers: MutationResolvers = {
         }
       });
   },
-  updateMemberPermission: async (parent, { input }) => {
-    await supabaseSSR
+  updateMemberPermission: async (parent, { input }, { supabase }) => {
+    await supabase
       .from("members")
       .update({ permission_level: input.permissionLevel })
       .match({ team_id: input.teamId, user_id: input.profileId })
       .then(handleSupabaseError);
 
-    return await supabaseSSR
+    return await supabase
       .from("teams")
       .select("*")
       .match({ id: input.teamId })
@@ -161,14 +161,14 @@ export const teamMutationResolvers: MutationResolvers = {
 };
 
 export const meetingMutationResolvers: MutationResolvers = {
-  createMeeting: async (parent, { input }) => {
+  createMeeting: async (parent, { input }, { supabase }) => {
     let create: any = {
       name: input.name,
       team_id: input.teamId,
       state: MeetingState.NEW,
     };
 
-    return supabaseSSR
+    return supabase
       .from("meetings")
       .insert({ ...create })
       .then(handleSupabaseError)
