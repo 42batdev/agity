@@ -1,6 +1,6 @@
-import {User} from "@supabase/supabase-js";
-import {GetServerSidePropsResult} from "next";
 import supabase from "../../supabase";
+import { User } from "@supabase/supabase-js";
+import { GetServerSidePropsResult } from "next";
 
 export interface AppServerSideProps {
   user: User;
@@ -17,7 +17,6 @@ export const initSupabaseProps = async (
       session?.error
     );
 
-    console.log("PROBLEM0");
     return {
       redirect: {
         destination: `/`,
@@ -76,7 +75,6 @@ export const initTeamProps = async (
     }
   }
 
-  console.log("PROBLEM1");
   return {
     redirect: {
       destination: `/`,

@@ -1,18 +1,23 @@
-import {mergeProps} from "next-merge-props";
-import React from "react";
-import {Page, PageContent, PageHeader, PageSubHeader,} from "../../../../../components/common/layout/page";
-import {InviteMembersModal} from "../../../../../components/team/members/invite/InviteMembersModal";
-import LeaveTeamButton from "../../../../../components/team/members/LeaveTeamButton";
-import {MemberList} from "../../../../../components/team/members/MemberList";
-import {TeamNavigationContextProvider} from "../../../../../components/team/TeamNavigationContext";
-import {useTeamPageHeaderLinks} from "../../../../../components/team/useTeamPageHeaderLinks";
+import {
+  Page,
+  PageContent,
+  PageHeader,
+  PageSubHeader,
+} from "../../../../../components/layout/page";
 import {
   AppServerSideProps,
   initSupabaseProps,
   initTeamProps,
   TeamServerSideProps,
 } from "../../../../../server/ssr/props";
-import {AuthContextProvider} from "../../../../../supabase/AuthContext";
+import { AuthContextProvider } from "../../../../../supabase/AuthContext";
+import { TeamNavigationContextProvider } from "../TeamNavigationContext";
+import { useTeamPageHeaderLinks } from "../useTeamPageHeaderLinks";
+import LeaveTeamButton from "./components/LeaveTeamButton";
+import { MemberList } from "./components/MemberList";
+import { InviteMembersModal } from "./components/invite/InviteMembersModal";
+import { mergeProps } from "next-merge-props";
+import React from "react";
 
 export const getServerSideProps = mergeProps<
   AppServerSideProps & TeamServerSideProps

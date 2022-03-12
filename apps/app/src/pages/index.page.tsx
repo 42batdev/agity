@@ -1,10 +1,10 @@
-import { LoginAvatarGroup } from "../components/login/LoginAvatarGroup";
-import { LoginForm } from "../components/login/LoginForm";
+import { useAgityRouter } from "../functions/AgityRouter";
 import supabase from "../supabase";
 import { checkUserProfileExists } from "../supabase/utils";
+import { LoginAvatarGroup } from "./components/LoginAvatarGroup";
+import { LoginForm } from "./components/LoginForm";
 import { Container, Heading, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React from "react";
 
 export default function Login() {
@@ -12,12 +12,12 @@ export default function Login() {
 }
 
 const LoginContent = () => {
-  const router = useRouter();
+  const router = useAgityRouter();
 
   const user = supabase.auth.user();
   if (user) {
     checkUserProfileExists(user).then((exists) => {
-      exists ? router.push("/dashboard") : router.push("/dashboard/onboarding");
+      exists ? router.openUserDashboard() : router.openUserOnboarding();
     });
     return (
       <>

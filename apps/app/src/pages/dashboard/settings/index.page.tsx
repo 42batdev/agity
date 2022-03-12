@@ -1,20 +1,28 @@
-import {Tab, TabList, TabPanel, TabPanels, Tabs} from "@chakra-ui/react";
-import React from "react";
-import {Page, PageContent, PageHeader, PageSubHeader,} from "../../../components/common/layout/page";
-import {SectionContainerGroup} from "../../../components/common/SectionContainer";
+import { SectionContainerGroup } from "../../../components/SectionContainer";
+import {
+  Page,
+  PageContent,
+  PageHeader,
+  PageSubHeader,
+} from "../../../components/layout/page";
+import {
+  AppServerSideProps,
+  initSupabaseProps,
+} from "../../../server/ssr/props";
+import { AuthContextProvider } from "../../../supabase/AuthContext";
+import { useUserPageHeaderLinks } from "../useDashboardPageHeaderLinks";
 import {
   AccountDeleteSettingsSection,
   AccountIdSettingsSection,
   AccountUsernameSettingsSection,
-} from "../../../components/dashboard/settings/AccountSettingsSections";
+} from "./components/AccountSettingsSections";
 import {
   AvatarSettingsSection,
   DisplayNameSettingsSection,
   EmailSettingsSection,
-} from "../../../components/dashboard/settings/ProfileSettingsSections";
-import {useUserPageHeaderLinks} from "../../../components/dashboard/useDashboardPageHeaderLinks";
-import {AppServerSideProps, initSupabaseProps} from "../../../server/ssr/props";
-import {AuthContextProvider} from "../../../supabase/AuthContext";
+} from "./components/ProfileSettingsSections";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import React from "react";
 
 export const getServerSideProps = initSupabaseProps;
 

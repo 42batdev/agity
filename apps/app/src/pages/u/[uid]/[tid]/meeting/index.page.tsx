@@ -1,8 +1,9 @@
-import {mergeProps} from "next-merge-props";
-import React from "react";
-import {Page, PageContent, PageHeader, PageSubHeader,} from "../../../../../components/common/layout/page";
-import {TeamNavigationContextProvider} from "../../../../../components/team/TeamNavigationContext";
-import {useTeamPageHeaderLinks} from "../../../../../components/team/useTeamPageHeaderLinks";
+import {
+  Page,
+  PageContent,
+  PageHeader,
+  PageSubHeader,
+} from "../../../../../components/layout/page";
 import {
   AppServerSideProps,
   initMeetingProps,
@@ -11,7 +12,11 @@ import {
   MeetingServerSideProps,
   TeamServerSideProps,
 } from "../../../../../server/ssr/props";
-import {AuthContextProvider} from "../../../../../supabase/AuthContext";
+import { AuthContextProvider } from "../../../../../supabase/AuthContext";
+import { TeamNavigationContextProvider } from "../TeamNavigationContext";
+import { useTeamPageHeaderLinks } from "../useTeamPageHeaderLinks";
+import { mergeProps } from "next-merge-props";
+import React from "react";
 
 export const getServerSideProps = mergeProps<
   AppServerSideProps & TeamServerSideProps
@@ -36,7 +41,12 @@ const TeamEstimateContent = () => {
     <Page>
       <PageHeader links={links} breadcrumbs={breadcrumbs} />
       <PageContent>
-        <PageSubHeader title={`Meeting`} subTitle={"A new meeting! If you leave you will never get back here :D"} />
+        <PageSubHeader
+          title={`Meeting`}
+          subTitle={
+            "A new meeting! If you leave you will never get back here :D"
+          }
+        />
         This is a new meeting!
       </PageContent>
     </Page>
