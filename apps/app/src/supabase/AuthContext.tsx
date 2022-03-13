@@ -1,19 +1,7 @@
-import supabase from "./index";
 import { ApiError } from "@supabase/gotrue-js/src/lib/types";
-import {
-  Session,
-  User,
-  UserAttributes,
-  UserCredentials,
-} from "@supabase/supabase-js";
-import { useRouter } from "next/router";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+import { SupabaseClient, User, UserAttributes } from "@supabase/supabase-js";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 interface AuthContextProps {
   sessionUser: User;
@@ -21,6 +9,7 @@ interface AuthContextProps {
 }
 
 interface AuthState {
+  supabase: SupabaseClient;
   user: User;
   updateUser: (
     attributes: UserAttributes
@@ -31,21 +20,28 @@ interface AuthState {
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
 function AuthContextProvider({ sessionUser, children }: AuthContextProps) {
-  const router = useRouter();
-
   const [user] = useState<User>(sessionUser);
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        updateUser: (attributes) => supabase.auth.update(attributes),
-        signOut: () => supabase.auth.signOut(),
+        supabase: supabaseClient,
+        updateUser: (attributes) => supabaseClient.auth.update(attributes),
+        signOut: () => supabaseClient.auth.signOut(),
       }}
     >
       {user && children}
     </AuthContext.Provider>
   );
+}
+
+export function useSupabase() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useSupabase must be used within a AuthContext");
+  }
+  return context.supabase;
 }
 
 export function useUser() {

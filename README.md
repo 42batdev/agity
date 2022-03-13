@@ -1,6 +1,5 @@
 # The Agity project
 
-
 ## Turborepo starter with NPM
 
 This repository is set up to use [Turborepo](https://turborepo.org) with [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
@@ -8,11 +7,13 @@ This repository is set up to use [Turborepo](https://turborepo.org) with [NPM](h
 ### Apps and Packages
 
 #### Apps
+
 - `app`: a [Next.js](https://nextjs.org) app to provide the core application of Agity.
 - `web`: a [Next.js](https://nextjs.org) app to provide the front page of Agity.
 - `doc`: a [Next.js](https://nextjs.org) app to provide a documentation and help center.
 
 #### Packages
+
 - `ui`: a simple React component library shared by the applications
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
@@ -29,13 +30,12 @@ This project has some additional tools already setup:
 
 ## Setup
 
-This is easily done inside the root package.json. 
+This is easily done inside the root package.json.
 Run `npm install` to create the symlinks inside node_modules for all apps and packages in this repository.
-
 
 ### Build
 
-To build all apps and packages, run `npm run build`. 
+To build all apps and packages, run `npm run build`.
 
 To build a specific app-part of the repository run:`npm run build:app`.
 
@@ -44,23 +44,24 @@ To build a specific app-part of the repository run:`npm run build:app`.
 To develop all apps and packages, run `npm run dev`.
 
 Running the start script from a subpackage is done with the following command:
+
 ```
 npm run --workspace app dev
 # or for short
-npm run -w app dev 
+npm run -w app dev
 ```
 
 ### Installing / Uninstalling Dependencies
 
-When installing new packages, you must keep in mind that the commands to install dependencies and run scripts are different as the dependencies are managed by the Turborepo. 
+When installing new packages, you must keep in mind that the commands to install dependencies and run scripts are different as the dependencies are managed by the Turborepo.
+
 ```
 npm install --workspace app neverthrow
 # or for short
 npm i -w app neverthrow
 ```
+
 Do not try to install the npm project inside the apps itself. This will break your local environment.
-
-
 
 ### Remote Caching
 
@@ -85,13 +86,11 @@ npx turbo link
 If you are using the supabase cli tools, migrations will be handled by that. If you don't use the cli tools (eg. updating selfhosted / production environment), you can migrate via `npm run migrate`. In order to use this command, you will need to add a config file, containing the credentials for your postgress instance. Please create `supabase/migrations/conf/config.js` and add your credentials:
 
 ```js
-module.exports = 
-{
-    db_host: 'supabase-db:5432',
-    db_user: 'postgres',
-    db_password: 'your-super-secret-and-long-postgres-password',
-}
-
+module.exports = {
+  db_host: "supabase-db:5432",
+  db_user: "postgres",
+  db_password: "your-super-secret-and-long-postgres-password",
+};
 ```
 
 ## Useful links regarding Turborepo

@@ -1,4 +1,4 @@
-import supabase from "../index";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
 
 export function generateUniqAvatarName(): string {
   return "xxxx-xxxx-xxx-xxxx".replace(/[x]/g, (c) => {
@@ -8,7 +8,7 @@ export function generateUniqAvatarName(): string {
 }
 
 export function uploadAvatarToStorage(filename, blob, callback: () => void) {
-  supabase.storage
+  supabaseClient.storage
     .from("avatars")
     .upload(filename, blob)
     .then((result) => {
@@ -21,7 +21,7 @@ export function uploadAvatarToStorage(filename, blob, callback: () => void) {
 }
 
 export function removeAvatarFromStorage(filename, callback: () => void) {
-  supabase.storage
+  supabaseClient.storage
     .from("avatars")
     .remove([filename])
     .then((result) => {
