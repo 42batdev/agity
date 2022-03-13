@@ -51,7 +51,7 @@ export default function ProfileSettingsAvatarEditor({
           }
         });
     }
-  }, [data]);
+  }, [data, supabase.storage]);
 
   return (
     <Dropzone
