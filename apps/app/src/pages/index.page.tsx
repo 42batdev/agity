@@ -14,7 +14,7 @@ export default function Login() {
 
 const LoginContent = () => {
   const router = useAgityRouter();
-  const { user, error, isLoading } = useUser();
+  const { user, isLoading } = useUser();
 
   useEffect(() => {
     if (!isLoading && user) {
