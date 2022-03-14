@@ -17,14 +17,6 @@ function TeamNavigationContextProvider(props: TeamNavigationContextProps) {
   );
 }
 
-export function useTeamId() {
-  const context = useContext(TeamNavigationContext);
-  if (context === undefined) {
-    throw new Error("useUid must be used within a TeamNavigationContext");
-  }
-  return context.id;
-}
-
 export function useUid() {
   const context = useContext(TeamNavigationContext);
   if (context === undefined) {

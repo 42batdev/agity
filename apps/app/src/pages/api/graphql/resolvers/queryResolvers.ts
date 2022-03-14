@@ -37,11 +37,18 @@ export const profileQueryResolvers: QueryResolvers = {
 };
 
 export const teamQueryResolvers: QueryResolvers = {
-  async getTeam(parent, { id }, { supabase }) {
+  async getTeam(parent, { input: { id, uidtid } }, { supabase }) {
+    let query = {};
+    if (uidtid) {
+      query = uidtid;
+    } else if (id) {
+      query = { id };
+    }
+
     return await supabase
       .from("teams")
       .select("*")
-      .match({ id })
+      .match(query)
       .then(handleSupabaseError)
       .then(({ data }) => createTeam(data[0]));
   },

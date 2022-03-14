@@ -3,7 +3,7 @@ type Query {
 
     searchProfiles(input: SearchProfilesInput!): SearchProfilesResult!
 
-    getTeam(id: ID!): Team
+    getTeam(input: GetTeamInput!): Team
 }
 
 type Mutation {
@@ -74,6 +74,16 @@ type TeamPermission {
 
 enum PermissionLevel {
     OWNER, ADMIN, MEMBER, INVITED
+}
+
+input GetTeamInput {
+    id: ID
+    uidtid: GetTeamInputUidTid
+}
+
+input GetTeamInputUidTid {
+    uid: String!
+    tid: String!
 }
 
 input CreateTeamInput {
