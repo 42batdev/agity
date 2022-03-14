@@ -1,7 +1,6 @@
 import { GetServerSidePropsResult } from "next";
 
 export interface TeamServerSideProps {
-  id: string;
   uid: string;
   tid: string;
 }
@@ -9,12 +8,11 @@ export interface TeamServerSideProps {
 export const initTeamProps = async (
   context
 ): Promise<GetServerSidePropsResult<TeamServerSideProps>> => {
-  const { uid, tid, id } = context.query;
+  const { uid, tid } = context.query;
 
-  if (uid && tid && id) {
+  if (uid && tid) {
     return {
       props: {
-        id,
         uid,
         tid,
       },

@@ -1,5 +1,5 @@
-query GetTeam($id: ID!) {
-    getTeam(id: $id) {
+query GetTeam($input: GetTeamInput!) {
+    getTeam(input: $input) {
         id
         uid
         tid

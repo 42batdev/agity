@@ -1,8 +1,15 @@
 import { useGetTeamQuery } from "../../../../generated/graphql";
-import { useTeamId } from "./TeamNavigationContext";
+import { useTid, useUid } from "./TeamNavigationContext";
 
 export const useTeam = () => {
   return useGetTeamQuery({
-    variables: { id: useTeamId() },
+    variables: {
+      input: {
+        uidtid: {
+          uid: useUid(),
+          tid: useTid(),
+        },
+      },
+    },
   });
 };

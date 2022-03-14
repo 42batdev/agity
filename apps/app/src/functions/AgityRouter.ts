@@ -36,42 +36,24 @@ export function useAgityRouter(): AgityRouter {
       },
       openTeamDashboard: (team) => {
         const pathname = getTeamDashboardLink(team);
-        router.push(
-          {
-            pathname,
-            query: { id: team.id },
-          },
-          pathname
-        );
+        router.push(pathname);
       },
       openTeamMembers: (team) => {
         const pathname = getTeamMembersLink(team);
-        router.push(
-          {
-            pathname,
-            query: { id: team.id },
-          },
-          pathname
-        );
+        router.push(pathname);
       },
       openTeamSettings: (team) => {
         const pathname = getTeamSettingsLink(team);
-        router.push(
-          {
-            pathname,
-            query: { id: team.id },
-          },
-          pathname
-        );
+        router.push(pathname);
       },
       openTeamMeeting: (team, meeting) => {
         const pathname = getTeamMeetingLink(team);
         router.push(
           {
             pathname,
-            query: { id: team.id, meetingId: meeting.id },
+            query: { meetingId: meeting.id },
           },
-          pathname
+          undefined
         );
       },
     };
