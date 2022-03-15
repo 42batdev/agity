@@ -11,7 +11,7 @@ export interface AgityRouter extends NextRouter {
   openTeamSettings: (team: Pick<Team, "id" | "uid" | "tid">) => void;
   openTeamMembers: (team: Pick<Team, "id" | "uid" | "tid">) => void;
   openTeamMeeting: (
-    team: Pick<Team, "id" | "uid" | "tid">,
+    team: Pick<Team, "uid" | "tid">,
     meeting: Pick<Meeting, "id">
   ) => void;
 }

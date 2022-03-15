@@ -66,6 +66,7 @@ type Team {
     name: String!
     myPermissions: TeamPermission!
     members: [Member!]!
+    meetings: [Meeting!]!
 }
 
 type TeamPermission {

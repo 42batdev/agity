@@ -1,4 +1,5 @@
 import {
+  Meeting,
   Member,
   MemberResolvers,
   Profile,
@@ -8,6 +9,7 @@ import {
   TeamResolvers,
 } from "../../../../generated/graphql";
 import { handleSupabaseError } from "../../supabase";
+import { createMeeting } from "./factories/meetings";
 import { createProfile } from "./factories/profiles";
 import {
   createMember,
@@ -46,6 +48,16 @@ export const teamResolvers: TeamResolvers = {
       .then(handleSupabaseError)
       .then(({ data }) => data.map((aData) => createMember(aData))) as Promise<
       Member[]
+    >;
+  },
+  meetings(team, _, { supabase }) {
+    return supabase
+      .from("meetings")
+      .select("*")
+      .match({ team_id: team.id })
+      .then(handleSupabaseError)
+      .then(({ data }) => data.map((aData) => createMeeting(aData))) as Promise<
+      Meeting[]
     >;
   },
 };

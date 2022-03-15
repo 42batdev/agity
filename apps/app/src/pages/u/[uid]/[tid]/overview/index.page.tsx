@@ -10,6 +10,7 @@ import { initTeamProps, TeamServerSideProps } from "../../../../ssrprops";
 import { TeamNavigationContextProvider } from "../TeamNavigationContext";
 import { useTeamPageHeaderLinks } from "../useTeamPageHeaderLinks";
 import { CreateMeetingModal } from "./components/CreateMeetingModal";
+import { MeetingList } from "./components/MeetingList";
 import { withAuthRequired } from "@supabase/supabase-auth-helpers/nextjs";
 import { mergeProps } from "next-merge-props";
 import React from "react";
@@ -41,7 +42,7 @@ const TeamDashboardContent = () => {
           subTitle={"Team activity and history"}
           actions={<CreateMeetingModal />}
         />
-        This is a team Dashboard!
+        <MeetingList />
       </PageContent>
     </Page>
   );

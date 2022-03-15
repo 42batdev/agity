@@ -1,3 +1,16 @@
+query GetTeamMeetings($input: GetTeamInput!) {
+    getTeam(input: $input) {
+        id
+        uid
+        tid
+        meetings {
+            id
+            name
+            state
+        }
+    }
+}
+
 mutation CreateMeeting($input: CreateMeetingInput!) {
     createMeeting(input: $input) {
         id
